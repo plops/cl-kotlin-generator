@@ -1,0 +1,4 @@
+* References
+
+- https://www.youtube.com/watch?v=6P20npkvcb8 How to Kotlin - from the Lead Kotlin Language Designer (Google I/O '18)
+  - create class to return multiple values
