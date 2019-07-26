@@ -1,5 +1,9 @@
 (ql:quickload "alexandria")
-
+(defpackage :cl-kotlin-generator
+  (:use :cl
+	:alexandria)
+  (:export
+   #:write-source))
 (in-package :cl-kotlin-generator)
 
 (setf (readtable-case *readtable*) :invert)
@@ -10,7 +14,7 @@
 				 ignore-hash)
   (let* ((fn (merge-pathnames (format nil "~a.go" name)
 			      dir))
-	(code-str (emit-go
+	(code-str (emit-kt
 		   :code code))
 	(fn-hash (sxhash fn))
 	 (code-hash (sxhash code-str)))
@@ -27,9 +31,8 @@
 	 (write-sequence code-str s))
 
        (sb-ext:run-program
-					;"/usr/local/go/bin/go"
-	"/usr/bin/go"
-	(list "fmt" (namestring fn))
+	"/home/martin/Downloads/ktlint"
+	(list  (namestring fn))
 	)))))
 
 
@@ -324,10 +327,10 @@ entry return-values contains a list of return values"
    (substitute #\e #\d s)))
 
 (progn
-  (defun emit-go (&key code (str nil)  (level 0))
+  (defun emit-kt (&key code (str nil)  (level 0))
     (flet ((emit (code &optional (dl 0))
 	     "change the indentation level. this is used in do"
-	     (emit-go :code code :level (+ dl level))))
+	     (emit-kt :code code :level (+ dl level))))
       (if code
 	  (if (listp code)
 	      (case (car code)
@@ -683,7 +686,7 @@ entry return-values contains a list of return values"
 	  "")))
   #-nil
   (defparameter *bla*
-    (emit-go :code `(let ((a (+ 40 2))
+    (emit-kt :code `(let ((a (+ 40 2))
 					      (b 3))
 					  (declare (type int64 a))
 		    

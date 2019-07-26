@@ -1,8 +1,5 @@
-;(ql:quickload "optima")
-;(ql:quickload "alexandria")
-(defpackage :cl-golang-generator
+(defpackage :cl-kotlin-generator
   (:use :cl
-	;:optima
 	:alexandria)
   (:export
    #:write-source))

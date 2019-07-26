@@ -10,3 +10,8 @@
   - numbers.filter{it%16==0}.also{print(it)}
   - inline function to make green lambda less heavy
   - coroutine async vs thread
+
+- formatter https://github.com/pinterest/ktlint/releases
+  - 47Mb
+  - export PATH=$PATH:/home/martin/Downloads/android-studio/jre/bin/
+  - ~/Downloads/ktlint
