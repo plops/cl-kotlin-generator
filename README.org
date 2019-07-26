@@ -2,3 +2,11 @@
 
 - https://www.youtube.com/watch?v=6P20npkvcb8 How to Kotlin - from the Lead Kotlin Language Designer (Google I/O '18)
   - create class to return multiple values
+  - data class auto-generates equal, hash code, string
+  - property set, get, by lazy <lambda>; by Delegates.observable
+  - why does kotlin have so many implicit things. i won't remember that. i don't like that
+  - don't use var, use val
+  - if can return value
+  - numbers.filter{it%16==0}.also{print(it)}
+  - inline function to make green lambda less heavy
+  - coroutine async vs thread
