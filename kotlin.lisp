@@ -168,30 +168,12 @@ entry return-values contains a list of return values"
 
 
 
-(defun parse-setf (code emit)
-  "setf {pair}*"
-  (let ((args (cdr code)))
-   (format nil "~a"
-	   (funcall emit
-		    `(do0 
-		      ,@(loop for i below (length args) by 2 collect
-			     (let ((a (elt args i))
-				   (b (elt args (+ 1 i))))
-			       `(= ,a ,b))))))))
 
-(defun parse-const (code emit)
-  "const {pair}*"
-  (let ((args (cdr code)))
-    (with-output-to-string (s)
-      (format s "const (")
-      (format s "~a~%"
-	     (funcall emit
-		      `(do0 
-			,@(loop for i below (length args) by 2 collect
-			       (let ((a (elt args i))
-				     (b (elt args (+ 1 i))))
-				 `(= ,a ,b))))))
-      (format s ")"))))
+
+
+
+
+
 
 
 
@@ -210,7 +192,6 @@ entry return-values contains a list of return values"
 
 			  
 			  
-
 (progn
   (defun emit-kt (&key code (str nil)  (level 0))
     (flet ((emit (code &optional (dl 0))
@@ -220,21 +201,21 @@ entry return-values contains a list of return values"
 	  (if (listp code)
 	      (case (car code)
 		(paren
-		  ;; paren {args}*
-		  (let ((args (cdr code)))
-		    (format nil "(~{~a~^, ~})" (mapcar #'emit args))))
+		 ;; paren {args}*
+		 (let ((args (cdr code)))
+		   (format nil "(~{~a~^, ~})" (mapcar #'emit args))))
 		(indent
 		 ;; indent form
 		 (format nil "~{~a~}~a"
-				;; print indentation characters
-			      (loop for i below level collect "    ")
-			      (emit (cadr code))))
+			 ;; print indentation characters
+			 (loop for i below level collect "    ")
+			 (emit (cadr code))))
 		(do0 (with-output-to-string (s)
 		       ;; do0 {form}*
 		       ;; write each form into a newline, keep current indentation level
-		     (format s "~&~a~{~&~a~}"
-			     (emit (cadr code))
-			     (mapcar #'(lambda (x) (emit `(indent ,x) 0)) (cddr code)))))
+		       (format s "~&~a~{~&~a~}"
+			       (emit (cadr code))
+			       (mapcar #'(lambda (x) (emit `(indent ,x) 0)) (cddr code)))))
 		(package (format nil "package ~a" (car (cdr code))))
 		(import (let ((args (cdr code)))
 			  ;; import {[name|pair]}*
@@ -251,9 +232,9 @@ entry return-values contains a list of return values"
 					       name nick ))
 				     (format s "~&import ~a" e))))))
 		(progn (with-output-to-string (s)
-		     ;; progrn {form}*
-		     ;; like do but surrounds forms with braces.
-		     (format s "{~{~&~a~}~&}" (mapcar #'(lambda (x) (emit `(indent ,x) 1)) (cdr code)))))
+			 ;; progrn {form}*
+			 ;; like do but surrounds forms with braces.
+			 (format s "{~{~&~a~}~&}" (mapcar #'(lambda (x) (emit `(indent ,x) 1)) (cdr code)))))
 		(do (with-output-to-string (s)
 		      ;; do {form}*
 		      ;; print each form on a new line with one more indentation.
@@ -273,11 +254,72 @@ entry return-values contains a list of return values"
 		(override (format nil "override ~a" (emit (cadr code))))
 		(defun (parse-defun code #'emit))
 		(let (parse-let code #'emit))
-		
+		(setf 
+		 (let ((args (cdr code)))
+		   ;; "setf {pair}*"
+		   (format nil "~a"
+			   (emit
+			    `(do0 
+			      ,@(loop for i below (length args) by 2 collect
+				     (let ((a (elt args i))
+					   (b (elt args (+ 1 i))))
+				       `(= ,a ,b))))))))
+		(not (format nil "!(~a)" (emit (car (cdr code)))))
+		(+ (let ((args (cdr code)))
+		     ;; + {summands}*
+		     (format nil "(~{(~a)~^+~})" (mapcar #'emit args))))
+		(- (let ((args (cdr code)))
+		     (if (eq 1 (length args))
+			 (format nil "(-(~a))" (emit (car args))) ;; py
+			 (format nil "(~{(~a)~^-~})" (mapcar #'emit args)))))
+		(* (let ((args (cdr code)))
+		     (format nil "(~{(~a)~^*~})" (mapcar #'emit args))))
+		(/ (let ((args (cdr code)))
+		     (if (eq 1 (length args))
+			 (format nil "(1.0/(~a))" (emit (car args))) ;; py
+			 (format nil "(~{(~a)~^/~})" (mapcar #'emit args)))))
+		(logior (let ((args (cdr code))) ;; py
+			  (format nil "(~{(~a)~^|~})" (mapcar #'emit args))))
+		(logand (let ((args (cdr code))) ;; py
+			  (format nil "(~{(~a)~^&~})" (mapcar #'emit args))))
+		(or (let ((args (cdr code)))
+		      (format nil "(~{(~a)~^||~})" (mapcar #'emit args))))
+		(and (let ((args (cdr code)))
+		       (format nil "(~{(~a)~^&&~})" (mapcar #'emit args))))
+		(= (destructuring-bind (a b) (cdr code)
+		     ;; = pair
+		     (format nil "~a=~a" (emit a) (emit b))))
+		(/= (destructuring-bind (a b) (cdr code)
+		      (format nil "~a/=(~a)" (emit a) (emit b))))
+		(*= (destructuring-bind (a b) (cdr code)
+		      (format nil "~a*=(~a)" (emit a) (emit b))))
+		(^= (destructuring-bind (a b) (cdr code)
+		      (format nil "(~a)^=(~a)" (emit a) (emit b))))
+		(<= (destructuring-bind (a b) (cdr code)
+		      (format nil "(~a)<=(~a)" (emit a) (emit b))))
+		(!= (destructuring-bind (a b) (cdr code)
+		      (format nil "(~a)!=(~a)" (emit a) (emit b))))
+		(== (destructuring-bind (a b) (cdr code)
+		      (format nil "(~a)==(~a)" (emit a) (emit b))))
+		(< (destructuring-bind (a b) (cdr code)
+		     (format nil "~a<~a" (emit a) (emit b))))
+		(<< (destructuring-bind (a b) (cdr code)
+		      (format nil "~a<<~a" (emit a) (emit b))))
+		(>> (destructuring-bind (a b) (cdr code)
+		      (format nil "~a>>~a" (emit a) (emit b))))
+		(incf (destructuring-bind (a &optional b) (cdr code) ;; py
+			(if b
+			    (format nil "(~a)+=(~a)" (emit a) (emit b))
+			    (format nil "(~a)++" (emit a)))))
+		(decf (destructuring-bind (a &optional b) (cdr code)
+			(if b
+			    (format nil "(~a)-=(~a)" (emit a) (emit b))
+			    (format nil "(~a)--" (emit a)))))
+		(string (format nil "\"~a\"" (cadr code)))
 		(t (destructuring-bind (name &rest args) code
 
 		     (if (listp name)
-		       ;; lambda call and similar complex constructs
+			 ;; lambda call and similar complex constructs
 			 (format nil "(~a)(~a)"
 				 (emit name)
 				 (if args
@@ -286,7 +328,7 @@ entry return-values contains a list of return values"
 			 ;; function call
 			 
 			 
-			 (progn ;if
+			 (progn	;if
 			   #+nil(and
 				 (= 1 (length args))
 				 (eq (aref (format nil "~a" (car args)) 0) #\.))
@@ -308,36 +350,38 @@ entry return-values contains a list of return values"
 			(format str "(~a)" (print-sufficient-digits-f64 code)))))))
 	  "")))
   (defparameter *bla*
-   (emit-kt :code `(do0
-		    (package com.example.firstgame)
-		    (import android.content.Intent
-			    android.os.Bundle
-			    androidx.appcompat.app.AppCompatActivity
-			    android.util.Log.d
-			    kotlinx.android.synthetic.main.activity_main.*
-			    kotlinx.android.synthetic.main.content_main.*
-			    )
-		    (defclass FriendsAdapter ((RecyclerView.Adapter<FriendsAdapter.ViewHolder>))
-		      (override (defun onCreateViewHolder (parent viewType)
-				  (declare (type ViewGroup parent)
-					   (type int viewType)
-					   (values ViewHolder))
-				  (let ((view (dot
-					       (LayoutInflater.from
-						parent.context)
-					       (inflate R.layout.row_friend
-							parent
-							false))))
-				    (return (ViewHolder view))))))
-		    (defclass MainActivity ((AppCompatActivity))
-		      (override (defun onCreate (savedInstanceState)
-				  (declare (type Bundle? savedInstanceState))
-				  (super.onCreate savedInstanceState)
-				  (setContentView R.layout.activity_main)
-				  (setSupportActionBar toolbar)
-				  ))
-			   )
-		    )))
+    (emit-kt :code `(do0
+		     (package com.example.firstgame)
+		     (import android.content.Intent
+			     android.os.Bundle
+			     androidx.appcompat.app.AppCompatActivity
+			     android.util.Log.d
+			     kotlinx.android.synthetic.main.activity_main.*
+			     kotlinx.android.synthetic.main.content_main.*
+			     )
+		     (defclass FriendsAdapter ((RecyclerView.Adapter<FriendsAdapter.ViewHolder>))
+		       (override (defun onCreateViewHolder (parent viewType)
+				   (declare (type ViewGroup parent)
+					    (type int viewType)
+					    (values ViewHolder))
+				   (let ((view (dot
+						(LayoutInflater.from
+						 parent.context)
+						(inflate R.layout.row_friend
+							 parent
+							 false))))
+				     (return (ViewHolder view)))))
+		       
+		       )
+		     (defclass MainActivity ((AppCompatActivity))
+		       (override (defun onCreate (savedInstanceState)
+				   (declare (type Bundle? savedInstanceState))
+				   (super.onCreate savedInstanceState)
+				   (setContentView R.layout.activity_main)
+				   (setSupportActionBar toolbar)
+				   ))
+		       )
+		     )))
   (format t "~a" *bla*))
 
 
@@ -559,67 +603,7 @@ entry return-values contains a list of return values"
 					      (< ,var ,end)
 					      (incf ,var))
 					     ,@body))))
-		      (not (format nil "!(~a)" (emit (car (cdr code)))))
-		      
-		      
-		      (+ (let ((args (cdr code)))
-			   ;; + {summands}*
-			   (format nil "(~{(~a)~^+~})" (mapcar #'emit args))))
-		      (- (let ((args (cdr code)))
-			   (if (eq 1 (length args))
-			       (format nil "(-(~a))" (emit (car args))) ;; py
-			       (format nil "(~{(~a)~^-~})" (mapcar #'emit args)))))
-		      (* (let ((args (cdr code)))
-			   (format nil "(~{(~a)~^*~})" (mapcar #'emit args))))
-		      (/ (let ((args (cdr code)))
-			   (if (eq 1 (length args))
-			       (format nil "(1.0/(~a))" (emit (car args))) ;; py
-			       (format nil "(~{(~a)~^/~})" (mapcar #'emit args)))))
-		      (logior (let ((args (cdr code))) ;; py
-				(format nil "(~{(~a)~^|~})" (mapcar #'emit args))))
-		      (logand (let ((args (cdr code))) ;; py
-				(format nil "(~{(~a)~^&~})" (mapcar #'emit args))))
-		      (or (let ((args (cdr code)))
-			    (format nil "(~{(~a)~^||~})" (mapcar #'emit args))))
-		      (and (let ((args (cdr code)))
-			     (format nil "(~{(~a)~^&&~})" (mapcar #'emit args))))
-		      (= (destructuring-bind (a b) (cdr code)
-			   ;; = pair
-			   (format nil "~a=~a" (emit a) (emit b))))
-		      (:= (destructuring-bind (a b) (cdr code)
-			    (format nil "~a:=~a" (emit a) (emit b))))
-		      (/= (destructuring-bind (a b) (cdr code)
-			    (format nil "~a/=(~a)" (emit a) (emit b))))
-		      (*= (destructuring-bind (a b) (cdr code)
-			    (format nil "~a*=(~a)" (emit a) (emit b))))
-		      (^= (destructuring-bind (a b) (cdr code)
-			    (format nil "(~a)^=(~a)" (emit a) (emit b))))
-		      (<= (destructuring-bind (a b) (cdr code)
-			    (format nil "(~a)<=(~a)" (emit a) (emit b))))
-		      (!= (destructuring-bind (a b) (cdr code)
-			    (format nil "(~a)!=(~a)" (emit a) (emit b))))
-		      (== (destructuring-bind (a b) (cdr code)
-			    (format nil "(~a)==(~a)" (emit a) (emit b))))
-		      (<- ;; send to channel channel
-		       (destructuring-bind (a &optional b) (cdr code)
-			 (if b
-			     (format nil "~a<-~a" (emit a) (emit b))
-			     (format nil "<-~a" (emit a)))))
-		      (< (destructuring-bind (a b) (cdr code)
-			   (format nil "~a<~a" (emit a) (emit b))))
-		      (<< (destructuring-bind (a b) (cdr code)
-			    (format nil "~a<<~a" (emit a) (emit b))))
-		      (>> (destructuring-bind (a b) (cdr code)
-			    (format nil "~a>>~a" (emit a) (emit b))))
-		      (incf (destructuring-bind (a &optional b) (cdr code) ;; py
-			      (if b
-				  (format nil "(~a)+=(~a)" (emit a) (emit b))
-				  (format nil "(~a)++" (emit a)))))
-		      (decf (destructuring-bind (a &optional b) (cdr code)
-			      (if b
-				  (format nil "(~a)-=(~a)" (emit a) (emit b))
-				  (format nil "(~a)--" (emit a)))))
-		      (string (format nil "\"~a\"" (cadr code)))
+      
 		      (char (format nil "'~a'" (cadr code)))
 		      (slice (let ((args (cdr code)))
 			       (if (null args)
