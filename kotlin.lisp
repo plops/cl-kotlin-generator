@@ -99,11 +99,11 @@ entry return-values contains a list of return values"
 			  ,@(loop for decl in decls collect
 				 (if (listp decl) ;; split into name and initform
 				     (destructuring-bind (name &optional value) decl
-				       (format nil "var ~a~@[ ~a~]~@[ = ~a~]"
+				       (format nil "val ~a~@[: ~a~]~@[ = ~a~]"
 					       name
 					       (lookup-type name :env env)
 					       (funcall emit value)))
-				     (format nil "var ~a ~a"
+				     (format nil "val ~a ~a"
 					     decl
 					     (let ((type (lookup-type decl :env env)))
 					       (if type
@@ -272,6 +272,7 @@ entry return-values contains a list of return values"
 				)))
 		(override (format nil "override ~a" (emit (cadr code))))
 		(defun (parse-defun code #'emit))
+		(let (parse-let code #'emit))
 		
 		(t (destructuring-bind (name &rest args) code
 
@@ -320,7 +321,14 @@ entry return-values contains a list of return values"
 		      (override (defun onCreateViewHolder (parent viewType)
 				  (declare (type ViewGroup parent)
 					   (type int viewType)
-					   (values ViewHolder)))))
+					   (values ViewHolder))
+				  (let ((view (dot
+					       (LayoutInflater.from
+						parent.context)
+					       (inflate R.layout.row_friend
+							parent
+							false))))
+				    (return (ViewHolder view))))))
 		    (defclass MainActivity ((AppCompatActivity))
 		      (override (defun onCreate (savedInstanceState)
 				  (declare (type Bundle? savedInstanceState))
