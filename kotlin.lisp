@@ -329,8 +329,6 @@ entry return-values contains a list of return values"
 	       1d-12))
    (substitute #\e #\d s)))
 
-;; import {[name|pair]}*
-;; pair := nickname name
 			  
 			  
 
@@ -356,16 +354,19 @@ entry return-values contains a list of return values"
 			     (mapcar #'(lambda (x) (emit `(indent ,x) 0)) (cddr code)))))
 		(package (format nil "package ~a" (car (cdr code))))
 		(import (let ((args (cdr code)))
-			  
+			  ;; import {[name|pair]}*
+			  ;; pair := nickname name
+			  ;; https://kotlinlang.org/docs/tutorials/kotlin-for-py/packages-and-imports.html
+			  ;; import content.exercises.Exercise
+			  ;; import content.exercises.*
+			  ;; import content.exercises.Exercise as Ex
 			  (with-output-to-string (s)
-			    (format s "import (")
 			    (loop for e in args do
 				 (if (listp e)
 				     (destructuring-bind (nick name) e
-				       (format s "~&~a \"~a\""
-					       nick name))
-				     (format s "~&\"~a\"" e))
-				 )
+				       (format s "~&import ~a as ~a"
+					       name nick ))
+				     (format s "~&import ~a" e)))
 			    (format s "~&)"))))
 		
 		(t (destructuring-bind (name &rest args) code
@@ -411,7 +412,8 @@ entry return-values contains a list of return values"
 			    kotlinx.android.synthetic.main.activity_main.*
 			    kotlinx.android.synthetic.main.content_main.*
 			    )
-		    ))))
+		    )))
+  (format t "~a" *bla*))
 
 
 #+nil((ntuple (let ((args (cdr code)))
