@@ -41,16 +41,18 @@
 
 ;; go through the body until no declare anymore
 
-(defun consume-declare (body)
-  "take a list of instructions (body), parse type declarations,
-return the body without them and a hash table with an environment. the
-entry return-values contains a list of return values"
+
 
   ;; (declare (type int a b) (type float c)
   ;; (declare (values int &optional))
   ;; (declare (values int float &optional))
 
   ;; FIXME doesnt handle documentation strings
+
+(defun consume-declare (body)
+  "take a list of instructions from body, parse type declarations,
+return the body without them and a hash table with an environment. the
+entry return-values contains a list of return values"
   (let ((env (make-hash-table))
 	(looking-p t)
 	(new-body nil))
@@ -166,12 +168,13 @@ entry return-values contains a list of return values"
 			(funcall emit `(paren ,@r))
 			(car r)))))))))
 
-(defun parse-defmethod (code emit)
   ;;  defmethod function-name specialized-lambda-list [declaration*] form*
   ;; specialized-lambda-list::= ({var | (var parameter-specializer-name)}*
   ;; first element of lambda-list declares the object (the methods receiver)
   ;; (defmethod Distance ((p Point) q) ...
   ;; => func (p Point) Distance(q Point) float64 { ...
+
+(defun parse-defmethod (code emit)
   
   (destructuring-bind (name lambda-list &rest body) (cdr code)
     (multiple-value-bind (body env) (consume-declare body)
@@ -687,15 +690,14 @@ entry return-values contains a list of return values"
 		       ((floatp code) ;; FIXME arbitrary precision?
 			(format str "(~a)" (print-sufficient-digits-f64 code)))))))
 	  "")))
-  #-nil
   (defparameter *bla*
-    (emit-kt :code `(do0
-		     (package com.example.firstgame)
-		     (import android.content.Intent
-			     android.os.Bundle
-			     androidx.appcompat.app.AppCompatActivity
-			     android.util.Log.d
-			     kotlinx.android.synthetic.main.activity_main.*
-			     kotlinx.android.synthetic.main.content_main.*
-			     )
-		     ))))
+   (emit-kt :code `(do0
+		    (package com.example.firstgame)
+		    (import android.content.Intent
+			    android.os.Bundle
+			    androidx.appcompat.app.AppCompatActivity
+			    android.util.Log.d
+			    kotlinx.android.synthetic.main.activity_main.*
+			    kotlinx.android.synthetic.main.content_main.*
+			    )
+		    ))))
