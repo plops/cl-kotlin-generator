@@ -253,6 +253,7 @@ entry return-values contains a list of return values"
 				)))
 		(override (format nil "override ~a" (emit (cadr code))))
 		(defun (parse-defun code #'emit))
+		(return (format nil "return ~a" (emit (car (cdr code)))))
 		(let (parse-let code #'emit))
 		(setf 
 		 (let ((args (cdr code)))
@@ -316,6 +317,26 @@ entry return-values contains a list of return values"
 			    (format nil "(~a)-=(~a)" (emit a) (emit b))
 			    (format nil "(~a)--" (emit a)))))
 		(string (format nil "\"~a\"" (cadr code)))
+		(if (destructuring-bind (condition true-statement &optional false-statement) (cdr code)
+		      (with-output-to-string (s)
+			(format s "if ( ~a ) ~a"
+				(emit condition)
+				(emit `(progn ,true-statement)))
+			(when false-statement
+			  (format s " else ~a"
+				  (emit `(progn ,false-statement)))))))
+		(when (destructuring-bind (condition &rest forms) (cdr code)
+			(emit `(if ,condition
+				   (do0
+				    ,@forms)))))
+		(unless (destructuring-bind (condition &rest forms) (cdr code)
+			  (emit `(if (not ,condition)
+				     (do0
+				      ,@forms)))))
+		(aref (destructuring-bind (name &rest indices) (cdr code)
+			      (format nil "~a[~{~a~^,~}]" (emit name) (mapcar #'emit indices))))
+		(dot (let ((args (cdr code)))
+		       (format nil "~{~a~^.~}" (mapcar #'emit args))))
 		(t (destructuring-bind (name &rest args) code
 
 		     (if (listp name)
@@ -423,7 +444,7 @@ entry return-values contains a list of return values"
 		      (range (format nil "range ~a" (emit (car (cdr code)))))
 		      (chan (format nil "chan ~a" (emit (car (cdr code)))))
 		      (defer (format nil "defer ~a" (emit (car (cdr code)))))
-		      (return (format nil "return ~a" (emit (car (cdr code)))))
+      (return (format nil "return ~a" (emit (car (cdr code)))))
 		      
       (do (with-output-to-string (s)
 			    ;; do {form}*
@@ -502,22 +523,7 @@ entry return-values contains a list of return values"
 					   (let ((a (elt args i))
 						 (b (elt args (+ 1 i))))
 					     `(:= ,a ,b))))))))
-		      (if (destructuring-bind (condition true-statement &optional false-statement) (cdr code)
-			    (with-output-to-string (s)
-			      (format s "if ( ~a ) ~a"
-				      (emit condition)
-				      (emit `(progn ,true-statement)))
-			      (when false-statement
-				(format s " else ~a"
-					(emit `(progn ,false-statement)))))))
-		      (when (destructuring-bind (condition &rest forms) (cdr code)
-			      (emit `(if ,condition
-					 (do0
-					  ,@forms)))))
-		      (unless (destructuring-bind (condition &rest forms) (cdr code)
-				(emit `(if (not ,condition)
-					   (do0
-					    ,@forms)))))
+      
 		      (ecase
 			  ;; ecase keyform {normal-clause}*
 			  ;; normal-clause::= (keys form*) 
@@ -609,10 +615,7 @@ entry return-values contains a list of return values"
 			       (if (null args)
 				   (format nil ":")
 				   (format nil "~{~a~^:~}" (mapcar #'emit args)))))
-		      (aref (destructuring-bind (name &rest indices) (cdr code)
-			      (format nil "~a[~{~a~^,~}]" (emit name) (mapcar #'emit indices))))
-		      (dot (let ((args (cdr code)))
-			     (format nil "~{~a~^.~}" (mapcar #'emit args))))
+		      
 		      #+nil (-> (let ((forms (cdr code)))
 				  ;; clojure's thread first macro, thrush operator
 				  ;; http://blog.fogus.me/2010/09/28/thrush-in-clojure-redux/
