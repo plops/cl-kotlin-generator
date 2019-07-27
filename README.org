@@ -25,3 +25,23 @@
 
 - https://www.youtube.com/watch?v=C2YtCSZ15ZE Android Studio Tutorial - Part 10 (2019 Edition)
   - easy to follow tutorial series
+
+
+* References (Library Books)
+
+** Android Cookbook 2017 O'Reilly
+   - to dennis ritchie
+   - where to catch exceptions
+   - opengl  spinning cube
+   - looks all a bit dated
+
+** Big Nerd Ranch Guide 2017
+   - laying out ui
+   - MVC
+   - running on device
+   - debugging
+   - communication with intents
+   - ui fragment
+   - implicit intents
+   - background service
+   - material design
