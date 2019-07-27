@@ -113,7 +113,10 @@ entry return-values contains a list of return values"
 
 (defun parse-defun (code emit)
   ;;  defun function-name lambda-list [declaration*] form*
-  ;; fun onCreate(savedInstanceState: Bundle?) 
+  ;; https://kotlinlang.org/docs/reference/basic-syntax.html
+  ;; fun onCreate(savedInstanceState: Bundle?) { .. }
+  ;; fun sum(a: Int, b: Int): Int { .. }
+  
   (destructuring-bind (name lambda-list &rest body) (cdr code)
     (multiple-value-bind (body env) (consume-declare body) ;; py
       (multiple-value-bind (req-param opt-param res-param
@@ -123,7 +126,7 @@ entry return-values contains a list of return values"
 	(declare (ignorable req-param opt-param res-param
 			    key-param other-key-p aux-param key-exist-p))
 	(with-output-to-string (s)
-	  (format s "fun ~a~a ~@[~a ~]"
+	  (format s "fun ~a~a~@[: ~a ~]"
 		  name
 		  (funcall emit `(paren
 				  ,@(loop for p in req-param collect
