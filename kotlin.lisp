@@ -316,6 +316,11 @@ entry return-values contains a list of return values"
 			    kotlinx.android.synthetic.main.activity_main.*
 			    kotlinx.android.synthetic.main.content_main.*
 			    )
+		    (defclass FriendsAdapter ((RecyclerView.Adapter<FriendsAdapter.ViewHolder>))
+		      (override (defun onCreateViewHolder (parent viewType)
+				  (declare (type ViewGroup parent)
+					   (type int viewType)
+					   (values ViewHolder)))))
 		    (defclass MainActivity ((AppCompatActivity))
 		      (override (defun onCreate (savedInstanceState)
 				  (declare (type Bundle? savedInstanceState))
