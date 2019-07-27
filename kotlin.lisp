@@ -368,6 +368,22 @@ entry return-values contains a list of return values"
 					       name nick ))
 				     (format s "~&import ~a" e)))
 			    (format s "~&)"))))
+		(do (with-output-to-string (s)
+		      ;; do {form}*
+		      ;; print each form on a new line with one more indentation.
+		      (format s "~{~&~a~}" (mapcar #'(lambda (x) (emit `(indent ,x) 1)) (cdr code)))))
+		(defclass
+		      ;; defclass class-name ({superclass-name}*) ({slot-specifier}*) [[class-option]]
+		      ;; https://kotlinlang.org/docs/reference/classes.html
+		      ;; class Example // Implicitly inherits from Any
+		      ;; class Derived(p: Int) : Base(p)
+		      ;; class C() : A(), B { .. }
+		      (destructuring-bind (name parents &rest body) (cdr code)
+			(format nil "class ~a : ~{~a~^,~}:~%~a"
+				name ;(emit name)
+				parents ;(mapcar #'emit parents)
+				(emit `(do ,@body))
+				)))
 		
 		(t (destructuring-bind (name &rest args) code
 
@@ -412,6 +428,9 @@ entry return-values contains a list of return values"
 			    kotlinx.android.synthetic.main.activity_main.*
 			    kotlinx.android.synthetic.main.content_main.*
 			    )
+		    (defclass MainActivity ((AppCompatActivity))
+			   bla
+			   )
 		    )))
   (format t "~a" *bla*))
 
@@ -456,7 +475,7 @@ entry return-values contains a list of return values"
 		      (defer (format nil "defer ~a" (emit (car (cdr code)))))
 		      (return (format nil "return ~a" (emit (car (cdr code)))))
 		      
-		      (do (with-output-to-string (s)
+      (do (with-output-to-string (s)
 			    ;; do {form}*
 			    ;; print each form on a new line with one more indentation.
 			    (format s "~{~&~a~}" (mapcar #'(lambda (x) (emit `(indent ,x) 1)) (cdr code)))))
