@@ -26,6 +26,9 @@
 - https://www.youtube.com/watch?v=C2YtCSZ15ZE Android Studio Tutorial - Part 10 (2019 Edition)
   - easy to follow tutorial series
 
+- https://docs.fastlane.tools/ fastlane android screenshot, release managemnt
+- https://github.com/futurice/android-best-practices 
+
 
 * References (Library Books)
 
@@ -33,15 +36,17 @@
    - to dennis ritchie
    - where to catch exceptions
    - opengl  spinning cube
-   - looks all a bit dated
+   - looks all a bit dated, no kotlin
 
 ** Big Nerd Ranch Guide 2017
    - laying out ui
    - MVC
    - running on device
    - debugging
+   - example crime reporting app, seems give quite a broad overview  
    - communication with intents
    - ui fragment
    - implicit intents
    - background service
    - material design
+   - no kotlin, no opengl
