@@ -329,6 +329,11 @@ entry return-values contains a list of return values"
 	       1d-12))
    (substitute #\e #\d s)))
 
+;; import {[name|pair]}*
+;; pair := nickname name
+			  
+			  
+
 (progn
   (defun emit-kt (&key code (str nil)  (level 0))
     (flet ((emit (code &optional (dl 0))
@@ -351,11 +356,9 @@ entry return-values contains a list of return values"
 			     (mapcar #'(lambda (x) (emit `(indent ,x) 0)) (cddr code)))))
 		(package (format nil "package ~a" (car (cdr code))))
 		(import (let ((args (cdr code)))
-			  ;; import {(name|pair)}*
-			  ;; pair := nickname name
+			  
 			  (with-output-to-string (s)
-			    (format s "import ("
-				    args)
+			    (format s "import (")
 			    (loop for e in args do
 				 (if (listp e)
 				     (destructuring-bind (nick name) e
@@ -364,7 +367,54 @@ entry return-values contains a list of return values"
 				     (format s "~&\"~a\"" e))
 				 )
 			    (format s "~&)"))))
-		#+nil((ntuple (let ((args (cdr code)))
+		
+		(t (destructuring-bind (name &rest args) code
+
+		     (if (listp name)
+		       ;; lambda call and similar complex constructs
+			 (format nil "(~a)(~a)"
+				 (emit name)
+				 (if args
+				     (emit `(paren ,@args))
+				     ""))
+			 ;; function call
+			 
+			 
+			 (progn ;if
+			   #+nil(and
+				 (= 1 (length args))
+				 (eq (aref (format nil "~a" (car args)) 0) #\.))
+			   #+nil (format nil "~a~a" name
+					 (emit args))
+
+
+			   
+			   
+			   (format nil "~a~a" name
+				   (emit `(paren ,@args))))))))
+	      (cond
+		((or (symbolp code)
+		     (stringp code)) ;; print variable
+		 (format nil "~a" code))
+		((numberp code) ;; print constants
+		 (cond ((integerp code) (format str "~a" code))
+		       ((floatp code) ;; FIXME arbitrary precision?
+			(format str "(~a)" (print-sufficient-digits-f64 code)))))))
+	  "")))
+  (defparameter *bla*
+   (emit-kt :code `(do0
+		    (package com.example.firstgame)
+		    (import android.content.Intent
+			    android.os.Bundle
+			    androidx.appcompat.app.AppCompatActivity
+			    android.util.Log.d
+			    kotlinx.android.synthetic.main.activity_main.*
+			    kotlinx.android.synthetic.main.content_main.*
+			    )
+		    ))))
+
+
+#+nil((ntuple (let ((args (cdr code)))
 			   (format nil "~{~a~^, ~}" (mapcar #'emit args))))
 		 (paren
 		  ;; paren {args}*
@@ -657,47 +707,3 @@ entry return-values contains a list of return values"
 				  ;; http://blog.fogus.me/2010/09/28/thrush-in-clojure-redux/
 				  ;; -> {form}*
 				  (emit (reduce #'(lambda (x y) (list (emit x) (emit y))) forms)))))
-		(t (destructuring-bind (name &rest args) code
-
-		     (if (listp name)
-		       ;; lambda call and similar complex constructs
-			 (format nil "(~a)(~a)"
-				 (emit name)
-				 (if args
-				     (emit `(paren ,@args))
-				     ""))
-			 ;; function call
-			 
-			 
-			 (progn ;if
-			   #+nil(and
-				 (= 1 (length args))
-				 (eq (aref (format nil "~a" (car args)) 0) #\.))
-			   #+nil (format nil "~a~a" name
-					 (emit args))
-
-
-			   
-			   
-			   (format nil "~a~a" name
-				   (emit `(paren ,@args))))))))
-	      (cond
-		((or (symbolp code)
-		     (stringp code)) ;; print variable
-		 (format nil "~a" code))
-		((numberp code) ;; print constants
-		 (cond ((integerp code) (format str "~a" code))
-		       ((floatp code) ;; FIXME arbitrary precision?
-			(format str "(~a)" (print-sufficient-digits-f64 code)))))))
-	  "")))
-  (defparameter *bla*
-   (emit-kt :code `(do0
-		    (package com.example.firstgame)
-		    (import android.content.Intent
-			    android.os.Bundle
-			    androidx.appcompat.app.AppCompatActivity
-			    android.util.Log.d
-			    kotlinx.android.synthetic.main.activity_main.*
-			    kotlinx.android.synthetic.main.content_main.*
-			    )
-		    ))))
