@@ -340,6 +340,10 @@ entry return-values contains a list of return values"
       (if code
 	  (if (listp code)
 	      (case (car code)
+		(paren
+		  ;; paren {args}*
+		  (let ((args (cdr code)))
+		    (format nil "(~{~a~^, ~})" (mapcar #'emit args))))
 		(indent
 		 ;; indent form
 		 (format nil "~{~a~}~a"
@@ -366,8 +370,11 @@ entry return-values contains a list of return values"
 				     (destructuring-bind (nick name) e
 				       (format s "~&import ~a as ~a"
 					       name nick ))
-				     (format s "~&import ~a" e)))
-			    (format s "~&)"))))
+				     (format s "~&import ~a" e))))))
+		(progn (with-output-to-string (s)
+		     ;; progrn {form}*
+		     ;; like do but surrounds forms with braces.
+		     (format s "{~{~&~a~}~&}" (mapcar #'(lambda (x) (emit `(indent ,x) 1)) (cdr code)))))
 		(do (with-output-to-string (s)
 		      ;; do {form}*
 		      ;; print each form on a new line with one more indentation.
@@ -379,10 +386,10 @@ entry return-values contains a list of return values"
 		      ;; class Derived(p: Int) : Base(p)
 		      ;; class C() : A(), B { .. }
 		      (destructuring-bind (name parents &rest body) (cdr code)
-			(format nil "class ~a : ~{~a~^,~}:~%~a"
-				name ;(emit name)
-				parents ;(mapcar #'emit parents)
-				(emit `(do ,@body))
+			(format nil "class ~a : ~{~a~^,~} ~a"
+				(emit name)
+				(mapcar #'emit parents)
+				(emit `(progn ,@body))
 				)))
 		
 		(t (destructuring-bind (name &rest args) code
@@ -478,11 +485,11 @@ entry return-values contains a list of return values"
       (do (with-output-to-string (s)
 			    ;; do {form}*
 			    ;; print each form on a new line with one more indentation.
-			    (format s "~{~&~a~}" (mapcar #'(lambda (x) (emit `(indent ,x) 1)) (cdr code)))))
-		      (progn (with-output-to-string (s)
-			       ;; progrn {form}*
-			       ;; like do but surrounds forms with braces.
-			       (format s "{~{~&~a~}~&}" (mapcar #'(lambda (x) (emit `(indent ,x) 1)) (cdr code)))))
+	    (format s "~{~&~a~}" (mapcar #'(lambda (x) (emit `(indent ,x) 1)) (cdr code)))
+	    (progn (with-output-to-string (s)
+		     ;; progrn {form}*
+		     ;; like do but surrounds forms with braces.
+		     (format s "{~{~&~a~}~&}" (mapcar #'(lambda (x) (emit `(indent ,x) 1)) (cdr code)))))))
 		      
 		      (let (parse-let code #'emit))
 		      
