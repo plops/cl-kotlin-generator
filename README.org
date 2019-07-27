@@ -15,3 +15,13 @@
   - 47Mb
   - export PATH=$PATH:/home/martin/Downloads/android-studio/jre/bin/
   - ~/Downloads/ktlint
+
+- https://developer.android.com/guide/practices/verifying-apps-art.html
+  - how to work with compacting garbage collector
+  - CheckJNI
+  - ART is new, Dalvik is old
+  - ART uses same stack for Java code and native
+  - ART has ahead of time compilation dex2oat
+
+- https://www.youtube.com/watch?v=C2YtCSZ15ZE Android Studio Tutorial - Part 10 (2019 Edition)
+  - easy to follow tutorial series
