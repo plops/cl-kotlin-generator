@@ -142,7 +142,13 @@ sys     0m1.469s
     the wizard of future Android studio versions. Hopefully changes
     stay small so that I can use xml and kt files that are generated
     by Common Lisp.
-  
+
+** Continue  
+
+- store state when android activity changes
+- i learned that pressing the back button destroys an activity while
+  the home button keeps it alive
+- Analyze->Inspect Code
 
 * References
 
