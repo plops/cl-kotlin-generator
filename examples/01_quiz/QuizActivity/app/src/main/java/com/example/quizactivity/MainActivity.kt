@@ -7,5 +7,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        true_button.setOnClickListener(fun (){
+            d("martin", "true_button clicked!")
+})
 }
 }

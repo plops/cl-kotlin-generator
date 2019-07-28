@@ -88,8 +88,13 @@
 			     (declare (type Bundle? savedInstanceState))
 			     (super.onCreate savedInstanceState)
 			     (setContentView R.layout.activity_main)
-			     ;(setSupportActionBar toolbar)
+					;(setSupportActionBar toolbar)
+			     (true_button.setOnClickListener
+			      (lambda ()
+				(d (string "martin")
+				   (string "true_button clicked!"))))
 			     ))
+		 
 		 )
 	       )))
     (ensure-directories-exist path-kotlin)

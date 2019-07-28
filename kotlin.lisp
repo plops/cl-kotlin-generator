@@ -155,11 +155,16 @@ entry return-values contains a list of return values"
 	(declare (ignorable req-param opt-param res-param
 			    key-param other-key-p aux-param key-exist-p))
 	(with-output-to-string (s)
-	  (format s "func ~a ~@[~a ~]"
+	  (format s "fun ~a~@[: ~a ~]"
 		  (funcall emit `(paren
 				  ,@(loop for p in req-param collect
-					 (format nil "~a ~a"
-						 p (gethash p env)))))
+					 (format nil "~a~@[: ~a~]"
+						 p
+						 (let ((type (gethash p env)))
+						   (if type
+						       type
+						       (break "can't find type for ~a in defun"
+							      p)))))))
 		  (let ((r (gethash 'return-values env)))
 		    (if (< 1 (length r))
 			(funcall emit `(paren ,@r))
@@ -338,6 +343,7 @@ entry return-values contains a list of return values"
 			      (format nil "~a[~{~a~^,~}]" (emit name) (mapcar #'emit indices))))
 		(dot (let ((args (cdr code)))
 		       (format nil "~{~a~^.~}" (mapcar #'emit args))))
+		(lambda (parse-lambda code #'emit))
 		(t (destructuring-bind (name &rest args) code
 
 		     (if (listp name)
@@ -461,7 +467,7 @@ entry return-values contains a list of return values"
 		      
 		      (defun (parse-defun code #'emit))
 		      (defun-declaration (parse-defun-declaration code #'emit))
-		      (lambda (parse-lambda code #'emit))
+      
 		      (defmethod (parse-defmethod code #'emit))
 		      (defmethod-interface (parse-defmethod-interface code #'emit))
 		      (defmethod-declaration (parse-defmethod-declaration code #'emit))
