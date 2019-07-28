@@ -1,55 +1,46 @@
 (eval-when (:compile-toplevel :execute :load-toplevel)
-  (ql:quickload "cl-golang-generator"))
+  (ql:quickload "cl-kotlin-generator"))
 
-(in-package :cl-golang-generator)
+(in-package :cl-kotlin-generator)
 
-(progn
-  (defparameter *path* "/home/martin/quicklisp/local-projects/cl-golang-generator/examples/01_gopl_ch1_lissajous")
-  (defparameter *code-file* "lissajous")
-  (defparameter *source* (format nil "~a/source/~a" *path*  *code-file*))
+(let* ((main-activity "QuizActivity")
+       (path-lisp "/home/martin/quicklisp/local-projects/cl-kotlin-generator/examples/01_quiz/")
+       (path-kotlin (format nil "~a/~a/app/src/main/java/com/example/~a/"
+			    path-lisp main-activity
+			    (string-downcase main-activity)))
+       )
   (let* ((code
 	  `(do0
-	    (package main)
-	    (import image image/color image/gif io math math/rand os)
-	    (let ((palette (curly "[]color.Color" color.White color.Black)))
-	      (const witeIndex 0
-		     blackIndex 1)
-	      (defun main ()
-		(lissajous os.Stdout))
-	      (defun lissajous (out)
-		(declare (type io.Writer out))
-		
-		(const cycles 5
-		       res .001
-		       size 100
-		       nframes 64
-		       delay 8)
-		(assign
-		 freq (* 3.0 (rand.Float64))
-		 anim (curly gif.GIF
-			     :LoopCount nframes)
-		 phase 0.0)
-		(dotimes (i nframes)
-		  (assign
-		   rect (image.Rect 0 0
-				    (+ 1 (* 2 size))
-				    (+ 1 (* 2 size)))
-		   img (image.NewPaletted rect palette))
-		  (for ((:= t 0.0) (< t (* cycles 2 math.Pi)) (incf t res))
-		       (assign
-			x (math.Sin t)
-			y (math.Sin (+ (* t freq)
-				       phase)))
-		       (img.SetColorIndex
-			(+ size (int (+ .5 (* x size))))
-			(+ size (int (+ .5 (* y size))))
-			blackIndex))
-		  (incf phase .1)
-		  (setf
-		   anim.Delay (append anim.Delay delay)
-		   anim.Image (append anim.Image img)))
-		(gif.EncodeAll out &anim))))))
-    (write-source *source* code)))
-
-
-;; go build echo.go
+		     (package com.example.firstgame)
+		     (import android.content.Intent
+			     android.os.Bundle
+			     androidx.appcompat.app.AppCompatActivity
+			     android.util.Log.d
+			     kotlinx.android.synthetic.main.activity_main.*
+			     kotlinx.android.synthetic.main.content_main.*
+			     )
+		     (defclass FriendsAdapter ((RecyclerView.Adapter<FriendsAdapter.ViewHolder>))
+		       (override (defun onCreateViewHolder (parent viewType)
+				   (declare (type ViewGroup parent)
+					    (type int viewType)
+					    (values ViewHolder))
+				   (let ((view (dot
+						(LayoutInflater.from
+						 parent.context)
+						(inflate R.layout.row_friend
+							 parent
+							 false))))
+				     (return (ViewHolder view)))))
+		       
+		       )
+		     (defclass MainActivity ((AppCompatActivity))
+		       (override (defun onCreate (savedInstanceState)
+				   (declare (type Bundle? savedInstanceState))
+				   (super.onCreate savedInstanceState)
+				   (setContentView R.layout.activity_main)
+				   (setSupportActionBar toolbar)
+				   ))
+		       )
+		     )))
+    (ensure-directories-exist path-kotlin)
+    (write-source (format nil "~a/~a" path-kotlin main-activity) code)))
