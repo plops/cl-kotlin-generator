@@ -1,9 +1,10 @@
-(ql:quickload "alexandria")
-(defpackage :cl-kotlin-generator
-  (:use :cl
-	:alexandria)
-  (:export
-   #:write-source))
+
+#+nil(progn (ql:quickload "alexandria")
+       (defpackage :cl-kotlin-generator
+	 (:use :cl
+	       :alexandria)
+	 (:export
+	  #:write-source)))
 (in-package :cl-kotlin-generator)
 
 (setf (readtable-case *readtable*) :invert)
@@ -12,7 +13,7 @@
 
 (defun write-source (name code &optional (dir (user-homedir-pathname))
 				 ignore-hash)
-  (let* ((fn (merge-pathnames (format nil "~a.go" name)
+  (let* ((fn (merge-pathnames (format nil "~a.kt" name)
 			      dir))
 	(code-str (emit-kt
 		   :code code))

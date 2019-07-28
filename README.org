@@ -4,15 +4,23 @@
 |----+---------------------------------------------------------------------------------------------------------|
 | 01 | define layout in xml for a few buttons and some kotlin handlers (based on Big Nerd Ranch quiz_activity) |
 
-* XML generation
+* Developing the first example 
+** Directory structure
+   - these files are what the tutorials usually touch
+   - is it sufficient to generate those and android studio will create the rest? that would be nice
+#+BEGIN_QUOTE
+FirstGame/app/src/main/java/com/example/firstgame/MainActivity.kt
+FirstGame/app/src/main/res/layout/activity_main.xml
+FirstGame/app/src/main/res/layout/content_main.xml
+FirstGame/app/src/main/res/values/strings.xml
+#+END_QUOTE
+** XML generation
  - android takes layout definitions as xml files
  - eventually i will probably figure out how to create layouts from
    within kotlin but for copying examples from books xml will be
    useful
  - i want a simple library that converts s-expressions to xml
  - this one looks promising: https://github.com/madnificent/SEXML 
-
-
 
 * References
 
