@@ -126,8 +126,11 @@ sys     0m1.469s
   - switch phone into developer mode
   - enable remote debug in phone
   - run `adb connect 192.168.1.135:5555` in android studio terminal
-  - press run-> run app
+  - press run-> run app (only works sometimes)
+  - build -> build bundels / apk -> build apks
+  - install apk manually: `adb install -r /home/martin/stage/cl-kotlin-generator/examples/01_quiz/QuizActivity/app/build/outputs/apk/debug/app-debug.apk`
 
+  
 
 * References
 
