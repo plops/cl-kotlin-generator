@@ -12,4 +12,28 @@ class MainActivity : AppCompatActivity() {
             d("martin", "true_button clicked!")
 })
 }
+    override fun onPostCreate(savedInstanceState: Bundle?){
+        super.onPostCreate(savedInstanceState)
+        d("martin", "onPostCreate")
+}
+    override fun onDestroy(){
+        super.onDestroy()
+        d("martin", "onDestroy")
+}
+    override fun onStart(){
+        super.onStart()
+        d("martin", "onStart")
+}
+    override fun onStop(){
+        super.onStop()
+        d("martin", "onStop")
+}
+    override fun onPostResume(){
+        super.onPostResume()
+        d("martin", "onPostResume")
+}
+    override fun onPause(){
+        super.onPause()
+        d("martin", "onPause")
+}
 }

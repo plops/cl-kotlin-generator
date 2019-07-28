@@ -81,9 +81,27 @@
 				(d (string "martin")
 				   (string "true_button clicked!"))))
 			     ))
-		 
-		 )
-	       )))
+		 ,@(loop for name in (mapcar #'(lambda (x)
+						(format nil "on~a" x)
+						)
+					    `( ;Create
+					      PostCreate 
+					      )) collect
+			`(override (defun ,name (savedInstanceState)
+				     (declare (type Bundle? savedInstanceState))
+				     (dot super (,name savedInstanceState))
+				     (d (string "martin") (string ,name)))))
+		 ,@(loop for name in (mapcar #'(lambda (x)
+						(format nil "on~a" x)
+						)
+					    `(Destroy
+					      Start
+					      Stop
+					      PostResume
+					      Pause)) collect
+			`(override (defun ,name ()
+				     (dot super (,name))
+				     (d (string "martin") (string ,name)))))))))
     (ensure-directories-exist path-kotlin)
     (ensure-directories-exist path-layout)
 

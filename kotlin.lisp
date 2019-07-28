@@ -258,6 +258,8 @@ entry return-values contains a list of return values"
 				(emit `(progn ,@body))
 				)))
 		(override (format nil "override ~a" (emit (cadr code))))
+		(protected (format nil "protected ~a" (emit (cadr code))))
+		(public (format nil "public ~a" (emit (cadr code))))
 		(defun (parse-defun code #'emit))
 		(return (format nil "return ~a" (emit (car (cdr code)))))
 		(let (parse-let code #'emit))
