@@ -60,7 +60,6 @@
 	     :android.layout_height match_parent
 	     :android.gravity center
 	     :android.orientation vertical
-	     (Button)
 	     (TextView
 	      :android.layout_width wrap_content
 	      :android.layout_height wrap_content
