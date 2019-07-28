@@ -120,7 +120,8 @@ sys     0m1.469s
   - the formatted files look nice, though
   - perhaps there is a way to keep the java process running to prevent
     a startup time. i haven't found anything
- 
+** Open Code in Android Studio 
+  - select Open Existing Project and navigate to examples/01_quiz/QuizActivity
 
 * References
 
