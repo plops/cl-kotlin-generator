@@ -3,6 +3,60 @@
 
 (in-package :cl-kotlin-generator)
 
+(defun keyword-to-xml (v)
+  "convert :android.padding to android:padding"
+  (substitute #\: #\. (format nil "~a" v)))
+
+(defun split-keyword-pairs (ls)
+  "search through ls collect all keyword value pairs, and return with the remaining stuff; replace . with : in keywords"
+  (let ((pairs nil)
+	(last-index -1))
+    (loop named collect-pairs for i from 0 by 2 do
+	 (if (and
+	      (< i (length ls))
+	      (keywordp (elt ls i)))
+	     (push (list (keyword-to-xml (elt ls i)) (elt ls (+ i 1))) pairs)
+	     (progn
+	       (setf last-index i)
+	       (return-from collect-pairs))))
+    (values pairs (subseq ls last-index))
+   ))
+
+
+(split-keyword-pairs `(
+		       :android.layout_width wrap_content
+					     :android.layout_height wrap_content
+					     :android.padding 24dp
+					     :android.text @string/question_text
+					     (Button
+					      :android.layout_width wrap_content
+					      :android.layout_height wrap_content
+					      :android.text @string/true_button
+					      )
+					     (Button
+					      :android.layout_width wrap_content
+					      :android.layout_height wrap_content
+					      :android.text @string/false_button)))
+
+(defun emit-xml (&key code (str nil))
+   (flet ((emit (code)
+	    (emit-xml :code code)))
+      (if code
+	  (if (listp code)
+	      (case (car code)
+		(string (format nil "\"~a\"" (cadr code)))
+		
+		(t (destructuring-bind (name &rest args) code
+		     (format str "<~a ~{~a~}></~a>" name name))))
+	      (cond
+		((or (symbolp code)
+		     (stringp code)) ;; print variable
+		 (format nil "~a" code))
+		((numberp code) ;; print constants
+		 (cond ((integerp code) (format str "~a" code))
+		       ((floatp code) 
+			(format str "~a" (print-sufficient-digits-f64 code)))))))
+	  "")) )
 
 (emit-xml
  `(LinearLayout
@@ -11,6 +65,7 @@
   :android.layout_height match_parent
   :android.gravity center
   :android.orientation vertical
+
   (TextView
    :android.layout_width wrap_content
    :android.layout_height wrap_content
