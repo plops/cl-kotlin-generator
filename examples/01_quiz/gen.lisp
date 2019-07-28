@@ -48,12 +48,12 @@
 		   
 		  ,@(if (eq pos 'left)
 			`(:app.layout_constraintLeft_toLeftOf parent)
-			`(:app.layout_constraintLeft_toRightOf "@+id/true_button"))
+			`(:app.layout_constraintLeft_toRightOf "@id/true_button"))
 		  
 		  ,@(if (eq pos 'left)
-			`(:app.layout_constraintRight_toLeftOf "@+id/false_button")
+			`(:app.layout_constraintRight_toLeftOf "@id/false_button")
 			`(:app.layout_constraintRight_toRightOf parent))
-		  :app.layout_constraintTop_toBottomOf "@+id/textview"
+		  :app.layout_constraintTop_toBottomOf "@id/textview"
 		  :android.text ,(format nil "~a" e)
 		  :android.id ,(format nil "@+id/~a_button" e)
 		  )))))
