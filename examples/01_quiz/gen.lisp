@@ -70,6 +70,7 @@
 		       )
 	       
 	       (defclass MainActivity ((AppCompatActivity))
+		 (let-var ((_count 0)))
 		 (override (defun onCreate (savedInstanceState)
 			     (declare (type Bundle? savedInstanceState))
 			     (super.onCreate savedInstanceState)
@@ -81,27 +82,35 @@
 				(d (string "martin")
 				   (string "true_button clicked!"))))
 			     ))
+		 ,@(loop for e in `(;(Create ((savedInstanceState Bundle?)) )
+				    (SaveInstanceState ((savedInstanceState Bundle)))
+				    (PostCreate ((savedInstanceState Bundle?)))
+				    (Destroy)
+				    (Start)
+				    (Stop)
+				    (PostResume)
+				    (Pause))
+		      collect
+			(destructuring-bind (name-no-on &optional params) e
+			  (let ((name (format nil "on~a" name-no-on)))
+			   `(override (defun ,name (,@(mapcar #'first params))
+					,@(loop for (var type) in params collect
+					       `(declare (type ,type ,var)))
+					(dot super (,name ,@(mapcar #'first params)))
+					(incf _count)
+					(d (string "martin") (string ,(format nil "~a {$_count}" name)))
+					,(case name
+					   (SaveInstanceState `(savedInstanceState.put (string "_count") _count))
+					   (t "// none")))))))
+		 
 		 ,@(loop for name in (mapcar #'(lambda (x)
 						(format nil "on~a" x)
 						)
-					    `( ;Create
-					      PostCreate 
-					      )) collect
-			`(override (defun ,name (savedInstanceState)
-				     (declare (type Bundle? savedInstanceState))
-				     (dot super (,name savedInstanceState))
-				     (d (string "martin") (string ,name)))))
-		 ,@(loop for name in (mapcar #'(lambda (x)
-						(format nil "on~a" x)
-						)
-					    `(Destroy
-					      Start
-					      Stop
-					      PostResume
-					      Pause)) collect
+					    `()) collect
 			`(override (defun ,name ()
 				     (dot super (,name))
-				     (d (string "martin") (string ,name)))))))))
+				     (incf _count)
+				     (d (string "martin") (string ,(format nil "~a {$_count}" name))))))))))
     (ensure-directories-exist path-kotlin)
     (ensure-directories-exist path-layout)
  

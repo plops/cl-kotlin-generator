@@ -89,8 +89,9 @@ entry return-values contains a list of return values"
   "get the type of a variable from an environment"
   (gethash name env))
 
-(defun parse-let (code emit)
+(defun parse-let (code emit style)
   "let ({var | (var [init-form])}*) declaration* form*"
+  ;; style can be val or var
   (destructuring-bind (decls &rest body) (cdr code)
     (multiple-value-bind (body env) (consume-declare body)
       (with-output-to-string (s)
@@ -100,11 +101,13 @@ entry return-values contains a list of return values"
 			  ,@(loop for decl in decls collect
 				 (if (listp decl) ;; split into name and initform
 				     (destructuring-bind (name &optional value) decl
-				       (format nil "val ~a~@[: ~a~]~@[ = ~a~]"
+				       (format nil "~a ~a~@[: ~a~]~@[ = ~a~]"
+					       style
 					       name
 					       (lookup-type name :env env)
 					       (funcall emit value)))
-				     (format nil "val ~a ~a"
+				     (format nil "~a ~a ~a"
+					     style
 					     decl
 					     (let ((type (lookup-type decl :env env)))
 					       (if type
@@ -262,7 +265,8 @@ entry return-values contains a list of return values"
 		(public (format nil "public ~a" (emit (cadr code))))
 		(defun (parse-defun code #'emit))
 		(return (format nil "return ~a" (emit (car (cdr code)))))
-		(let (parse-let code #'emit))
+		(let (parse-let code #'emit 'val))
+		(let-var (parse-let code #'emit 'var))
 		(setf 
 		 (let ((args (cdr code)))
 		   ;; "setf {pair}*"

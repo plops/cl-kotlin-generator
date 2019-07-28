@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.util.Log.d
 import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
+    var _count = 0
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -12,28 +13,46 @@ class MainActivity : AppCompatActivity() {
             d("martin", "true_button clicked!")
 })
 }
+    override fun onSaveInstanceState(savedInstanceState: Bundle){
+        super.onSaveInstanceState(savedInstanceState)
+        (_count)++
+        d("martin", "onSaveInstanceState {$_count}")
+        // none
+}
     override fun onPostCreate(savedInstanceState: Bundle?){
         super.onPostCreate(savedInstanceState)
-        d("martin", "onPostCreate")
+        (_count)++
+        d("martin", "onPostCreate {$_count}")
+        // none
 }
     override fun onDestroy(){
         super.onDestroy()
-        d("martin", "onDestroy")
+        (_count)++
+        d("martin", "onDestroy {$_count}")
+        // none
 }
     override fun onStart(){
         super.onStart()
-        d("martin", "onStart")
+        (_count)++
+        d("martin", "onStart {$_count}")
+        // none
 }
     override fun onStop(){
         super.onStop()
-        d("martin", "onStop")
+        (_count)++
+        d("martin", "onStop {$_count}")
+        // none
 }
     override fun onPostResume(){
         super.onPostResume()
-        d("martin", "onPostResume")
+        (_count)++
+        d("martin", "onPostResume {$_count}")
+        // none
 }
     override fun onPause(){
         super.onPause()
-        d("martin", "onPause")
+        (_count)++
+        d("martin", "onPause {$_count}")
+        // none
 }
 }
