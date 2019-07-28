@@ -71,19 +71,25 @@
 	       
 	       (defclass MainActivity ((AppCompatActivity))
 		 (let-var ((_count 0)))
+		 #+nil
 		 (override (defun onCreate (savedInstanceState)
 			     (declare (type Bundle? savedInstanceState))
 			     (super.onCreate savedInstanceState)
-			     (setContentView R.layout.activity_main)
-					;(setSupportActionBar toolbar)
-			     (true_button.setOnClickListener
-			      (lambda (view)
-				(declare (type View? view))
-				(d (string "martin")
-				   (string "true_button clicked!"))))
+			     
 			     ))
-		 ,@(loop for e in `(;(Create ((savedInstanceState Bundle?)) )
-				    (SaveInstanceState ((savedInstanceState Bundle)))
+		 ,@(loop for e in `((Create ((savedInstanceState Bundle?))
+					    (do0
+					     (unless (== savedInstanceState null)
+					       (setf _count (savedInstanceState.getInt (string "_count") 0)))
+					     (setContentView R.layout.activity_main)
+					;(setSupportActionBar toolbar)
+					     (true_button.setOnClickListener
+					      (lambda (view)
+						(declare (type View? view))
+						(d (string "martin")
+						   (string "true_button clicked!"))))))
+				    (SaveInstanceState ((savedInstanceState Bundle))
+						       (savedInstanceState.putInt (string "_count") _count))
 				    (PostCreate ((savedInstanceState Bundle?)))
 				    (Destroy)
 				    (Start)
@@ -91,7 +97,7 @@
 				    (PostResume)
 				    (Pause))
 		      collect
-			(destructuring-bind (name-no-on &optional params) e
+			(destructuring-bind (name-no-on &optional params extra) e
 			  (let ((name (format nil "on~a" name-no-on)))
 			   `(override (defun ,name (,@(mapcar #'first params))
 					,@(loop for (var type) in params collect
@@ -99,9 +105,9 @@
 					(dot super (,name ,@(mapcar #'first params)))
 					(incf _count)
 					(d (string "martin") (string ,(format nil "~a {$_count}" name)))
-					,(case name
-					   (SaveInstanceState `(savedInstanceState.put (string "_count") _count))
-					   (t "// none")))))))
+					,(if extra
+					     extra
+					     "// none"))))))
 		 
 		 ,@(loop for name in (mapcar #'(lambda (x)
 						(format nil "on~a" x)

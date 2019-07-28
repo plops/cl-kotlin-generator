@@ -8,6 +8,11 @@ class MainActivity : AppCompatActivity() {
     var _count = 0
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
+        (_count)++
+        d("martin", "onCreate {$_count}")
+        if ( !((savedInstanceState)==(null)) ) {
+            _count=savedInstanceState.getInt("_count", 0)
+}
         setContentView(R.layout.activity_main)
         true_button.setOnClickListener(fun (view: View?){
             d("martin", "true_button clicked!")
@@ -17,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         super.onSaveInstanceState(savedInstanceState)
         (_count)++
         d("martin", "onSaveInstanceState {$_count}")
-        // none
+        savedInstanceState.putInt("_count", _count)
 }
     override fun onPostCreate(savedInstanceState: Bundle?){
         super.onPostCreate(savedInstanceState)
