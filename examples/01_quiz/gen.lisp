@@ -22,22 +22,6 @@
     (values pairs (subseq ls last-index))
    ))
 
-
-(split-keyword-pairs `(
-		       :android.layout_width wrap_content
-					     :android.layout_height wrap_content
-					     :android.padding 24dp
-					     :android.text @string/question_text
-					     (Button
-					      :android.layout_width wrap_content
-					      :android.layout_height wrap_content
-					      :android.text @string/true_button
-					      )
-					     (Button
-					      :android.layout_width wrap_content
-					      :android.layout_height wrap_content
-					      :android.text @string/false_button)))
-
 (defun emit-xml (&key code (str nil))
    (flet ((emit (code)
 	    (emit-xml :code code)))
@@ -48,13 +32,15 @@
 		;; maybe i can collect references to strings here
 		(t (destructuring-bind (name &rest args) code
 		     (multiple-value-bind (pairs rest) (split-keyword-pairs args)
-		       (format str "<~a ~{~&~a~^ ~}>~&~@[~a~]~&</~a>"
+		       (format t "~&bla ~a~%" rest)
+		       (format str "~&<~a ~{~&~a~^ ~}>~{~a~}~&</~a>"
 			       name
 			       (mapcar #'(lambda (x)
 					   (destructuring-bind (a b) x
 					     (format nil "~a=\"~a\"" a b)))
 				       pairs)
-			       (mapcar #'emit rest) name)))))
+			       (mapcar #'emit rest)
+			       name)))))
 	      (cond
 		
 		((or (symbolp code)
@@ -66,28 +52,29 @@
 			(format str "~a" (print-sufficient-digits-f64 code)))))))
 	  "")) )
 
-(emit-xml :code
- `(LinearLayout
-  :xmls.android "http://schemas.android.com/apk/res/android"
-  :android.layout_width match_parent
-  :android.layout_height match_parent
-  :android.gravity center
-  :android.orientation vertical
- (Button)
-  (TextView
-   :android.layout_width wrap_content
-   :android.layout_height wrap_content
-   :android.padding 24dp
-   :android.text @string/question_text
-   (Button
-    :android.layout_width wrap_content
-    :android.layout_height wrap_content
-    :android.text @string/true_button
-    )
-   (Button
-    :android.layout_width wrap_content
-    :android.layout_height wrap_content
-    :android.text @string/false_button))))
+(format t "~a"
+ (emit-xml :code
+	   `(LinearLayout
+	     :xmls.android "http://schemas.android.com/apk/res/android"
+	     :android.layout_width match_parent
+	     :android.layout_height match_parent
+	     :android.gravity center
+	     :android.orientation vertical
+	     (Button)
+	     (TextView
+	      :android.layout_width wrap_content
+	      :android.layout_height wrap_content
+	      :android.padding 24dp
+	      :android.text @string/question_text
+	      (Button
+	       :android.layout_width wrap_content
+	       :android.layout_height wrap_content
+	       :android.text @string/true_button
+	       )
+	      (Button
+	       :android.layout_width wrap_content
+	       :android.layout_height wrap_content
+	       :android.text @string/false_button)))))
 
 
 (let* ((main-activity "QuizActivity")
