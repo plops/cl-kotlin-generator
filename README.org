@@ -122,6 +122,12 @@ sys     0m1.469s
     a startup time. i haven't found anything
 ** Open Code in Android Studio 
   - select Open Existing Project and navigate to examples/01_quiz/QuizActivity
+** Test code on Phone
+  - switch phone into developer mode
+  - enable remote debug in phone
+  - run `adb connect 192.168.1.135:5555` in android studio terminal
+  - press run-> run app
+
 
 * References
 
