@@ -106,6 +106,6 @@
     (write-xml (format nil "~a/~a" path-layout "activity_main") layout)
     #+nil (sb-ext:run-program
 	"/home/martin/Downloads/android-studio/bin/format.sh"
-	(list "-r"  path-lisp)
+	(list "-r"  path-lisp) 
 	)))
  
