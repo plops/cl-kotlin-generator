@@ -29,8 +29,6 @@
 	    :android.layout_width match_parent
 	    :android.layout_height match_parent
 	    :tools.context .MainActivity
-					;:android.gravity center
-					;:android.orientation vertical
 	    (TextView
 	     :android.id "@+id/textview"
 	     :android.layout_width wrap_content
@@ -62,28 +60,15 @@
 	 (code
 	     `(do0
 	       (package com.example.quizactivity)
-	       (import ;android.content.Intent
+	       (import
 		android.os.Bundle
 		android.view.View
 		       androidx.appcompat.app.AppCompatActivity
 		       android.util.Log.d
 		       kotlinx.android.synthetic.main.activity_main.*
-		       ;kotlinx.android.synthetic.main.content_main.*
+		      
 		       )
-	       #+nil (defclass FriendsAdapter ((RecyclerView.Adapter<FriendsAdapter.ViewHolder>))
-		 (override (defun onCreateViewHolder (parent viewType)
-			     (declare (type ViewGroup parent)
-				      (type int viewType)
-				      (values ViewHolder))
-			     (let ((view (dot
-					  (LayoutInflater.from
-					   parent.context)
-					  (inflate R.layout.row_friend
-						   parent
-						   false))))
-			       (return (ViewHolder view)))))
-		       
-		 )
+	       
 	       (defclass MainActivity ((AppCompatActivity))
 		 (override (defun onCreate (savedInstanceState)
 			     (declare (type Bundle? savedInstanceState))
