@@ -1,3 +1,19 @@
+* Examples
+
+|    | comment                                                                                                 |
+|----+---------------------------------------------------------------------------------------------------------|
+| 01 | define layout in xml for a few buttons and some kotlin handlers (based on Big Nerd Ranch quiz_activity) |
+
+* XML generation
+ - android takes layout definitions as xml files
+ - eventually i will probably figure out how to create layouts from
+   within kotlin but for copying examples from books xml will be
+   useful
+ - i want a simple library that converts s-expressions to xml
+ - this one looks promising: https://github.com/madnificent/SEXML 
+
+
+
 * References
 
 - https://www.youtube.com/watch?v=6P20npkvcb8 How to Kotlin - from the Lead Kotlin Language Designer (Google I/O '18)
