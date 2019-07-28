@@ -104,7 +104,7 @@
 				     (d (string "martin") (string ,name)))))))))
     (ensure-directories-exist path-kotlin)
     (ensure-directories-exist path-layout)
-
+ 
     (write-source (format nil "~a/~a" path-kotlin main-activity) code)
     (write-xml (format nil "~a/~a" path-layout "activity_main") layout)
     #+nil (sb-ext:run-program
