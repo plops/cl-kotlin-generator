@@ -44,11 +44,19 @@
       (if code
 	  (if (listp code)
 	      (case (car code)
-		(string (format nil "\"~a\"" (cadr code)))
-		
+		; (string (format nil "\"~a\"" (cadr code)))
+		;; maybe i can collect references to strings here
 		(t (destructuring-bind (name &rest args) code
-		     (format str "<~a ~{~a~}></~a>" name name))))
+		     (multiple-value-bind (pairs rest) (split-keyword-pairs args)
+		       (format str "<~a ~{~&~a~^ ~}>~&~@[~a~]~&</~a>"
+			       name
+			       (mapcar #'(lambda (x)
+					   (destructuring-bind (a b) x
+					     (format nil "~a=\"~a\"" a b)))
+				       pairs)
+			       (mapcar #'emit rest) name)))))
 	      (cond
+		
 		((or (symbolp code)
 		     (stringp code)) ;; print variable
 		 (format nil "~a" code))
@@ -58,14 +66,14 @@
 			(format str "~a" (print-sufficient-digits-f64 code)))))))
 	  "")) )
 
-(emit-xml
+(emit-xml :code
  `(LinearLayout
   :xmls.android "http://schemas.android.com/apk/res/android"
   :android.layout_width match_parent
   :android.layout_height match_parent
   :android.gravity center
   :android.orientation vertical
-
+ (Button)
   (TextView
    :android.layout_width wrap_content
    :android.layout_height wrap_content
