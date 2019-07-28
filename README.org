@@ -82,6 +82,9 @@ FirstGame/app/src/main/res/layout/activity_main.xml
 FirstGame/app/src/main/res/layout/content_main.xml
 FirstGame/app/src/main/res/values/strings.xml
 #+END_QUOTE
+   - https://stackoverflow.com/questions/20801042/how-to-create-android-project-with-gradle-from-command-line
+   - apparently it used to be possible to create an android project from the command line 
+   
 ** XML generation
  - android takes layout definitions as xml files
  - eventually i will probably figure out how to create layouts from
@@ -126,6 +129,9 @@ FirstGame/app/src/main/res/values/strings.xml
 
 - https://docs.fastlane.tools/ fastlane android screenshot, release managemnt
 - https://github.com/futurice/android-best-practices 
+ 
+- https://github.com/cirosantilli/android-cheat android demo apps
+- https://github.com/cirosantilli/android-cheat/blob/master/gpu.md
 
 
 * References (Library Books)
