@@ -150,6 +150,15 @@ sys     0m1.469s
   the home button keeps it alive
 - Analyze->Inspect Code
 
+#+BEGIN_QUOTE
+Android Resources Validation
+activity_main.xml
+Cannot resolve symbol '@+id/textview'
+Cannot resolve symbol '@+id/false_button'
+Cannot resolve symbol '@+id/textview'
+Cannot resolve symbol '@+id/true_button'
+#+END_QUOTE
+
 * References
 
 - https://www.youtube.com/watch?v=6P20npkvcb8 How to Kotlin - from the Lead Kotlin Language Designer (Google I/O '18)
