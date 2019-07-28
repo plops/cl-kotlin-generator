@@ -33,7 +33,7 @@
 
        (sb-ext:run-program
 	"/home/martin/Downloads/ktlint"
-	(list  (namestring fn))
+	(list "-F"  (namestring fn))
 	)))))
 
 
