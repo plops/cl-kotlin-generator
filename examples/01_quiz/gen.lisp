@@ -40,26 +40,24 @@
 	     :app.layout_constraintLeft_toLeftOf parent
 	     :app.layout_constraintRight_toRightOf parent
 	     :app.layout_constraintTop_toRightOf parent
-	     (Button
-	      :android.layout_width wrap_content
-	      :android.layout_height wrap_content
-	      :android.text "True"
-	      )
-	     (Button
-	      :android.layout_width wrap_content
-	      :android.layout_height wrap_content
-	      :android.text "False")))))
+	     ,@(loop for e in `(true false) collect
+		 `(Button
+		  :android.layout_width wrap_content
+		  :android.layout_height wrap_content
+		  :android.text ,(format nil "~a" e)
+		  :android.id ,(format nil "@+id/~a_button" e)
+		  ))))))
 	 (code
 	     `(do0
-	       (package com.example.firstgame)
-	       (import android.content.Intent
+	       (package com.example.quizactivity)
+	       (import ;android.content.Intent
 		       android.os.Bundle
 		       androidx.appcompat.app.AppCompatActivity
 		       android.util.Log.d
 		       kotlinx.android.synthetic.main.activity_main.*
-		       kotlinx.android.synthetic.main.content_main.*
+		       ;kotlinx.android.synthetic.main.content_main.*
 		       )
-	       (defclass FriendsAdapter ((RecyclerView.Adapter<FriendsAdapter.ViewHolder>))
+	       #+nil (defclass FriendsAdapter ((RecyclerView.Adapter<FriendsAdapter.ViewHolder>))
 		 (override (defun onCreateViewHolder (parent viewType)
 			     (declare (type ViewGroup parent)
 				      (type int viewType)
@@ -78,7 +76,7 @@
 			     (declare (type Bundle? savedInstanceState))
 			     (super.onCreate savedInstanceState)
 			     (setContentView R.layout.activity_main)
-			     (setSupportActionBar toolbar)
+			     ;(setSupportActionBar toolbar)
 			     ))
 		 )
 	       )))
