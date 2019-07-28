@@ -371,40 +371,41 @@ entry return-values contains a list of return values"
 		       ((floatp code) ;; FIXME arbitrary precision?
 			(format str "(~a)" (print-sufficient-digits-f64 code)))))))
 	  "")))
-  (defparameter *bla*
-    (emit-kt :code `(do0
-		     (package com.example.firstgame)
-		     (import android.content.Intent
-			     android.os.Bundle
-			     androidx.appcompat.app.AppCompatActivity
-			     android.util.Log.d
-			     kotlinx.android.synthetic.main.activity_main.*
-			     kotlinx.android.synthetic.main.content_main.*
-			     )
-		     (defclass FriendsAdapter ((RecyclerView.Adapter<FriendsAdapter.ViewHolder>))
-		       (override (defun onCreateViewHolder (parent viewType)
-				   (declare (type ViewGroup parent)
-					    (type int viewType)
-					    (values ViewHolder))
-				   (let ((view (dot
-						(LayoutInflater.from
-						 parent.context)
-						(inflate R.layout.row_friend
-							 parent
-							 false))))
-				     (return (ViewHolder view)))))
+  #+nil(progn
+   (defparameter *bla*
+     (emit-kt :code `(do0
+		      (package com.example.firstgame)
+		      (import android.content.Intent
+			      android.os.Bundle
+			      androidx.appcompat.app.AppCompatActivity
+			      android.util.Log.d
+			      kotlinx.android.synthetic.main.activity_main.*
+			      kotlinx.android.synthetic.main.content_main.*
+			      )
+		      (defclass FriendsAdapter ((RecyclerView.Adapter<FriendsAdapter.ViewHolder>))
+			(override (defun onCreateViewHolder (parent viewType)
+				    (declare (type ViewGroup parent)
+					     (type int viewType)
+					     (values ViewHolder))
+				    (let ((view (dot
+						 (LayoutInflater.from
+						  parent.context)
+						 (inflate R.layout.row_friend
+							  parent
+							  false))))
+				      (return (ViewHolder view)))))
 		       
-		       )
-		     (defclass MainActivity ((AppCompatActivity))
-		       (override (defun onCreate (savedInstanceState)
-				   (declare (type Bundle? savedInstanceState))
-				   (super.onCreate savedInstanceState)
-				   (setContentView R.layout.activity_main)
-				   (setSupportActionBar toolbar)
-				   ))
-		       )
-		     )))
-  (format t "~a" *bla*))
+			)
+		      (defclass MainActivity ((AppCompatActivity))
+			(override (defun onCreate (savedInstanceState)
+				    (declare (type Bundle? savedInstanceState))
+				    (super.onCreate savedInstanceState)
+				    (setContentView R.layout.activity_main)
+				    (setSupportActionBar toolbar)
+				    ))
+			)
+		      )))
+   (format t "~a" *bla*)))
 
 
 #+nil((ntuple (let ((args (cdr code)))

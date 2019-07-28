@@ -57,6 +57,13 @@
       (if code
 	  (if (listp code)
 	      (case (car code)
+		(do0 (with-output-to-string (s)
+		       ;; do0 {form}*
+		       ;; write each form into a newline
+		       (format s "~&~a~{~&~a~}"
+			       (emit (cadr code))
+			       (mapcar #'emit (cddr code)))))
+		
 		; (string (format nil "\"~a\"" (cadr code)))
 		;; maybe i can collect references to strings here
 		(t (destructuring-bind (name &rest args) code

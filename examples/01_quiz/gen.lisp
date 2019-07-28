@@ -6,38 +6,49 @@
 
 
 
-(let* ((main-activity "QuizActivity")
+(let* ((main-activity "MainActivity")
+       (title "QuizActivity")
        (path-lisp "/home/martin/quicklisp/local-projects/cl-kotlin-generator/examples/01_quiz/")
        (path-kotlin (format nil "~a/~a/app/src/main/java/com/example/~a/"
-			    path-lisp main-activity
-			    (string-downcase main-activity)))
+			    path-lisp title
+			    (string-downcase title)))
        (path-layout (format nil "~a/~a/app/src/main/res/layout/"
-			    path-lisp main-activity))
+			    path-lisp title))
        ;FirstGame/app/src/main/res/layout/content_main.xml
        ;FirstGame/app/src/main/res/values/strings.xml
 
        )
   (let* ((layout
-	  `(LinearLayout
-	    :xmls.android "http://schemas.android.com/apk/res/android"
+	  `
+	  (do0
+	   "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+	   (androidx.constraintlayout.widget.ConstraintLayout
+	    :xmlns.android "http://schemas.android.com/apk/res/android"
+	    :xmlns.app "http://schemas.android.com/apk/res-auto"
+	    :xmlns.tools "http://schemas.android.com/tools"
 	    :android.layout_width match_parent
 	    :android.layout_height match_parent
-	    :android.gravity center
-	    :android.orientation vertical
+	    :tools.context .MainActivity
+					;:android.gravity center
+					;:android.orientation vertical
 	    (TextView
 	     :android.layout_width wrap_content
 	     :android.layout_height wrap_content
 	     :android.padding 24dp
-	     :android.text @string/question_text
+	     :android.text "Hello World!"
+	     :app.layout_constraintBottom_toBottomOf parent
+	     :app.layout_constraintLeft_toLeftOf parent
+	     :app.layout_constraintRight_toRightOf parent
+	     :app.layout_constraintTop_toRightOf parent
 	     (Button
 	      :android.layout_width wrap_content
 	      :android.layout_height wrap_content
-	      :android.text @string/true_button
+	      :android.text "True"
 	      )
 	     (Button
 	      :android.layout_width wrap_content
 	      :android.layout_height wrap_content
-	      :android.text @string/false_button))))
+	      :android.text "False")))))
 	 (code
 	     `(do0
 	       (package com.example.firstgame)
@@ -75,7 +86,7 @@
     (ensure-directories-exist path-layout)
 
     (write-source (format nil "~a/~a" path-kotlin main-activity) code)
-    (write-xml (format nil "~a/~a" path-layout main-activity) layout)
+    (write-xml (format nil "~a/~a" path-layout "activity_main") layout)
     #+nil (sb-ext:run-program
 	"/home/martin/Downloads/android-studio/bin/format.sh"
 	(list "-r"  path-lisp)
