@@ -32,6 +32,7 @@
 					;:android.gravity center
 					;:android.orientation vertical
 	    (TextView
+	     :android.id "@+id/textview"
 	     :android.layout_width wrap_content
 	     :android.layout_height wrap_content
 	     :android.padding 24dp
@@ -40,13 +41,24 @@
 	     :app.layout_constraintLeft_toLeftOf parent
 	     :app.layout_constraintRight_toRightOf parent
 	     :app.layout_constraintTop_toTopOf parent
-	     #+nil ,@(loop for e in `(true false) collect
+	     )
+	    ,@(loop for (e pos) in `((true left) (false right))
+		 collect
 		 `(Button
 		  :android.layout_width wrap_content
 		  :android.layout_height wrap_content
+		  
+		  ,@(if (eq pos 'left)
+			`(:app.layout_constraintLeft_toLeftOf parent)
+			`(:app.layout_constraintLeft_toRightOf "@+id/true_button"))
+		  
+		  ,@(if (eq pos 'left)
+			`(:app.layout_constraintRight_toLeftOf "@+id/false_button")
+			`(:app.layout_constraintRight_toRightOf parent))
+		  :app.layout_constraintTop_toBottomOf "@+id/textview"
 		  :android.text ,(format nil "~a" e)
 		  :android.id ,(format nil "@+id/~a_button" e)
-		  ))))))
+		  )))))
 	 (code
 	     `(do0
 	       (package com.example.quizactivity)
