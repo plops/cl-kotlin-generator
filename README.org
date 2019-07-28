@@ -99,6 +99,29 @@ FirstGame/app/src/main/res/values/strings.xml
    - i can't find a library with a fitting example, i guess i have to
      do it myself then
  - https://medium.com/@VeraKern/formatting-xml-layout-files-for-android-47aec62722fc
+
+** Formatting
+  - use ktlint for kotlin and xmllint for xml
+  - the formatter coming with android studio seems to be a joke:
+#+BEGIN_QUOTE
+$ time ~/Downloads/android-studio/bin/format.sh -r .
+Android Studio 3.6 Canary 5, build AI-191.7479.19.36.5721125 Formatter
+Formatting /home/martin/stage/cl-kotlin-generator/examples/01_quiz/QuizActivity/app/src/main/java/com/example/quizactivity/QuizActivity.kt...OK
+Formatting /home/martin/stage/cl-kotlin-generator/examples/01_quiz/QuizActivity/app/src/main/res/layout/QuizActivity.xml...OK
+
+2 file(s) formatted.
+
+real    0m16.501s
+user    0m46.403s
+sys     0m1.469s
+#+END_QUOTE
+  - it requires 16 seconds and i can't run it when a android-studio
+    session is running
+  - the formatted files look nice, though
+  - perhaps there is a way to keep the java process running to prevent
+    a startup time. i haven't found anything
+ 
+
 * References
 
 - https://www.youtube.com/watch?v=6P20npkvcb8 How to Kotlin - from the Lead Kotlin Language Designer (Google I/O '18)

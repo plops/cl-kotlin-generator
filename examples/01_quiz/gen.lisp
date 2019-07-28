@@ -80,3 +80,4 @@
 	"/home/martin/Downloads/android-studio/bin/format.sh"
 	(list "-r"  path-lisp)
 	)))
+ 
