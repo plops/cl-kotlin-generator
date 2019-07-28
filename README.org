@@ -95,7 +95,7 @@ FirstGame/app/src/main/res/values/strings.xml
    -  https://developer.android.com/reference/android/R.styleable.html#lfields
    - i can't find a library with a fitting example, i guess i have to
      do it myself then
-
+ - https://medium.com/@VeraKern/formatting-xml-layout-files-for-android-47aec62722fc
 * References
 
 - https://www.youtube.com/watch?v=6P20npkvcb8 How to Kotlin - from the Lead Kotlin Language Designer (Google I/O '18)

@@ -30,7 +30,7 @@
 			  :if-exists :supersede
 			  :if-does-not-exist :create)
 	 (write-sequence code-str s))
-
+       #+nil
        (sb-ext:run-program
 	"/home/martin/Downloads/ktlint"
 	(list "-F"  (namestring fn))

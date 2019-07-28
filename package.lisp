@@ -2,4 +2,7 @@
   (:use :cl
 	:alexandria)
   (:export
-   #:write-source))
+   #:write-source
+   #:emit-xml
+   #:emit-kt
+   #:write-xml))

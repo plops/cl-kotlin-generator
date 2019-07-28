@@ -8,4 +8,5 @@
     :serial t
     :components ((:file "package")
 		 (:file "kotlin")
+		 (:file "xml")
 		 ) )

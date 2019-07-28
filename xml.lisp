@@ -1,4 +1,37 @@
 (in-package :cl-kotlin-generator)
+
+(defun write-xml (name code &optional (dir (user-homedir-pathname))
+				 ignore-hash)
+  (let* ((fn (merge-pathnames (format nil "~a.xml" name)
+			      dir))
+	(code-str (emit-xml
+		   :code code))
+	(fn-hash (sxhash fn))
+	 (code-hash (sxhash code-str)))
+    (format t "write xml to ~a" fn)
+    (multiple-value-bind (old-code-hash exists) (gethash fn-hash *file-hashes*)
+     (when (or (not exists) ignore-hash (/= code-hash old-code-hash))
+       ;; store the sxhash of the c source in the hash table
+       ;; *file-hashes* with the key formed by the sxhash of the full
+       ;; pathname
+       (setf (gethash fn-hash *file-hashes*) code-hash)
+       (with-open-file (s fn
+			  :direction :output
+			  :if-exists :supersede
+			  :if-does-not-exist :create)
+	 (write-sequence code-str s))
+       ;; https://medium.com/@VeraKern/formatting-xml-layout-files-for-android-47aec62722fc
+       ;; https://www.jetbrains.com/help/idea/command-line-formatter.html
+       #+nil
+       (sb-ext:run-program
+	"/home/martin/Downloads/android-studio/bin/format.sh"
+	(list "-r"  (namestring fn))
+	)
+       (sb-ext:run-program
+	"/usr/bin/xmllint"
+	(list "--format"  (namestring fn) "--output"  (namestring fn))
+	)))))
+
 (defun keyword-to-xml (v)
   "convert :android.padding to android:padding"
   (substitute #\: #\. (format nil "~a" v)))
@@ -28,7 +61,6 @@
 		;; maybe i can collect references to strings here
 		(t (destructuring-bind (name &rest args) code
 		     (multiple-value-bind (pairs rest) (split-keyword-pairs args)
-		       (format t "~&bla ~a~%" rest)
 		       (format str "~&<~a ~{~&~a~^ ~}>~{~a~}~&</~a>"
 			       name
 			       (mapcar #'(lambda (x)
