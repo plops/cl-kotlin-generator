@@ -89,6 +89,12 @@ FirstGame/app/src/main/res/values/strings.xml
    useful
  - i want a simple library that converts s-expressions to xml
  - this one looks promising: https://github.com/madnificent/SEXML 
+ - i can't find any android xml schema or dtd files
+ - https://groups.google.com/forum/#!topic/android-developers/2FtsLQ4wESY
+   - schema depends on the classes that are defined
+   -  https://developer.android.com/reference/android/R.styleable.html#lfields
+   - i can't find a library with a fitting example, i guess i have to
+     do it myself then
 
 * References
 

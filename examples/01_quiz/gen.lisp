@@ -3,6 +3,30 @@
 
 (in-package :cl-kotlin-generator)
 
+
+(emit-xml
+ `(LinearLayout
+  :xmls.android "http://schemas.android.com/apk/res/android"
+  :android.layout_width match_parent
+  :android.layout_height match_parent
+  :android.gravity center
+  :android.orientation vertical
+  (TextView
+   :android.layout_width wrap_content
+   :android.layout_height wrap_content
+   :android.padding 24dp
+   :android.text @string/question_text
+   (Button
+    :android.layout_width wrap_content
+    :android.layout_height wrap_content
+    :android.text @string/true_button
+    )
+   (Button
+    :android.layout_width wrap_content
+    :android.layout_height wrap_content
+    :android.text @string/false_button))))
+
+
 (let* ((main-activity "QuizActivity")
        (path-lisp "/home/martin/quicklisp/local-projects/cl-kotlin-generator/examples/01_quiz/")
        (path-kotlin (format nil "~a/~a/app/src/main/java/com/example/~a/"
