@@ -47,7 +47,7 @@
 		 `(Button
 		  :android.layout_width wrap_content
 		  :android.layout_height wrap_content
-		  
+		   
 		  ,@(if (eq pos 'left)
 			`(:app.layout_constraintLeft_toLeftOf parent)
 			`(:app.layout_constraintLeft_toRightOf "@+id/true_button"))
