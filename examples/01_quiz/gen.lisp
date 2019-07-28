@@ -63,7 +63,8 @@
 	     `(do0
 	       (package com.example.quizactivity)
 	       (import ;android.content.Intent
-		       android.os.Bundle
+		android.os.Bundle
+		android.view.View
 		       androidx.appcompat.app.AppCompatActivity
 		       android.util.Log.d
 		       kotlinx.android.synthetic.main.activity_main.*
@@ -90,7 +91,8 @@
 			     (setContentView R.layout.activity_main)
 					;(setSupportActionBar toolbar)
 			     (true_button.setOnClickListener
-			      (lambda ()
+			      (lambda (view)
+				(declare (type View? view))
 				(d (string "martin")
 				   (string "true_button clicked!"))))
 			     ))
