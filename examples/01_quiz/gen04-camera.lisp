@@ -3,7 +3,12 @@
 
 (in-package :cl-kotlin-generator)
 
+;; https://developer.android.com/training/camerax/architecture
+;; i want to capture images and perform processing on the cpu
+;; image analysis
 
+;; we can also access the camera image using the gpu
+;; https://stackoverflow.com/questions/44048389/draw-text-or-image-on-the-camera-stream-glsl
 
 
 (let* ((main-activity "MainActivity")
