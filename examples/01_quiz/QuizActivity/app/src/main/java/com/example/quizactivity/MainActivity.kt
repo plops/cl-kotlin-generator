@@ -8,20 +8,10 @@ import android.hardware.Sensor
 import android.os.Bundle
 import android.content.Context
 class MainActivity : AppCompatActivity(),SensorEventListener {
-    private lateinit var _sensor_manager : SensorManager
-    private val _data_accelerometer = 
-    FloatArray(3)
-    private val _data_magnetometer = 
-    FloatArray(3)
-    private val _rotation_matrix = 
-    FloatArray(9)
-    private val _orientation_angles = 
-    FloatArray(3)
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         d("martin", "onCreate")
         setContentView(R.layout.activity_main)
-        _sensor_manager=getSystemService(Context.SENSOR_SERVICE) as SensorManager
 }
     override fun onSaveInstanceState(savedInstanceState: Bundle){
         super.onSaveInstanceState(savedInstanceState)
@@ -56,37 +46,11 @@ class MainActivity : AppCompatActivity(),SensorEventListener {
     override fun onResume(){
         super.onResume()
         d("martin", "onResume")
-        _sensor_manager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)?.also(fun (x){
-            _sensor_manager.registerListener(this, x, SensorManager.SENSOR_DELAY_NORMAL, SensorManager.SENSOR_DELAY_UI)
-})
-        _sensor_manager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)?.also(fun (x){
-            _sensor_manager.registerListener(this, x, SensorManager.SENSOR_DELAY_NORMAL, SensorManager.SENSOR_DELAY_UI)
-})
+        // none
 }
     override fun onPause(){
         super.onPause()
         d("martin", "onPause")
-        _sensor_manager.unregisterListener(this)
-}
-    override fun onAccuracyChanged(sensor: Sensor, accuracy: Int){
-        d("martin", "accuracy ${accuracy}")
-}
-    override fun onSensorChanged(event: SensorEvent){
-        if ( (event.sensor.type)==(Sensor.TYPE_ACCELEROMETER) ) {
-            System.arraycopy(event.values, 0, _data_accelerometer, 0, _data_accelerometer.size)
-            updateOrientationAngles()
-            d("martin", "accuracy ${_orientation_angles[0]} ${_orientation_angles[1]} ${_orientation_angles[2]}")
-            return
-}
-        if ( (event.sensor.type)==(Sensor.TYPE_MAGNETIC_FIELD) ) {
-            System.arraycopy(event.values, 0, _data_magnetometer, 0, _data_magnetometer.size)
-            updateOrientationAngles()
-            d("martin", "accuracy ${_orientation_angles[0]} ${_orientation_angles[1]} ${_orientation_angles[2]}")
-            return
-}
-}
-    fun updateOrientationAngles(){
-        SensorManager.getRotationMatrix(_rotation_matrix, null, _data_accelerometer, _data_magnetometer)
-        SensorManager.getOrientation(_rotation_matrix, _orientation_angles)
+        // none
 }
 }

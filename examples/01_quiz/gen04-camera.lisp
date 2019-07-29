@@ -6,12 +6,6 @@
 
 
 
-;; https://developer.android.com/guide/topics/sensors/sensors_motion
-;; https://developer.android.com/guide/topics/sensors/sensors_position
-
-;; Note: When testing your app, you can improve the sensor's accuracy
-;; by waving the device in a figure-8 pattern.
-
 (let* ((main-activity "MainActivity")
        (title "QuizActivity")
        (path-lisp "/home/martin/quicklisp/local-projects/cl-kotlin-generator/examples/01_quiz/")
@@ -20,13 +14,38 @@
 			    (string-downcase title)))
        (path-layout (format nil "~a/~a/app/src/main/res/layout/"
 			    path-lisp title))
+       (path-manifest (format nil "~a/~a/app/src/main/"
+			    path-lisp title))
+
+       
        ;FirstGame/app/src/main/res/layout/content_main.xml
        ;FirstGame/app/src/main/res/values/strings.xml
-
+       ;QuizActivity/app/src/main/AndroidManifest.xml
+       
        )
-  (let* ((layout
-	  `
-	  (do0
+  (let* ((manifest
+	  `(do0
+	   "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+	   (manifest
+	    :xmlns.android "http://schemas.android.com/apk/res/android"
+	    :package com.example.quizactivity
+	    (uses-feature
+	     :android.name android.hardware.camera
+	     :android.required true )
+	    (application
+	     :android.allowBackup true
+	     :android.icon @mipmap/ic_launcher
+	     :android.roundIcon @mipmap/ic_launcher_round
+	     :android.supportsRtl true
+	     :android.theme @style/AppTheme
+	     (activity
+	      :android.name .MainActivity
+	      (intent-filter
+	       (action :android.name android.intent.action.MAIN)
+	       (category :android.name android.intent.category.LAUNCHER)))))
+	   ))
+	 (layout
+	  `(do0
 	   "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
 	   (androidx.constraintlayout.widget.ConstraintLayout
 	    :xmlns.android "http://schemas.android.com/apk/res/android"
@@ -71,21 +90,12 @@
 	       (defclass MainActivity ((AppCompatActivity)
 				       ;(Activity)
 				       SensorEventListener)
-		 "private lateinit var _sensor_manager : SensorManager"
-		 ,@(loop for (name val) in `((_data_accelerometer (FloatArray 3))
-					     (_data_magnetometer (FloatArray 3))
-					     (_rotation_matrix (FloatArray 9))
-					     (_orientation_angles (FloatArray 3)))
-		      collect
-			`(do0
-			  ,(format nil "private val ~a = " name)
-			  ,val))
+		 
 		 ,@(loop for e in `((Create ((savedInstanceState Bundle?))
 					    (do0
 					     
 					     (setContentView R.layout.activity_main)
-					     (setf _sensor_manager
-						  (as (getSystemService Context.SENSOR_SERVICE) SensorManager))
+					     
 					     ))
 				    
 				    (SaveInstanceState ((savedInstanceState Bundle))
@@ -95,21 +105,8 @@
 				    (Start)
 				    (Stop)
 				    (PostResume)
-				    (Resume nil
-					    (do0
-					     ,@(loop for e in `(TYPE_ACCELEROMETER
-								TYPE_MAGNETIC_FIELD)
-						    collect
-						    `(dot _sensor_manager
-							  (getDefaultSensor (dot Sensor ,e))
-							  ?
-							  (also (lambda (x)
-								  (_sensor_manager.registerListener
-								   this
-								   x
-								   SensorManager.SENSOR_DELAY_NORMAL
-								   SensorManager.SENSOR_DELAY_UI)))))))
-				    (Pause nil (_sensor_manager.unregisterListener this)))
+				    (Resume )
+				    (Pause ))
 		      collect
 			(destructuring-bind (name-no-on &optional params extra) e
 			  (let ((name (format nil "on~a" name-no-on)))
@@ -121,33 +118,15 @@
 					,(if extra
 					     extra
 					     "// none"))))))
-		 (override (defun onAccuracyChanged (sensor accuracy)
-			     (declare (type Sensor sensor)
-				      (type Int accuracy))
-			     (d (string "martin") (string "accuracy ${accuracy}"))))
-		 (override (defun onSensorChanged (event)
-			     (declare (type SensorEvent event))
-			     ;(d (string "martin") (string "sensor-changed"))
-			     ,@(loop for (e data) in `((TYPE_ACCELEROMETER _data_accelerometer)
-						       (TYPE_MAGNETIC_FIELD _data_magnetometer))
-				    collect
-				    `(when (== event.sensor.type (dot Sensor ,e))
-				       (System.arraycopy event.values 0 ,data 0 (dot ,data size))
-				       (updateOrientationAngles)
-				       (d (string "martin") (string "accuracy ${_orientation_angles[0]} ${_orientation_angles[1]} ${_orientation_angles[2]}"))
-				       return))))
-		 (defun updateOrientationAngles ()
-		   ;(d (string "martin") (string "update-angles"))
-		    (do0 (SensorManager.getRotationMatrix _rotation_matrix null
-						       _data_accelerometer
-						       _data_magnetometer)
-			(SensorManager.getOrientation _rotation_matrix _orientation_angles)))
+
 		 ))))
     (ensure-directories-exist path-kotlin)
     (ensure-directories-exist path-layout)
  
     (write-source (format nil "~a/~a" path-kotlin main-activity) code)
     (write-xml (format nil "~a/~a" path-layout "activity_main") layout)
+    
+    (write-xml (format nil "~a/~a" path-manifest "AndroidManifest") manifest)
     #+nil (sb-ext:run-program
 	"/home/martin/Downloads/android-studio/bin/format.sh"
 	(list "-r"  path-lisp) 
