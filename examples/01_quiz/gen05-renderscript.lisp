@@ -3,13 +3,8 @@
 
 (in-package :cl-kotlin-generator)
 
-;; https://developer.android.com/training/camerax/architecture
-;; i want to capture images and perform processing on the cpu
-;; image analysis
-
-;; we can also access the camera image using the gpu
-;; https://stackoverflow.com/questions/44048389/draw-text-or-image-on-the-camera-stream-glsl
-
+;; https://www.youtube.com/watch?v=uzBw6AWCBpU
+;; Google I/O 2013 - High Performance Applications with RenderScript
 
 (let* ((main-activity "MainActivity")
        (title "QuizActivity")
