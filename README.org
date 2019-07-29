@@ -75,6 +75,10 @@ This is the eigth in a series of code generators.
 |    |                                                                                                         |
 
 * Developing the first example 
+
+The project was created in Android Studio 3.6 Canary 5. Older versions
+will not open it.
+
 ** Directory structure
    - these files are what the tutorials usually touch
    - is it sufficient to generate those and android studio will create the rest? that would be nice
