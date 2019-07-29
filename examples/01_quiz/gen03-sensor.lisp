@@ -136,10 +136,10 @@
 				       return))))
 		 (defun updateOrientationAngles ()
 		   (d (string "martin") (string "update-angles"))
-		    (do0 (_sensor_manager.getRotationMatrix _rotation_matrix null
+		    (do0 (SensorManager.getRotationMatrix _rotation_matrix null
 						       _data_accelerometer
 						       _data_magnetometer)
-			(_sensor_manager.getOrientation _rotation_matrix _orientation_angles)))
+			(SensorManager.getOrientation _rotation_matrix _orientation_angles)))
 		 ))))
     (ensure-directories-exist path-kotlin)
     (ensure-directories-exist path-layout)
