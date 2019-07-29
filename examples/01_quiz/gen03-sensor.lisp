@@ -53,6 +53,7 @@
 		kotlinx.android.synthetic.main.activity_main.*
 		
 		android.hardware.SensorEventListener
+		android.hardware.SensorEvent
 		android.hardware.SensorManager
 		android.hardware.Sensor
 		android.os.Bundle
@@ -66,6 +67,14 @@
 				       ;(Activity)
 				       SensorEventListener)
 		 "private lateinit var _sensor_manager : SensorManager"
+		 ,@(loop for (name val) in `((_data_accelerometer (FloatArray 3))
+					     (_data_magnetometer (FloatArray 3))
+					     (_rotation_matrix (FloatArray 9))
+					     (_orientation_angles (FloatArray 3)))
+		      collect
+			`(do0
+			  ,(format nil "private val ~a = " name)
+			  ,val))
 		 ,@(loop for e in `((Create ((savedInstanceState Bundle?))
 					    (do0
 					     
@@ -82,17 +91,20 @@
 				    (Stop)
 				    (PostResume)
 				    (Resume nil
-					    (dot _sensor_manager
-						 (getDefaultSensor Sensor.TYPE_ACCELEROMETER)
-						 ?
-						 (also (lambda (acc)
-							 (_sensor_manager.registerListener
-							  this
-							  acc
-							  SensorManager.SENSOR_DELAY_NORMAL
-							  SensorManager.SENSOR_DELAY_UI
-							  )))))
-				    (Pause))
+					    (do0
+					     ,@(loop for e in `(TYPE_ACCELEROMETER
+								TYPE_MAGNETIC_FIELD)
+						    collect
+						    `(dot _sensor_manager
+							  (getDefaultSensor (dot Sensor ,e))
+							  ?
+							  (also (lambda (x)
+								  (_sensor_manager.registerListener
+								   this
+								   x
+								   SensorManager.SENSOR_DELAY_NORMAL
+								   SensorManager.SENSOR_DELAY_UI)))))))
+				    (Pause nil (_sensor_manager.unregisterListener this)))
 		      collect
 			(destructuring-bind (name-no-on &optional params extra) e
 			  (let ((name (format nil "on~a" name-no-on)))
@@ -107,7 +119,17 @@
 		 (override (defun onAccuracyChanged (sensor accuracy)
 			     (declare (type Sensor sensor)
 				      (type Int accuracy))
-			     (d (string "martin") (string "accuracy ${accuracy}"))))))))
+			     (d (string "martin") (string "accuracy ${accuracy}"))))
+		 (override (defun onSensorChanged (event)
+			     (declare (type SensorEvent event))
+			     (d (string "martin") (string "sensor-changed"))
+			     ,@(loop for (e data) in `((TYPE_ACCELEROMETER _data_accelerometer)
+						       (TYPE_MAGNETIC_FIELD _data_magnetometer))
+				    collect
+				    `(when (== event.sensor.type (dot Sensor ,e))
+				       (System.arraycopy event.values 0 ,data 0 (dot ,data size))
+				       return))
+			     ))))))
     (ensure-directories-exist path-kotlin)
     (ensure-directories-exist path-layout)
  

@@ -3,12 +3,21 @@ import androidx.appcompat.app.AppCompatActivity
 import android.util.Log.d
 import kotlinx.android.synthetic.main.activity_main.*
 import android.hardware.SensorEventListener
+import android.hardware.SensorEvent
 import android.hardware.SensorManager
 import android.hardware.Sensor
 import android.os.Bundle
 import android.content.Context
 class MainActivity : AppCompatActivity(),SensorEventListener {
     private lateinit var _sensor_manager : SensorManager
+    private val _data_accelerometer = 
+    FloatArray(3)
+    private val _data_magnetometer = 
+    FloatArray(3)
+    private val _rotation_matrix = 
+    FloatArray(9)
+    private val _orientation_angles = 
+    FloatArray(3)
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         d("martin", "onCreate")
@@ -48,16 +57,30 @@ class MainActivity : AppCompatActivity(),SensorEventListener {
     override fun onResume(){
         super.onResume()
         d("martin", "onResume")
-        _sensor_manager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)?.also(fun (acc){
-            _sensor_manager.registerListener(this, acc, SensorManager.SENSOR_DELAY_NORMAL, SensorManager.SENSOR_DELAY_UI)
+        _sensor_manager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)?.also(fun (x){
+            _sensor_manager.registerListener(this, x, SensorManager.SENSOR_DELAY_NORMAL, SensorManager.SENSOR_DELAY_UI)
+})
+        _sensor_manager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)?.also(fun (x){
+            _sensor_manager.registerListener(this, x, SensorManager.SENSOR_DELAY_NORMAL, SensorManager.SENSOR_DELAY_UI)
 })
 }
     override fun onPause(){
         super.onPause()
         d("martin", "onPause")
-        // none
+        _sensor_manager.unregisterListener(this)
 }
     override fun onAccuracyChanged(sensor: Sensor, accuracy: Int){
         d("martin", "accuracy ${accuracy}")
+}
+    override fun onSensorChanged(event: SensorEvent){
+        d("martin", "sensor-changed")
+        if ( (event.sensor.type)==(Sensor.TYPE_ACCELEROMETER) ) {
+            System.arraycopy(event.values, 0, _data_accelerometer, 0, _data_accelerometer.size)
+            return
+}
+        if ( (event.sensor.type)==(Sensor.TYPE_MAGNETIC_FIELD) ) {
+            System.arraycopy(event.values, 0, _data_magnetometer, 0, _data_magnetometer.size)
+            return
+}
 }
 }
