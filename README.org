@@ -71,6 +71,8 @@ This is the eigth in a series of code generators.
 |    | comment                                                                                                 |
 |----+---------------------------------------------------------------------------------------------------------|
 | 01 | define layout in xml for a few buttons and some kotlin handlers (based on Big Nerd Ranch quiz_activity) |
+| 02 | open opengles context and draw dark red background                                                      |
+|    |                                                                                                         |
 
 * Developing the first example 
 ** Directory structure
