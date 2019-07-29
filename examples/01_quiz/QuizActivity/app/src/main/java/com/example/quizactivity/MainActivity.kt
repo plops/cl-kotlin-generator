@@ -74,15 +74,18 @@ class MainActivity : AppCompatActivity(),SensorEventListener {
     override fun onSensorChanged(event: SensorEvent){
         if ( (event.sensor.type)==(Sensor.TYPE_ACCELEROMETER) ) {
             System.arraycopy(event.values, 0, _data_accelerometer, 0, _data_accelerometer.size)
+            updateOrientationAngles()
+            d("martin", "accuracy ${_orientation_angles[0]} ${_orientation_angles[1]} ${_orientation_angles[2]}")
             return
 }
         if ( (event.sensor.type)==(Sensor.TYPE_MAGNETIC_FIELD) ) {
             System.arraycopy(event.values, 0, _data_magnetometer, 0, _data_magnetometer.size)
+            updateOrientationAngles()
+            d("martin", "accuracy ${_orientation_angles[0]} ${_orientation_angles[1]} ${_orientation_angles[2]}")
             return
 }
 }
     fun updateOrientationAngles(){
-        d("martin", "update-angles")
         SensorManager.getRotationMatrix(_rotation_matrix, null, _data_accelerometer, _data_magnetometer)
         SensorManager.getOrientation(_rotation_matrix, _orientation_angles)
 }

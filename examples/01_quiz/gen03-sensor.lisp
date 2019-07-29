@@ -133,9 +133,11 @@
 				    collect
 				    `(when (== event.sensor.type (dot Sensor ,e))
 				       (System.arraycopy event.values 0 ,data 0 (dot ,data size))
+				       (updateOrientationAngles)
+				       (d (string "martin") (string "accuracy ${_orientation_angles[0]} ${_orientation_angles[1]} ${_orientation_angles[2]}"))
 				       return))))
 		 (defun updateOrientationAngles ()
-		   (d (string "martin") (string "update-angles"))
+		   ;(d (string "martin") (string "update-angles"))
 		    (do0 (SensorManager.getRotationMatrix _rotation_matrix null
 						       _data_accelerometer
 						       _data_magnetometer)
