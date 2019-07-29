@@ -6,6 +6,9 @@
 ;; https://www.youtube.com/watch?v=uzBw6AWCBpU
 ;; Google I/O 2013 - High Performance Applications with RenderScript
 
+;; https://www.youtube.com/watch?v=kybZnFQh6fE
+;; Using RenderScript in Android Studio in 8 min
+
 (let* ((main-activity "MainActivity")
        (title "QuizActivity")
        (path-lisp "/home/martin/quicklisp/local-projects/cl-kotlin-generator/examples/01_quiz/")
