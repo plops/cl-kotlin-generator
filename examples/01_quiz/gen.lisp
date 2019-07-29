@@ -28,7 +28,7 @@
 	    :xmlns.tools "http://schemas.android.com/tools"
 	    :android.layout_width match_parent
 	    :android.layout_height match_parent
-	    :tools.context .MainActivity
+	    :tools.context com.example.quizactivity.MainActivity
 	    (TextView
 	     :android.id "@+id/textview"
 	     :android.layout_width wrap_content
@@ -107,16 +107,7 @@
 					(d (string "martin") (string ,(format nil "~a {$_count}" name)))
 					,(if extra
 					     extra
-					     "// none"))))))
-		 
-		 ,@(loop for name in (mapcar #'(lambda (x)
-						(format nil "on~a" x)
-						)
-					    `()) collect
-			`(override (defun ,name ()
-				     (dot super (,name))
-				     (incf _count)
-				     (d (string "martin") (string ,(format nil "~a {$_count}" name))))))))))
+					     "// none"))))))))))
     (ensure-directories-exist path-kotlin)
     (ensure-directories-exist path-layout)
  
