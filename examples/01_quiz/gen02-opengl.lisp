@@ -14,12 +14,37 @@
 			    path-lisp title
 			    (string-downcase title)))
        (path-layout (format nil "~a/~a/app/src/main/res/layout/"
+			    path-lisp title)
+	 )
+       (path-manifest (format nil "~a/~a/app/src/main/"
 			    path-lisp title))
        ;FirstGame/app/src/main/res/layout/content_main.xml
        ;FirstGame/app/src/main/res/values/strings.xml
 
        )
-  (let* ((layout
+  (let* ((manifest
+	  `(do0
+	    "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+	    ;<uses-feature android:glEsVersion="0x00020000" android:required="true" />
+
+	   (manifest
+	    :xmlns.android "http://schemas.android.com/apk/res/android"
+	    :package com.example.quizactivity
+	    (uses-feature :android.glEsVersion 0x00020000
+			  :android.required true)
+	    (application
+	     :android.allowBackup true
+	     :android.icon @mipmap/ic_launcher
+	     :android.roundIcon @mipmap/ic_launcher_round
+	     :android.supportsRtl true
+	     :android.theme @style/AppTheme
+	     (activity
+	      :android.name .MainActivity
+	      (intent-filter
+	       (action :android.name android.intent.action.MAIN)
+	       (category :android.name android.intent.category.LAUNCHER)))))
+	   ))
+	 (layout
 	  `
 	  (do0
 	   "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
@@ -146,6 +171,7 @@
     (ensure-directories-exist path-layout)
  
     (write-source (format nil "~a/~a" path-kotlin main-activity) code)
+    (write-xml (format nil "~a/~a" path-manifest "AndroidManifest") manifest)
     (write-xml (format nil "~a/~a" path-layout "activity_main") layout)
     #+nil (sb-ext:run-program
 	"/home/martin/Downloads/android-studio/bin/format.sh"
