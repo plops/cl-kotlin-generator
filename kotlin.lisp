@@ -139,7 +139,7 @@ entry return-values contains a list of return values"
 						 (let ((type (gethash p env)))
 						   (if type
 						       type
-						       (break "can't find type for ~a in defun"
+						       #+nil (break "can't find type for ~a in defun"
 							      p)))))))
 		  (let ((r (gethash 'return-values env)))
 		    (if (< 1 (length r))
@@ -166,7 +166,7 @@ entry return-values contains a list of return values"
 						 (let ((type (gethash p env)))
 						   (if type
 						       type
-						       (break "can't find type for ~a in defun"
+						       #+nil (break "can't find type for ~a in defun"
 							      p)))))))
 		  (let ((r (gethash 'return-values env)))
 		    (if (< 1 (length r))
@@ -348,8 +348,20 @@ entry return-values contains a list of return values"
 		(aref (destructuring-bind (name &rest indices) (cdr code)
 			      (format nil "~a[~{~a~^,~}]" (emit name) (mapcar #'emit indices))))
 		(dot (let ((args (cdr code)))
-		       (format nil "~{~a~^.~}" (mapcar #'emit args))))
+		       ;; special case: when a single ? is observed, dont print point
+		       (with-output-to-string (s)
+			 (loop for i below (length args) do
+			      (format s "~a" (emit (elt args i)))
+			      (unless (or (and
+					   (< (+ i 1) (length args))
+					   (eq (elt args (+ i 1)) '?))
+					  (eq i (1- (length args))))
+				(format s "."))))
+		       ;(format nil "~{~a~^.~}" (mapcar #'emit args))
+		       ))
 		(lambda (parse-lambda code #'emit))
+		(as (let ((args (cdr code)))
+		      (format nil "~a as ~a" (emit (car args)) (emit (cadr args)))))
 		(t (destructuring-bind (name &rest args) code
 
 		     (if (listp name)

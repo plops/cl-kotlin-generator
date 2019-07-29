@@ -6,7 +6,7 @@
 
 
 ;; https://developer.android.com/training/graphics/opengl/environment.html#kotlin
-
+;; https://developer.android.com/training/graphics/opengl
 (let* ((main-activity "MainActivity")
        (title "QuizActivity")
        (path-lisp "/home/martin/quicklisp/local-projects/cl-kotlin-generator/examples/01_quiz/")

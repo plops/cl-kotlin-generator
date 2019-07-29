@@ -5,8 +5,9 @@
 
 
 
-;; https://developer.android.com/training/graphics/opengl/environment.html#kotlin
 
+;; https://developer.android.com/guide/topics/sensors/sensors_motion
+;; https://developer.android.com/guide/topics/sensors/sensors_position
 (let* ((main-activity "MainActivity")
        (title "QuizActivity")
        (path-lisp "/home/martin/quicklisp/local-projects/cl-kotlin-generator/examples/01_quiz/")
@@ -40,69 +41,57 @@
 	     :app.layout_constraintLeft_toLeftOf parent
 	     :app.layout_constraintRight_toRightOf parent
 	     :app.layout_constraintTop_toTopOf parent
-	     )
-	    ,@(loop for (e pos) in `((true left) (false right))
-		 collect
-		 `(Button
-		  :android.layout_width wrap_content
-		  :android.layout_height wrap_content
-		   
-		  ,@(if (eq pos 'left)
-			`(:app.layout_constraintLeft_toLeftOf parent)
-			`(:app.layout_constraintLeft_toRightOf "@id/true_button"))
-		  
-		  ,@(if (eq pos 'left)
-			`(:app.layout_constraintRight_toLeftOf "@id/false_button")
-			`(:app.layout_constraintRight_toRightOf parent))
-		  :app.layout_constraintTop_toBottomOf "@id/textview"
-		  :android.text ,(format nil "~a" e)
-		  :android.id ,(format nil "@+id/~a_button" e)
-		  )))))
+	     ))))
 	 (code
 	     `(do0
 	       (package com.example.quizactivity)
 	       (import
+
+
+		androidx.appcompat.app.AppCompatActivity
+		android.util.Log.d
+		kotlinx.android.synthetic.main.activity_main.*
+		
+		android.hardware.SensorEventListener
+		android.hardware.SensorManager
+		android.hardware.Sensor
 		android.os.Bundle
-		android.view.View
-		       androidx.appcompat.app.AppCompatActivity
-		       android.util.Log.d
-		       kotlinx.android.synthetic.main.activity_main.*
-		       
-		       android.content.Context
-		       android.opengl.GLSurfaceView
 
-		       javax.microedition.khronos.egl.EGLConfig
-		       javax.microedition.khronos.opengles.GL10
-
-		       android.opengl.GLES20
-		       
-		       
+		android.content.Context
+		
 		       )
 
 
-	       (defclass MainActivity ((AppCompatActivity))
-		 (let-var ((_count 0)))
-		 "private lateinit var _gl_view: GLSurfaceView"
+	       (defclass MainActivity ((AppCompatActivity)
+				       ;(Activity)
+				       SensorEventListener)
+		 "private lateinit var _sensor_manager : SensorManager"
 		 ,@(loop for e in `((Create ((savedInstanceState Bundle?))
 					    (do0
-					     (unless (== savedInstanceState null)
-					       (setf _count (savedInstanceState?.getInt (string "_count") 0)))
-					     ;;(setContentView R.layout.activity_main)
-					     ;;(setSupportActionBar toolbar)
-					     (setf _gl_view (MyGLSurfaceView this))
-					     (setContentView _gl_view)
-					     #+nil (true_button.setOnClickListener
-					      (lambda (view)
-						(declare (type View? view))
-						(d (string "martin")
-						   (string "true_button clicked!"))))))
+					     
+					     (setContentView R.layout.activity_main)
+					     (setf _sensor_manager
+						  (as (getSystemService Context.SENSOR_SERVICE) SensorManager))
+					     ))
+				    
 				    (SaveInstanceState ((savedInstanceState Bundle))
-						       (savedInstanceState.putInt (string "_count") _count))
+						       )
 				    (PostCreate ((savedInstanceState Bundle?)))
 				    (Destroy)
 				    (Start)
 				    (Stop)
 				    (PostResume)
+				    (Resume nil
+					    (dot _sensor_manager
+						 (getDefaultSensor Sensor.TYPE_ACCELEROMETER)
+						 ?
+						 (also (lambda (acc)
+							 (_sensor_manager.registerListener
+							  this
+							  acc
+							  SensorManager.SENSOR_DELAY_NORMAL
+							  SensorManager.SENSOR_DELAY_UI
+							  )))))
 				    (Pause))
 		      collect
 			(destructuring-bind (name-no-on &optional params extra) e
@@ -111,45 +100,14 @@
 					,@(loop for (var type) in params collect
 					       `(declare (type ,type ,var)))
 					(dot super (,name ,@(mapcar #'first params)))
-					(incf _count)
-					(d (string "martin") (string ,(format nil "~a {$_count}" name)))
+					(d (string "martin") (string ,(format nil "~a" name)))
 					,(if extra
 					     extra
 					     "// none"))))))
-		 
-		 ,@(loop for name in (mapcar #'(lambda (x)
-						(format nil "on~a" x)
-						)
-					    `()) collect
-			`(override (defun ,name ()
-				     (dot super (,name))
-				     (incf _count)
-				     (d (string "martin") (string ,(format nil "~a {$_count}" name)))))))
-
-	       (defclass MyGLRenderer (GLSurfaceView.Renderer)
-		 (override (defun onSurfaceCreated (unused config)
-			     (declare (type GL10 unused)
-				      (type EGLConfig config))
-			     (GLES20.glClearColor .2f 0.0f 0.0f 1.0f)))
-		 (override (defun onDrawFrame (unused)
-			     (declare (type GL10 unused))
-			     (GLES20.glClear GLES20.GL_COLOR_BUFFER_BIT)))
-		 (override (defun onSurfaceChanged (unused width height)
-			     (declare (type GL10 unused)
-				      (type Int width height))
-			     (GLES20.glViewport 0 0 width height))))
-	       
-	       (defclass (MyGLSurfaceView "context: Context")
-		   ((GLSurfaceView context))
-		 "private val _renderer: MyGLRenderer"
-		 "init"
-		 (progn
-		   (setEGLContextClientVersion 2)
-		   (setf _renderer (MyGLRenderer))
-		   (setRenderer _renderer)))
-	       
-
-	       )))
+		 (override (defun onAccuracyChanged (sensor accuracy)
+			     (declare (type Sensor sensor)
+				      (type Int accuracy))
+			     (d (string "martin") (string "accuracy ${accuracy}"))))))))
     (ensure-directories-exist path-kotlin)
     (ensure-directories-exist path-layout)
  
