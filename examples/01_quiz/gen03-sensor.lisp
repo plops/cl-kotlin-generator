@@ -8,6 +8,10 @@
 
 ;; https://developer.android.com/guide/topics/sensors/sensors_motion
 ;; https://developer.android.com/guide/topics/sensors/sensors_position
+
+;; Note: When testing your app, you can improve the sensor's accuracy
+;; by waving the device in a figure-8 pattern.
+
 (let* ((main-activity "MainActivity")
        (title "QuizActivity")
        (path-lisp "/home/martin/quicklisp/local-projects/cl-kotlin-generator/examples/01_quiz/")
@@ -30,7 +34,7 @@
 	    :xmlns.tools "http://schemas.android.com/tools"
 	    :android.layout_width match_parent
 	    :android.layout_height match_parent
-	    :tools.context .MainActivity
+	    :tools.context com.example.quizactivity.MainActivity
 	    (TextView
 	     :android.id "@+id/textview"
 	     :android.layout_width wrap_content
