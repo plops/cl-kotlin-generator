@@ -55,10 +55,10 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/quizactivity/MainActivity.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="467">
-              <caret line="55" column="32" lean-forward="true" selection-start-line="55" selection-start-column="32" selection-end-line="55" selection-end-column="32" />
+            <state relative-caret-position="363">
+              <caret line="87" column="81" selection-start-line="87" selection-start-column="81" selection-end-line="87" selection-end-column="81" />
               <folding>
-                <element signature="e#33#329#0" expanded="true" />
+                <element signature="e#33#365#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -327,10 +327,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/quizactivity/MainActivity.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="467">
-          <caret line="55" column="32" lean-forward="true" selection-start-line="55" selection-start-column="32" selection-end-line="55" selection-end-column="32" />
+        <state relative-caret-position="363">
+          <caret line="87" column="81" selection-start-line="87" selection-start-column="81" selection-end-line="87" selection-end-column="81" />
           <folding>
-            <element signature="e#33#329#0" expanded="true" />
+            <element signature="e#33#365#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -1,7 +1,6 @@
 package com.example.quizactivity
 import androidx.appcompat.app.AppCompatActivity
 import android.util.Log.d
-import kotlinx.android.synthetic.main.activity_main.*
 import android.hardware.SensorEventListener
 import android.hardware.SensorEvent
 import android.hardware.SensorManager
@@ -82,5 +81,8 @@ class MainActivity : AppCompatActivity(),SensorEventListener {
             System.arraycopy(event.values, 0, _data_magnetometer, 0, _data_magnetometer.size)
             return
 }
+}
+    fun updateOrientationAngles(){
+        d("martin", "update-angles")
 }
 }

@@ -50,7 +50,8 @@
 
 		androidx.appcompat.app.AppCompatActivity
 		android.util.Log.d
-		kotlinx.android.synthetic.main.activity_main.*
+
+		
 		
 		android.hardware.SensorEventListener
 		android.hardware.SensorEvent
@@ -128,8 +129,14 @@
 				    collect
 				    `(when (== event.sensor.type (dot Sensor ,e))
 				       (System.arraycopy event.values 0 ,data 0 (dot ,data size))
-				       return))
-			     ))))))
+				       return))))
+		 (defun updateOrientationAngles ()
+		   (d (string "martin") (string "update-angles"))
+		   #+nil (do0 (_sensor_manager.getRotationMatrix _rotation_matrix null
+						       _data_accelerometer
+						       _data_magnetometer)
+			(_sensor_manager.getOrientation _rotation_matrix _orientation_angles)))
+		 ))))
     (ensure-directories-exist path-kotlin)
     (ensure-directories-exist path-layout)
  
