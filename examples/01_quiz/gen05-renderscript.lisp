@@ -9,6 +9,9 @@
 ;; https://www.youtube.com/watch?v=kybZnFQh6fE
 ;; Using RenderScript in Android Studio in 8 min
 
+;; https://youtu.be/LNNyVVLk-ms?t=1268
+;; Practical Image Processing in Android
+
 (let* ((main-activity "MainActivity")
        (title "QuizActivity")
        (path-lisp "/home/martin/quicklisp/local-projects/cl-kotlin-generator/examples/01_quiz/")
