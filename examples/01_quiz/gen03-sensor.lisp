@@ -136,7 +136,7 @@
 				       return))))
 		 (defun updateOrientationAngles ()
 		   (d (string "martin") (string "update-angles"))
-		   #+nil (do0 (_sensor_manager.getRotationMatrix _rotation_matrix null
+		    (do0 (_sensor_manager.getRotationMatrix _rotation_matrix null
 						       _data_accelerometer
 						       _data_magnetometer)
 			(_sensor_manager.getOrientation _rotation_matrix _orientation_angles)))
