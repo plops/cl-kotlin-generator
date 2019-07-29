@@ -72,7 +72,8 @@
 		       android.opengl.GLSurfaceView
 
 		       javax.microedition.khronos.egl.EGLConfig
-		       javax.microedition.khronos.egl.opengles.GL10
+		       javax.microedition.khronos.opengles.GL10
+
 		       android.opengl.GLES20
 		       
 		       

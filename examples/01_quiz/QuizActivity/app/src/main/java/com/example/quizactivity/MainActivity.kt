@@ -7,7 +7,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import android.content.Context
 import android.opengl.GLSurfaceView
 import javax.microedition.khronos.egl.EGLConfig
-import javax.microedition.khronos.egl.opengles.GL10
+import javax.microedition.khronos.opengles.GL10
 import android.opengl.GLES20
 class MainActivity : AppCompatActivity() {
     var _count = 0
