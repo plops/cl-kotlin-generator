@@ -123,7 +123,7 @@
 			     (d (string "martin") (string "accuracy ${accuracy}"))))
 		 (override (defun onSensorChanged (event)
 			     (declare (type SensorEvent event))
-			     (d (string "martin") (string "sensor-changed"))
+			     ;(d (string "martin") (string "sensor-changed"))
 			     ,@(loop for (e data) in `((TYPE_ACCELEROMETER _data_accelerometer)
 						       (TYPE_MAGNETIC_FIELD _data_magnetometer))
 				    collect

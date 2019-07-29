@@ -72,7 +72,6 @@ class MainActivity : AppCompatActivity(),SensorEventListener {
         d("martin", "accuracy ${accuracy}")
 }
     override fun onSensorChanged(event: SensorEvent){
-        d("martin", "sensor-changed")
         if ( (event.sensor.type)==(Sensor.TYPE_ACCELEROMETER) ) {
             System.arraycopy(event.values, 0, _data_accelerometer, 0, _data_accelerometer.size)
             return
