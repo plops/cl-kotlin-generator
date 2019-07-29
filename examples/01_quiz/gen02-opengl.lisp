@@ -141,11 +141,11 @@
 	       (defclass (MyGLSurfaceView "context: Context")
 		   ((GLSurfaceView context))
 		 "private val _renderer: MyGLRenderer"
-		 (public (defun MyGLSurfaceView (ctx)
-			   (declare (type Context ctx))
-			   (setEGLContextClientVersion 2)
-			   (setf _renderer (MyGLRenderer))
-			   (setRenderer _renderer))))
+		 "init"
+		 (progn
+		   (setEGLContextClientVersion 2)
+		   (setf _renderer (MyGLRenderer))
+		   (setRenderer _renderer)))
 	       
 
 	       )))

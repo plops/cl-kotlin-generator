@@ -430,7 +430,7 @@ entry return-values contains a list of return values"
 		  ;; braces {args}*
 		  (let ((args (cdr code)))
 		    (format nil "{~{~a~^, ~}}" (mapcar #'emit args))))
-		 (curly ;; name{arg1, args}
+      (curly ;; name{arg1, args}
 		  ;; or name{key1:arg1, key2:arg2}
 		  (destructuring-bind (name &rest args) (cdr code)
 		    (emit `(cast ,name
