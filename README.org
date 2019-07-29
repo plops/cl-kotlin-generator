@@ -193,7 +193,9 @@ Cannot resolve symbol '@+id/true_button'
 - https://github.com/cirosantilli/android-cheat android demo apps
 - https://github.com/cirosantilli/android-cheat/blob/master/gpu.md
 
-
+- https://gitlab.com/eql/EQL5-Android/
+  - ecl apk with qt5
+  - https://www.reddit.com/r/lisp/comments/b1wnn2/cl_repl_for_android_now_64bit_ssl_libs_included/
 * References (Library Books)
 
 ** Android Cookbook 2017 O'Reilly
