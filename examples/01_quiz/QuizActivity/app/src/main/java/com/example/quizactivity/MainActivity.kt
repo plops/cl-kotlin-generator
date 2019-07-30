@@ -82,7 +82,7 @@ class MainActivity : AppCompatActivity(),LifecycleOwner {
     private lateinit var _view_finder : TextureView
     private
     fun startCamera(){
-        val preview_config = PreviewConfig.Builder().setTargetAspectRatio(Rational(1, 1)).setTargetResolution(Size(256, 256)).build()
+        val preview_config = PreviewConfig.Builder().setTargetAspectRatio(Rational(1, 1)).setTargetResolution(Size(640, 640)).build()
         val preview = Preview(preview_config)
         preview.setOnPreviewOutputUpdateListener(fun (preview_output){
             val parent = _view_finder.parent as ViewGroup
