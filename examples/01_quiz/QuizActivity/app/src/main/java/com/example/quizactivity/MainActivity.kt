@@ -111,7 +111,7 @@ class MainActivity : AppCompatActivity(),LifecycleOwner {
     private
     fun allPermissionsGranted(): Boolean {
         return REQUIRED_PERMISSIONS.all(fun (it: String): Boolean {
-            (ContextCompat.checkSelfPermission(baseContext, it))==(PackageManager.PERMISSION_GRANTED)
+            return (ContextCompat.checkSelfPermission(baseContext, it))==(PackageManager.PERMISSION_GRANTED)
 })
 }
     override fun onRequestPermissionsResult(request_code: Int, permissions: Array<String>, grant_results: IntArray){

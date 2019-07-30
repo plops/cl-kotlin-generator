@@ -192,9 +192,10 @@ android.content.pm.PackageManager
 				    (all (lambda (it)
 					   (declare (type String it)
 						    (values Boolean))
-					   (== (ContextCompat.checkSelfPermission
-						baseContext it)
-					       PackageManager.PERMISSION_GRANTED)))))))
+					   (return
+					     (== (ContextCompat.checkSelfPermission
+						 baseContext it)
+						PackageManager.PERMISSION_GRANTED))))))))
 		 (override
 		  (defun onRequestPermissionsResult
 		      (request_code
