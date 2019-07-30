@@ -5,6 +5,11 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.LifecycleOwner
 import android.view.TextureView
+import android.view.ViewGroup
+import androidx.camera.core.Preview
+import androidx.camera.core.PreviewConfig
+import android.util.Size
+import android.util.Rational
 class MainActivity : AppCompatActivity(),LifecycleOwner {
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
@@ -61,6 +66,15 @@ class MainActivity : AppCompatActivity(),LifecycleOwner {
     private lateinit var _view_finder : TextureView
     private
     fun startCamera(){
+        val preview_config = PreviewConfig.Builder().setTargetAspectRatio(Rational(1, 1)).setTargetResolution(Size(256, 256)).build()
+        val preview = Preview(preview_config)
+        preview.setOnPreviewOutputUpdateListener(fun (preview_output){
+            val parent = _view_finder.parent as ViewGroup
+            parent.removeView(_view_finder)
+            parent.addView(_view_finder, 0)
+            _view_finder.surfaceTexture=preview_output.surfaceTexture
+            updateTransform()
+})
 }
     fun updateTransform(){
 }

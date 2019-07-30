@@ -79,7 +79,13 @@
 		android.view.View
 		androidx.lifecycle.LifecycleOwner
 		android.view.TextureView
-		;android.content.Context
+					;android.content.Context
+		android.view.ViewGroup
+		androidx.camera.core.Preview
+		androidx.camera.core.PreviewConfig
+
+		android.util.Size
+		android.util.Rational
 		)
 
 	       (defclass MainActivity ((AppCompatActivity)
@@ -91,7 +97,6 @@
 					     (_view_finder.post
 					      (lambda ()
 						(startCamera)))
-					     ;; View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom
 					     (_view_finder.addOnLayoutChangeListener
 					      (lambda (v left top right bottom
 						       lefto topo righto bottomo
@@ -124,6 +129,18 @@
 		 "private"
 
 		 (defun startCamera ()
+		   (let ((preview_config (dot (PreviewConfig.Builder)
+					      (setTargetAspectRatio (Rational 1 1))
+					      (setTargetResolution (Size 256 256))
+					      (build)))
+			 (preview (Preview preview_config)))
+		     (preview.setOnPreviewOutputUpdateListener
+		      (lambda (preview_output)
+			(let ((parent (as _view_finder.parent ViewGroup)))
+			  (parent.removeView _view_finder)
+			  (parent.addView _view_finder 0)
+			  (setf _view_finder.surfaceTexture preview_output.surfaceTexture)
+			  (updateTransform)))))
 		   )
 
 		 (defun updateTransform ()
