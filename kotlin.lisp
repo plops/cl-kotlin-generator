@@ -362,6 +362,32 @@ entry return-values contains a list of return values"
 		(lambda (parse-lambda code #'emit))
 		(as (let ((args (cdr code)))
 		      (format nil "~a as ~a" (emit (car args)) (emit (cadr args)))))
+		(case
+		    ;; case keyform {normal-clause}* [otherwise-clause]
+		    ;; normal-clause::= (keys form*) 
+		    ;; otherwise-clause::= (t form*) 
+		    
+		    (destructuring-bind (keyform &rest clauses)
+			(cdr code)
+		      (format
+		       nil "when(~a) ~a"
+		       (emit keyform)
+			     (emit
+			      `(progn
+				 ,@(loop for c in clauses collect
+					(destructuring-bind (key &rest forms) c
+					  (if (eq key t)
+					      (format nil "else -> ~a"
+						      (emit
+						       `(do0
+							 ,@(mapcar #'emit
+								   forms))))
+					      (format nil "~a -> ~a"
+						      (emit key)
+						      (emit
+						       `(do0
+							 ,@(mapcar #'emit
+								   forms))))))))))))
 		(t (destructuring-bind (name &rest args) code
 
 		     (if (listp name)
@@ -568,32 +594,7 @@ entry return-values contains a list of return values"
 						   `(do0
 						     ,@(mapcar #'emit
 							       forms)))))))))))
-		      (case
-			  ;; case keyform {normal-clause}* [otherwise-clause]
-			  ;; normal-clause::= (keys form*) 
-			  ;; otherwise-clause::= (t form*) 
-			  
-			  (destructuring-bind (keyform &rest clauses)
-			      (cdr code)
-			    (format
-			     nil "switch ~a ~a"
-			     (emit keyform)
-			     (emit
-			      `(progn
-				 ,@(loop for c in clauses collect
-					(destructuring-bind (key &rest forms) c
-					  (if (eq key t)
-					      (format nil "default:~&~a"
-						      (emit
-						       `(do0
-							 ,@(mapcar #'emit
-								   forms))))
-					      (format nil "case ~a:~&~a"
-						      (emit key)
-						      (emit
-						       `(do0
-							 ,@(mapcar #'emit
-								   forms))))))))))))
+      
 		      (for
 		       ;; for [init [condition [update]]] {forms}*
 		       (destructuring-bind ((&optional init condition update) &rest body)

@@ -140,10 +140,21 @@
 			  (parent.removeView _view_finder)
 			  (parent.addView _view_finder 0)
 			  (setf _view_finder.surfaceTexture preview_output.surfaceTexture)
-			  (updateTransform)))))
-		   )
+			  (updateTransform))))
+		     (CameraX.bindToLifecycle this preview)))
 
 		 (defun updateTransform ()
+		   (let ((matrix (Matrix))
+			 (center_x (* .5 _view_finder.width))
+			 (center_y (* .5 _view_finder.height))
+			 (rotation_degrees
+			  (case _view_finder.display.rotation
+			    (Surface.ROTATION_0 0)
+			    (Surface.ROTATION_90 90)
+			    (Surface.ROTATION_180 180)
+			    (Surface.ROTATION_270 270)
+			    (t return))))
+		     )
 		   )
 		 
 		 ))))

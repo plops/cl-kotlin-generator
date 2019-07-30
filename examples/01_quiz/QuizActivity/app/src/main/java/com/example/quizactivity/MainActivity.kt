@@ -75,7 +75,18 @@ class MainActivity : AppCompatActivity(),LifecycleOwner {
             _view_finder.surfaceTexture=preview_output.surfaceTexture
             updateTransform()
 })
+        CameraX.bindToLifecycle(this, preview)
 }
     fun updateTransform(){
+        val matrix = Matrix()
+        val center_x = (((5.e-1))*(_view_finder.width))
+        val center_y = (((5.e-1))*(_view_finder.height))
+        val rotation_degrees = when(_view_finder.display.rotation) {
+            Surface.ROTATION_0 -> 0
+            Surface.ROTATION_90 -> 90
+            Surface.ROTATION_180 -> 180
+            Surface.ROTATION_270 -> 270
+            else -> return
+}
 }
 }
