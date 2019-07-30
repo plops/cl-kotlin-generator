@@ -15,6 +15,9 @@
 ;; apparently google introduced camerax because different manufacturers had quirks
 ;; camerax abstracts them away
 
+;; this code is based on:
+;; https://codelabs.developers.google.com/codelabs/camerax-getting-started/#3
+
 (let* ((main-activity "MainActivity")
        (title "QuizActivity")
        (path-lisp "/home/martin/quicklisp/local-projects/cl-kotlin-generator/examples/01_quiz/")
@@ -55,12 +58,11 @@
 	    :android.layout_width match_parent
 	    :android.layout_height match_parent
 	    :tools.context com.example.quizactivity.MainActivity
-	    (TextView
-	     :android.id "@+id/textview"
-	     :android.layout_width wrap_content
-	     :android.layout_height wrap_content
+	    (TextureView
+	     :android.id "@+id/view_finder"
+	     :android.layout_width 640px
+	     :android.layout_height 640px
 	     :android.padding 24dp
-	     :android.text "Hello World!"
 	     :app.layout_constraintBottom_toBottomOf parent
 	     :app.layout_constraintLeft_toLeftOf parent
 	     :app.layout_constraintRight_toRightOf parent
@@ -73,21 +75,32 @@
 		androidx.appcompat.app.AppCompatActivity
 		android.util.Log.d
 
-		android.hardware.SensorEventListener
-		android.hardware.SensorEvent
-		android.hardware.SensorManager
-		android.hardware.Sensor
 		android.os.Bundle
-
-		android.content.Context)
+		android.view.View
+		androidx.lifecycle.LifecycleOwner
+		android.view.TextureView
+		;android.content.Context
+		)
 
 	       (defclass MainActivity ((AppCompatActivity)
-				       ;(Activity)
-				       SensorEventListener)
-		 
+					LifecycleOwner)
 		 ,@(loop for e in `((Create ((savedInstanceState Bundle?))
 					    (do0
-					     (setContentView R.layout.activity_main)))
+					     (setContentView R.layout.activity_main)
+					     (setf _view_finder (findViewById R.id.view_finder))
+					     (_view_finder.post
+					      (lambda ()
+						(startCamera)))
+					     ;; View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom
+					     (_view_finder.addOnLayoutChangeListener
+					      (lambda (v left top right bottom
+						       lefto topo righto bottomo
+						       )
+						(declare (type View v)
+							 (type Int left top right bottom
+						       lefto topo righto bottomo
+						       ))
+						(updateTransform)))))
 				    (SaveInstanceState ((savedInstanceState Bundle)))
 				    (PostCreate ((savedInstanceState Bundle?)))
 				    (Destroy)
@@ -106,7 +119,17 @@
 					(d (string "martin") (string ,(format nil "~a" name)))
 					,(if extra
 					     extra
-					     "// none"))))))))))
+					     "// none"))))))
+		 "private lateinit var _view_finder : TextureView"
+		 "private"
+
+		 (defun startCamera ()
+		   )
+
+		 (defun updateTransform ()
+		   )
+		 
+		 ))))
     (ensure-directories-exist path-kotlin)
     (ensure-directories-exist path-layout)
  

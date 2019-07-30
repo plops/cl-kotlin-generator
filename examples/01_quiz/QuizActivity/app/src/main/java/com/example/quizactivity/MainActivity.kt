@@ -1,17 +1,22 @@
 package com.example.quizactivity
 import androidx.appcompat.app.AppCompatActivity
 import android.util.Log.d
-import android.hardware.SensorEventListener
-import android.hardware.SensorEvent
-import android.hardware.SensorManager
-import android.hardware.Sensor
 import android.os.Bundle
-import android.content.Context
-class MainActivity : AppCompatActivity(),SensorEventListener {
+import android.view.View
+import androidx.lifecycle.LifecycleOwner
+import android.view.TextureView
+class MainActivity : AppCompatActivity(),LifecycleOwner {
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         d("martin", "onCreate")
         setContentView(R.layout.activity_main)
+        _view_finder=findViewById(R.id.view_finder)
+        _view_finder.post(fun (){
+            startCamera()
+})
+        _view_finder.addOnLayoutChangeListener(fun (v: View, left: Int, top: Int, right: Int, bottom: Int, lefto: Int, topo: Int, righto: Int, bottomo: Int){
+            updateTransform()
+})
 }
     override fun onSaveInstanceState(savedInstanceState: Bundle){
         super.onSaveInstanceState(savedInstanceState)
@@ -52,5 +57,11 @@ class MainActivity : AppCompatActivity(),SensorEventListener {
         super.onPause()
         d("martin", "onPause")
         // none
+}
+    private lateinit var _view_finder : TextureView
+    private
+    fun startCamera(){
+}
+    fun updateTransform(){
 }
 }
