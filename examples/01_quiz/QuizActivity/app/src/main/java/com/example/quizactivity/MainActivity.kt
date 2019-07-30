@@ -10,6 +10,9 @@ import androidx.camera.core.Preview
 import androidx.camera.core.PreviewConfig
 import android.util.Size
 import android.util.Rational
+import android.view.Surface
+import androidx.camera.core.CameraX
+import android.graphics.Matrix
 class MainActivity : AppCompatActivity(),LifecycleOwner {
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
@@ -79,14 +82,16 @@ class MainActivity : AppCompatActivity(),LifecycleOwner {
 }
     fun updateTransform(){
         val matrix = Matrix()
-        val center_x = (((5.e-1))*(_view_finder.width))
-        val center_y = (((5.e-1))*(_view_finder.height))
+        val center_x = ((_view_finder.width)/(2f))
+        val center_y = ((_view_finder.height)/(2f))
         val rotation_degrees = when(_view_finder.display.rotation) {
-            Surface.ROTATION_0 -> 0
-            Surface.ROTATION_90 -> 90
-            Surface.ROTATION_180 -> 180
-            Surface.ROTATION_270 -> 270
+            Surface.ROTATION_0 -> 0f
+            Surface.ROTATION_90 -> 90f
+            Surface.ROTATION_180 -> 180f
+            Surface.ROTATION_270 -> 270f
             else -> return
 }
+        matrix.postRotate((-(rotation_degrees)), center_x, center_y)
+        _view_finder.setTransform(matrix)
 }
 }

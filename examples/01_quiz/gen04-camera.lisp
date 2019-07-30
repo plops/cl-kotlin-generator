@@ -86,6 +86,9 @@
 
 		android.util.Size
 		android.util.Rational
+		android.view.Surface
+		androidx.camera.core.CameraX
+		android.graphics.Matrix
 		)
 
 	       (defclass MainActivity ((AppCompatActivity)
@@ -145,19 +148,20 @@
 
 		 (defun updateTransform ()
 		   (let ((matrix (Matrix))
-			 (center_x (* .5 _view_finder.width))
-			 (center_y (* .5 _view_finder.height))
+			 (center_x (/ _view_finder.width 2f))
+			 (center_y (/ _view_finder.height 2f))
 			 (rotation_degrees
 			  (case _view_finder.display.rotation
-			    (Surface.ROTATION_0 0)
-			    (Surface.ROTATION_90 90)
-			    (Surface.ROTATION_180 180)
-			    (Surface.ROTATION_270 270)
+			    (Surface.ROTATION_0 0f)
+			    (Surface.ROTATION_90 90f)
+			    (Surface.ROTATION_180 180f)
+			    (Surface.ROTATION_270 270f)
 			    (t return))))
-		     )
-		   )
-		 
-		 ))))
+		     (matrix.postRotate
+		      (- rotation_degrees)
+		      center_x
+		      center_y)
+		     (_view_finder.setTransform matrix)))))))
     (ensure-directories-exist path-kotlin)
     (ensure-directories-exist path-layout)
  
