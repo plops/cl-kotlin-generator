@@ -73,6 +73,8 @@ This is the eigth in a series of code generators.
 | 01 | define layout in xml for a few buttons and some kotlin handlers (based on Big Nerd Ranch quiz_activity) |
 | 02 | open opengles context and draw dark red background                                                      |
 | 03 | read sensors and compute device orientation                                                             |
+| 04 | read out camera images  (TODO)                                                                          |
+| 05 | render script (TODO)                                                                                    |
 
 * Developing the first example 
 
@@ -222,3 +224,4 @@ Cannot resolve symbol '@+id/true_button'
    - background service
    - material design
    - no kotlin, no opengl
+** RenderScript parallel computing on Android, the easy way     

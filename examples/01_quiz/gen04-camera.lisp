@@ -10,6 +10,10 @@
 ;; we can also access the camera image using the gpu
 ;; https://stackoverflow.com/questions/44048389/draw-text-or-image-on-the-camera-stream-glsl
 
+;; low level
+;; https://developer.android.com/reference/android/hardware/camera2/package-summary
+;; apparently google introduced camerax because different manufacturers had quirks
+;; camerax abstracts them away
 
 (let* ((main-activity "MainActivity")
        (title "QuizActivity")
@@ -20,14 +24,7 @@
        (path-layout (format nil "~a/~a/app/src/main/res/layout/"
 			    path-lisp title))
        (path-manifest (format nil "~a/~a/app/src/main/"
-			    path-lisp title))
-
-       
-       ;FirstGame/app/src/main/res/layout/content_main.xml
-       ;FirstGame/app/src/main/res/values/strings.xml
-       ;QuizActivity/app/src/main/AndroidManifest.xml
-       
-       )
+			    path-lisp title)))
   (let* ((manifest
 	  `(do0
 	   "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
@@ -47,8 +44,7 @@
 	      :android.name .MainActivity
 	      (intent-filter
 	       (action :android.name android.intent.action.MAIN)
-	       (category :android.name android.intent.category.LAUNCHER)))))
-	   ))
+	       (category :android.name android.intent.category.LAUNCHER)))))))
 	 (layout
 	  `(do0
 	   "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
@@ -74,23 +70,16 @@
 	     `(do0
 	       (package com.example.quizactivity)
 	       (import
-
-
 		androidx.appcompat.app.AppCompatActivity
 		android.util.Log.d
 
-		
-		
 		android.hardware.SensorEventListener
 		android.hardware.SensorEvent
 		android.hardware.SensorManager
 		android.hardware.Sensor
 		android.os.Bundle
 
-		android.content.Context
-		
-		       )
-
+		android.content.Context)
 
 	       (defclass MainActivity ((AppCompatActivity)
 				       ;(Activity)
@@ -98,13 +87,8 @@
 		 
 		 ,@(loop for e in `((Create ((savedInstanceState Bundle?))
 					    (do0
-					     
-					     (setContentView R.layout.activity_main)
-					     
-					     ))
-				    
-				    (SaveInstanceState ((savedInstanceState Bundle))
-						       )
+					     (setContentView R.layout.activity_main)))
+				    (SaveInstanceState ((savedInstanceState Bundle)))
 				    (PostCreate ((savedInstanceState Bundle?)))
 				    (Destroy)
 				    (Start)
@@ -122,9 +106,7 @@
 					(d (string "martin") (string ,(format nil "~a" name)))
 					,(if extra
 					     extra
-					     "// none"))))))
-
-		 ))))
+					     "// none"))))))))))
     (ensure-directories-exist path-kotlin)
     (ensure-directories-exist path-layout)
  
