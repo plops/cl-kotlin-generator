@@ -52,12 +52,10 @@ INJECTED from /home/martin/stage/cl-kotlin-generator/examples/01_quiz/QuizActivi
 		INJECTED from /home/martin/stage/cl-kotlin-generator/examples/01_quiz/QuizActivity/app/src/main/AndroidManifest.xml
 	xmlns:android
 		ADDED from /home/martin/stage/cl-kotlin-generator/examples/01_quiz/QuizActivity/app/src/main/AndroidManifest.xml:2:11-69
-uses-feature#android.hardware.camera
-ADDED from /home/martin/stage/cl-kotlin-generator/examples/01_quiz/QuizActivity/app/src/main/AndroidManifest.xml:3:3-4:16
-	android:required
-		ADDED from /home/martin/stage/cl-kotlin-generator/examples/01_quiz/QuizActivity/app/src/main/AndroidManifest.xml:3:17-40
+uses-permission#android.permission.CAMERA
+ADDED from /home/martin/stage/cl-kotlin-generator/examples/01_quiz/QuizActivity/app/src/main/AndroidManifest.xml:3:3-4:19
 	android:name
-		ADDED from /home/martin/stage/cl-kotlin-generator/examples/01_quiz/QuizActivity/app/src/main/AndroidManifest.xml:3:41-79
+		ADDED from /home/martin/stage/cl-kotlin-generator/examples/01_quiz/QuizActivity/app/src/main/AndroidManifest.xml:3:20-60
 application
 ADDED from /home/martin/stage/cl-kotlin-generator/examples/01_quiz/QuizActivity/app/src/main/AndroidManifest.xml:5:3-14:17
 MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] /home/martin/.gradle/caches/transforms-2/files-2.1/a4202d6f15313c3ef29a6f8e3652af40/constraintlayout-1.1.3/AndroidManifest.xml:9:5-20

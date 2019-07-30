@@ -34,9 +34,11 @@
 	   (manifest
 	    :xmlns.android "http://schemas.android.com/apk/res/android"
 	    :package com.example.quizactivity
-	    (uses-feature
+	    #+nil(uses-feature
 	     :android.name android.hardware.camera
 	     :android.required true )
+	    (uses-permission
+	     :android.name android.permission.CAMERA)
 	    (application
 	     :android.allowBackup true
 	     :android.icon @mipmap/ic_launcher
@@ -89,17 +91,36 @@
 		android.view.Surface
 		androidx.camera.core.CameraX
 		android.graphics.Matrix
-		)
+android.widget.Toast
+androidx.core.app.ActivityCompat
+androidx.core.content.ContextCompat
+android.Manifest
+android.content.pm.PackageManager
 
+
+		)
+	       (do0
+		  (do0
+		   "private const"
+		   (let ((REQUEST_CODE_PERMISSIONS 10))))
+		  (do0
+		   "private "
+		   (let ((REQUIRED_PERMISSIONS (arrayOf Manifest.permission.CAMERA))))))
 	       (defclass MainActivity ((AppCompatActivity)
 					LifecycleOwner)
 		 ,@(loop for e in `((Create ((savedInstanceState Bundle?))
 					    (do0
 					     (setContentView R.layout.activity_main)
 					     (setf _view_finder (findViewById R.id.view_finder))
-					     (_view_finder.post
-					      (lambda ()
-						(startCamera)))
+					     (if (allPermissionsGranted)
+						 (do0
+						  (_view_finder.post (lambda ()
+								       (startCamera))))
+						 (do0
+						  (ActivityCompat.requestPermissions
+						   this
+						   REQUIRED_PERMISSIONS
+						   REQUEST_CODE_PERMISSIONS)))
 					     (_view_finder.addOnLayoutChangeListener
 					      (lambda (v left top right bottom
 						       lefto topo righto bottomo
@@ -146,6 +167,7 @@
 			  (updateTransform))))
 		     (CameraX.bindToLifecycle this preview)))
 
+		 "private"
 		 (defun updateTransform ()
 		   (let ((matrix (Matrix))
 			 (center_x (/ _view_finder.width 2f))
@@ -161,7 +183,38 @@
 		      (- rotation_degrees)
 		      center_x
 		      center_y)
-		     (_view_finder.setTransform matrix)))))))
+		     (_view_finder.setTransform matrix)))
+		 
+		 (do0 "private"
+		      (defun allPermissionsGranted ()
+		       (declare (values Boolean))
+		       (return (dot REQUIRED_PERMISSIONS
+				    (all (lambda (it)
+					   (declare (type String it)
+						    (values Boolean))
+					   (== (ContextCompat.checkSelfPermission
+						baseContext it)
+					       PackageManager.PERMISSION_GRANTED)))))))
+		 (override
+		  (defun onRequestPermissionsResult
+		      (request_code
+		       permissions
+		       grant_results)
+		    (declare (type Int request_code)
+			     (type Array<String> permissions)
+			     (type IntArray grant_results))
+		    (when (== request_code REQUEST_CODE_PERMISSIONS)
+		      (if (allPermissionsGranted)
+			  (do0
+			   (_view_finder.post (lambda ()
+						(startCamera))))
+			  (do0
+			   (dot
+			    (Toast.makeText this
+					    (string "camera permission not granted")
+					    Toast.LENGTH_SHORT)
+			    (show))
+			   (finish))))))))))
     (ensure-directories-exist path-kotlin)
     (ensure-directories-exist path-layout)
  

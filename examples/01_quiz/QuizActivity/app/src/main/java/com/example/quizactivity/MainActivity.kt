@@ -13,15 +13,28 @@ import android.util.Rational
 import android.view.Surface
 import androidx.camera.core.CameraX
 import android.graphics.Matrix
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import android.Manifest
+import android.content.pm.PackageManager
+private const
+val REQUEST_CODE_PERMISSIONS = 10
+private 
+val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
 class MainActivity : AppCompatActivity(),LifecycleOwner {
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         d("martin", "onCreate")
         setContentView(R.layout.activity_main)
         _view_finder=findViewById(R.id.view_finder)
-        _view_finder.post(fun (){
-            startCamera()
+        if ( allPermissionsGranted() ) {
+            _view_finder.post(fun (){
+                startCamera()
 })
+} else {
+            ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
+}
         _view_finder.addOnLayoutChangeListener(fun (v: View, left: Int, top: Int, right: Int, bottom: Int, lefto: Int, topo: Int, righto: Int, bottomo: Int){
             updateTransform()
 })
@@ -80,6 +93,7 @@ class MainActivity : AppCompatActivity(),LifecycleOwner {
 })
         CameraX.bindToLifecycle(this, preview)
 }
+    private
     fun updateTransform(){
         val matrix = Matrix()
         val center_x = ((_view_finder.width)/(2f))
@@ -93,5 +107,23 @@ class MainActivity : AppCompatActivity(),LifecycleOwner {
 }
         matrix.postRotate((-(rotation_degrees)), center_x, center_y)
         _view_finder.setTransform(matrix)
+}
+    private
+    fun allPermissionsGranted(): Boolean {
+        return REQUIRED_PERMISSIONS.all(fun (it: String): Boolean {
+            (ContextCompat.checkSelfPermission(baseContext, it))==(PackageManager.PERMISSION_GRANTED)
+})
+}
+    override fun onRequestPermissionsResult(request_code: Int, permissions: Array<String>, grant_results: IntArray){
+        if ( (request_code)==(REQUEST_CODE_PERMISSIONS) ) {
+            if ( allPermissionsGranted() ) {
+                _view_finder.post(fun (){
+                    startCamera()
+})
+} else {
+                Toast.makeText(this, "camera permission not granted", Toast.LENGTH_SHORT).show()
+                finish()
+}
+}
 }
 }

@@ -10,59 +10,56 @@
 9        android:targetSdkVersion="29" />
 9-->/home/martin/stage/cl-kotlin-generator/examples/01_quiz/QuizActivity/app/src/main/AndroidManifest.xml
 10
-11    <uses-feature
-11-->/home/martin/stage/cl-kotlin-generator/examples/01_quiz/QuizActivity/app/src/main/AndroidManifest.xml:3:3-4:16
-12        android:name="android.hardware.camera"
-12-->/home/martin/stage/cl-kotlin-generator/examples/01_quiz/QuizActivity/app/src/main/AndroidManifest.xml:3:41-79
-13        android:required="true" >
-13-->/home/martin/stage/cl-kotlin-generator/examples/01_quiz/QuizActivity/app/src/main/AndroidManifest.xml:3:17-40
-14    </uses-feature>
-15
-16    <application
-16-->/home/martin/stage/cl-kotlin-generator/examples/01_quiz/QuizActivity/app/src/main/AndroidManifest.xml:5:3-14:17
-17        android:allowBackup="true"
-17-->/home/martin/stage/cl-kotlin-generator/examples/01_quiz/QuizActivity/app/src/main/AndroidManifest.xml:5:156-182
-18        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-18-->[androidx.core:core:1.1.0-rc01] /home/martin/.gradle/caches/transforms-2/files-2.1/f9cc60ae6784826ef8e231662c1058f8/core-1.1.0-rc01/AndroidManifest.xml:24:18-86
-19        android:debuggable="true"
-20        android:extractNativeLibs="false"
-21        android:icon="@mipmap/ic_launcher"
-21-->/home/martin/stage/cl-kotlin-generator/examples/01_quiz/QuizActivity/app/src/main/AndroidManifest.xml:5:121-155
-22        android:roundIcon="@mipmap/ic_launcher_round"
-22-->/home/martin/stage/cl-kotlin-generator/examples/01_quiz/QuizActivity/app/src/main/AndroidManifest.xml:5:75-120
-23        android:supportsRtl="true"
-23-->/home/martin/stage/cl-kotlin-generator/examples/01_quiz/QuizActivity/app/src/main/AndroidManifest.xml:5:48-74
-24        android:theme="@style/AppTheme" >
-24-->/home/martin/stage/cl-kotlin-generator/examples/01_quiz/QuizActivity/app/src/main/AndroidManifest.xml:5:16-47
-25        <activity android:name="com.example.quizactivity.MainActivity" >
-25-->/home/martin/stage/cl-kotlin-generator/examples/01_quiz/QuizActivity/app/src/main/AndroidManifest.xml:6:5-13:16
-25-->/home/martin/stage/cl-kotlin-generator/examples/01_quiz/QuizActivity/app/src/main/AndroidManifest.xml:6:15-43
-26            <intent-filter>
-26-->/home/martin/stage/cl-kotlin-generator/examples/01_quiz/QuizActivity/app/src/main/AndroidManifest.xml:7:7-12:23
-27                <action android:name="android.intent.action.MAIN" >
-27-->/home/martin/stage/cl-kotlin-generator/examples/01_quiz/QuizActivity/app/src/main/AndroidManifest.xml:8:9-9:10
-27-->/home/martin/stage/cl-kotlin-generator/examples/01_quiz/QuizActivity/app/src/main/AndroidManifest.xml:8:17-58
-28                </action>
-29
-30                <category android:name="android.intent.category.LAUNCHER" >
-30-->/home/martin/stage/cl-kotlin-generator/examples/01_quiz/QuizActivity/app/src/main/AndroidManifest.xml:10:9-11:12
-30-->/home/martin/stage/cl-kotlin-generator/examples/01_quiz/QuizActivity/app/src/main/AndroidManifest.xml:10:19-66
-31                </category>
-32            </intent-filter>
-33        </activity>
-34
-35        <provider
-35-->[androidx.camera:camera-camera2:1.0.0-alpha03] /home/martin/.gradle/caches/transforms-2/files-2.1/b89d8c70ccb75704c5ff515e6995b002/camera-camera2-1.0.0-alpha03/AndroidManifest.xml:25:9-30:43
-36            android:name="androidx.camera.camera2.impl.Camera2Initializer"
-36-->[androidx.camera:camera-camera2:1.0.0-alpha03] /home/martin/.gradle/caches/transforms-2/files-2.1/b89d8c70ccb75704c5ff515e6995b002/camera-camera2-1.0.0-alpha03/AndroidManifest.xml:26:13-75
-37            android:authorities="com.example.quizactivity.camerax-init"
-37-->[androidx.camera:camera-camera2:1.0.0-alpha03] /home/martin/.gradle/caches/transforms-2/files-2.1/b89d8c70ccb75704c5ff515e6995b002/camera-camera2-1.0.0-alpha03/AndroidManifest.xml:27:13-64
-38            android:exported="false"
-38-->[androidx.camera:camera-camera2:1.0.0-alpha03] /home/martin/.gradle/caches/transforms-2/files-2.1/b89d8c70ccb75704c5ff515e6995b002/camera-camera2-1.0.0-alpha03/AndroidManifest.xml:28:13-37
-39            android:initOrder="100"
-39-->[androidx.camera:camera-camera2:1.0.0-alpha03] /home/martin/.gradle/caches/transforms-2/files-2.1/b89d8c70ccb75704c5ff515e6995b002/camera-camera2-1.0.0-alpha03/AndroidManifest.xml:29:13-36
-40            android:multiprocess="true" />
-40-->[androidx.camera:camera-camera2:1.0.0-alpha03] /home/martin/.gradle/caches/transforms-2/files-2.1/b89d8c70ccb75704c5ff515e6995b002/camera-camera2-1.0.0-alpha03/AndroidManifest.xml:30:13-40
-41    </application>
-42
-43</manifest>
+11    <uses-permission android:name="android.permission.CAMERA" >
+11-->/home/martin/stage/cl-kotlin-generator/examples/01_quiz/QuizActivity/app/src/main/AndroidManifest.xml:3:3-4:19
+11-->/home/martin/stage/cl-kotlin-generator/examples/01_quiz/QuizActivity/app/src/main/AndroidManifest.xml:3:20-60
+12    </uses-permission>
+13
+14    <application
+14-->/home/martin/stage/cl-kotlin-generator/examples/01_quiz/QuizActivity/app/src/main/AndroidManifest.xml:5:3-14:17
+15        android:allowBackup="true"
+15-->/home/martin/stage/cl-kotlin-generator/examples/01_quiz/QuizActivity/app/src/main/AndroidManifest.xml:5:156-182
+16        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+16-->[androidx.core:core:1.1.0-rc01] /home/martin/.gradle/caches/transforms-2/files-2.1/f9cc60ae6784826ef8e231662c1058f8/core-1.1.0-rc01/AndroidManifest.xml:24:18-86
+17        android:debuggable="true"
+18        android:extractNativeLibs="false"
+19        android:icon="@mipmap/ic_launcher"
+19-->/home/martin/stage/cl-kotlin-generator/examples/01_quiz/QuizActivity/app/src/main/AndroidManifest.xml:5:121-155
+20        android:roundIcon="@mipmap/ic_launcher_round"
+20-->/home/martin/stage/cl-kotlin-generator/examples/01_quiz/QuizActivity/app/src/main/AndroidManifest.xml:5:75-120
+21        android:supportsRtl="true"
+21-->/home/martin/stage/cl-kotlin-generator/examples/01_quiz/QuizActivity/app/src/main/AndroidManifest.xml:5:48-74
+22        android:theme="@style/AppTheme" >
+22-->/home/martin/stage/cl-kotlin-generator/examples/01_quiz/QuizActivity/app/src/main/AndroidManifest.xml:5:16-47
+23        <activity android:name="com.example.quizactivity.MainActivity" >
+23-->/home/martin/stage/cl-kotlin-generator/examples/01_quiz/QuizActivity/app/src/main/AndroidManifest.xml:6:5-13:16
+23-->/home/martin/stage/cl-kotlin-generator/examples/01_quiz/QuizActivity/app/src/main/AndroidManifest.xml:6:15-43
+24            <intent-filter>
+24-->/home/martin/stage/cl-kotlin-generator/examples/01_quiz/QuizActivity/app/src/main/AndroidManifest.xml:7:7-12:23
+25                <action android:name="android.intent.action.MAIN" >
+25-->/home/martin/stage/cl-kotlin-generator/examples/01_quiz/QuizActivity/app/src/main/AndroidManifest.xml:8:9-9:10
+25-->/home/martin/stage/cl-kotlin-generator/examples/01_quiz/QuizActivity/app/src/main/AndroidManifest.xml:8:17-58
+26                </action>
+27
+28                <category android:name="android.intent.category.LAUNCHER" >
+28-->/home/martin/stage/cl-kotlin-generator/examples/01_quiz/QuizActivity/app/src/main/AndroidManifest.xml:10:9-11:12
+28-->/home/martin/stage/cl-kotlin-generator/examples/01_quiz/QuizActivity/app/src/main/AndroidManifest.xml:10:19-66
+29                </category>
+30            </intent-filter>
+31        </activity>
+32
+33        <provider
+33-->[androidx.camera:camera-camera2:1.0.0-alpha03] /home/martin/.gradle/caches/transforms-2/files-2.1/b89d8c70ccb75704c5ff515e6995b002/camera-camera2-1.0.0-alpha03/AndroidManifest.xml:25:9-30:43
+34            android:name="androidx.camera.camera2.impl.Camera2Initializer"
+34-->[androidx.camera:camera-camera2:1.0.0-alpha03] /home/martin/.gradle/caches/transforms-2/files-2.1/b89d8c70ccb75704c5ff515e6995b002/camera-camera2-1.0.0-alpha03/AndroidManifest.xml:26:13-75
+35            android:authorities="com.example.quizactivity.camerax-init"
+35-->[androidx.camera:camera-camera2:1.0.0-alpha03] /home/martin/.gradle/caches/transforms-2/files-2.1/b89d8c70ccb75704c5ff515e6995b002/camera-camera2-1.0.0-alpha03/AndroidManifest.xml:27:13-64
+36            android:exported="false"
+36-->[androidx.camera:camera-camera2:1.0.0-alpha03] /home/martin/.gradle/caches/transforms-2/files-2.1/b89d8c70ccb75704c5ff515e6995b002/camera-camera2-1.0.0-alpha03/AndroidManifest.xml:28:13-37
+37            android:initOrder="100"
+37-->[androidx.camera:camera-camera2:1.0.0-alpha03] /home/martin/.gradle/caches/transforms-2/files-2.1/b89d8c70ccb75704c5ff515e6995b002/camera-camera2-1.0.0-alpha03/AndroidManifest.xml:29:13-36
+38            android:multiprocess="true" />
+38-->[androidx.camera:camera-camera2:1.0.0-alpha03] /home/martin/.gradle/caches/transforms-2/files-2.1/b89d8c70ccb75704c5ff515e6995b002/camera-camera2-1.0.0-alpha03/AndroidManifest.xml:30:13-40
+39    </application>
+40
+41</manifest>
