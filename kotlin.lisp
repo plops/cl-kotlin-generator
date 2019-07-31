@@ -354,7 +354,8 @@ entry return-values contains a list of return values"
 			      (format s "~a" (emit (elt args i)))
 			      (unless (or (and
 					   (< (+ i 1) (length args))
-					   (eq (elt args (+ i 1)) '?))
+					   (or (eq (elt args (+ i 1)) '?)
+					       (eq (car (elt args (+ i 1))) 'progn)))
 					  (eq i (1- (length args))))
 				(format s "."))))
 		       ;(format nil "~{~a~^.~}" (mapcar #'emit args))

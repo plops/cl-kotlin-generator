@@ -153,9 +153,14 @@ android.content.pm.PackageManager
 		 "private"
 
 		 (defun startCamera ()
-		   (let ((preview_config (dot (PreviewConfig.Builder)
+		   (let ((preview_config #+nil (dot (PreviewConfig.Builder)
 					      (setTargetAspectRatio (Rational 1 1))
 					      (setTargetResolution (Size 640 640))
+					      (build))
+					 (dot (PreviewConfig.Builder)
+					      (progn
+						(setTargetAspectRatio (Rational 1 1))
+						(setTargetResolution (Size 640 640)))
 					      (build)))
 			 (preview (Preview preview_config)))
 		     (preview.setOnPreviewOutputUpdateListener
