@@ -93,7 +93,7 @@
 		androidx.appcompat.app.AppCompatActivity
 		android.util.Log.d
 
-		
+		android.renderscript.*
 		
 		android.os.Bundle
 
@@ -110,7 +110,7 @@
 					    (do0
 					     
 					     (setContentView R.layout.activity_main)
-					     
+					     (example)
 					     ))
 				    
 				    (SaveInstanceState ((savedInstanceState Bundle))
@@ -133,6 +133,29 @@
 					,(if extra
 					     extra
 					     "// none"))))))
+		 (do0 "private"
+		  (defun example ()
+		    (let ((_rs (RenderScript.create this))
+			  (input_array (IntArrayOf ,@(loop for i below 9 collect i)))
+			  (input_alloc (lambda ()
+					 (declare (values Allocation))
+					 (let ((res (Allocation.createSized
+						     _rs
+						     (Element.I32 _rs)
+						     input_array.length)))
+					   (res.copyFrom input_array)
+					   (return res))))
+			  (output_array (IntArray input_array.length))
+			  (output_alloc (Allocation.createSized _rs
+								(Element.I32 _rs)
+								input_array.length))
+			  (myscript (ScriptC_sum _rs))
+			  )
+		      (myscript.forEach_sum2 input_alloc output_alloc)
+		      (d (string "martin")
+			 (string ,(format nil "output ~{~a~^, ~}"
+					  (loop for i below 9 collect (format nil "{$output_array[~a]}" i)))))
+		      )))
 
 		 ))))
     (ensure-directories-exist path-kotlin)
