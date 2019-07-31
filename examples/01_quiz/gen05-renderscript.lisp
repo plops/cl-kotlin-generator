@@ -103,7 +103,7 @@
 		android.os.Bundle
 
 		android.content.Context
-		
+		java.util.Arrays
 		       )
 
 
@@ -159,9 +159,12 @@
 		      (myscript.forEach_sum2 input_alloc output_alloc)
 
 		      (output_alloc.copyTo output_array)
-		      (let ((str (output_array.toString)))
-		       (d (string "martin")
-			  str)))))))))
+		      (let ((str0 (Arrays.toString input_array))
+			    (str1 (Arrays.toString output_array)))
+			(d (string "martin")
+			   str0)
+			(d (string "martin")
+			  str1)))))))))
     (ensure-directories-exist path-kotlin)
     (ensure-directories-exist path-layout)
  

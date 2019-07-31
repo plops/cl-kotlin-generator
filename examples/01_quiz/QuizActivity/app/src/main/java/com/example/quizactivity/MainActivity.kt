@@ -4,6 +4,7 @@ import android.util.Log.d
 import androidx.renderscript.*
 import android.os.Bundle
 import android.content.Context
+import java.util.Arrays
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
@@ -65,7 +66,9 @@ class MainActivity : AppCompatActivity() {
         val myscript = ScriptC_sum(_rs)
         myscript.forEach_sum2(input_alloc, output_alloc)
         output_alloc.copyTo(output_array)
-        val str = output_array.toString()
-        d("martin", str)
+        val str0 = Arrays.toString(input_array)
+        val str1 = Arrays.toString(output_array)
+        d("martin", str0)
+        d("martin", str1)
 }
 }
