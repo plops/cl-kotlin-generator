@@ -160,6 +160,7 @@ android.content.pm.PackageManager
 					 (dot (PreviewConfig.Builder)
 					      apply
 					      (progn
+						(setLensFacing CameraX.LensFacing.FRONT)
 						(setTargetAspectRatio (Rational 1 1))
 						(setTargetResolution (Size 640 640)))
 					      (build)))
