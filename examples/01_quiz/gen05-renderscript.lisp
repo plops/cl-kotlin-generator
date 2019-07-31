@@ -24,6 +24,9 @@
 
 ;; i think this is needed to use the renderscript llvm from the android sdk
 ;; aurman -S ncurses5-compat-libs
+
+;; also 32bit libs: sudo pacman -S lib32-zlib 
+
  
  
 
