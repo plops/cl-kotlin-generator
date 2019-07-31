@@ -14,9 +14,7 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1919a353-6271-43a5-80eb-cd4ff694b18c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-    </list>
+    <list default="true" id="1919a353-6271-43a5-80eb-cd4ff694b18c" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,8 +76,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="32" selection-start-line="32" selection-end-line="32" />
+            <state relative-caret-position="81">
+              <caret line="32" column="49" selection-start-line="32" selection-start-column="49" selection-end-line="32" selection-end-column="49" />
             </state>
           </provider>
         </entry>
@@ -249,10 +247,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-4" y="0" width="1258" height="804" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
-      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.35797343" />
+      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.35797343" />
       <window_info id="Structure" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info id="Build Variants" order="4" side_tool="true" />
@@ -263,7 +260,7 @@
       <window_info anchor="bottom" id="Run" order="0" weight="0.32738096" />
       <window_info anchor="bottom" id="Debug" order="1" />
       <window_info anchor="bottom" id="Find" order="2" />
-      <window_info anchor="bottom" id="Logcat" order="3" visible="true" weight="0.42708334" />
+      <window_info active="true" anchor="bottom" id="Logcat" order="3" visible="true" weight="0.42708334" />
       <window_info anchor="bottom" id="Version Control" order="4" weight="0.3247768" />
       <window_info anchor="bottom" id="TODO" order="5" weight="0.32589287" />
       <window_info anchor="bottom" id="Terminal" order="6" weight="0.3735119" />
@@ -351,8 +348,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="32" selection-start-line="32" selection-end-line="32" />
+        <state relative-caret-position="81">
+          <caret line="32" column="49" selection-start-line="32" selection-start-column="49" selection-end-line="32" selection-end-column="49" />
         </state>
       </provider>
     </entry>

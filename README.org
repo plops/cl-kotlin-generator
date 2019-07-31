@@ -75,6 +75,7 @@ This is the eigth in a series of code generators.
 | 03 | read sensors and compute device orientation                                                             |
 | 04 | read out camera images, also ask for permission                                                         |
 | 05 | render script                                                                                           |
+| 06 | grpc                                                                                                    |
 
 * Developing the first example 
 
