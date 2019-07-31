@@ -158,6 +158,7 @@ android.content.pm.PackageManager
 					      (setTargetResolution (Size 640 640))
 					      (build))
 					 (dot (PreviewConfig.Builder)
+					      apply
 					      (progn
 						(setTargetAspectRatio (Rational 1 1))
 						(setTargetResolution (Size 640 640)))
