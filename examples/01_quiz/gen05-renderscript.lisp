@@ -159,12 +159,9 @@
 		      (myscript.forEach_sum2 input_alloc output_alloc)
 
 		      (output_alloc.copyTo output_array)
-		      (d (string "martin")
-			 (string ,(format nil "output ~{~a~^, ~}"
-					  (loop for i below 9 collect (format nil "{$output_array[~a]}" i)))))
-		      )))
-
-		 ))))
+		      (let ((str (output_array.toString)))
+		       (d (string "martin")
+			  str)))))))))
     (ensure-directories-exist path-kotlin)
     (ensure-directories-exist path-layout)
  

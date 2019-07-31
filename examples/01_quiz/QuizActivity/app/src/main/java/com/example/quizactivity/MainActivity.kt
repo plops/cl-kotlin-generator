@@ -65,6 +65,7 @@ class MainActivity : AppCompatActivity() {
         val myscript = ScriptC_sum(_rs)
         myscript.forEach_sum2(input_alloc, output_alloc)
         output_alloc.copyTo(output_array)
-        d("martin", "output {$output_array[0]}, {$output_array[1]}, {$output_array[2]}, {$output_array[3]}, {$output_array[4]}, {$output_array[5]}, {$output_array[6]}, {$output_array[7]}, {$output_array[8]}")
+        val str = output_array.toString()
+        d("martin", str)
 }
 }
