@@ -22,6 +22,8 @@
 ;; change gradle app
 ;; Android.defaultconfig.renderscriptTargetApi 18
 
+;; i think this is needed to use the renderscript llvm from the android sdk
+;; aurman -S ncurses5-compat-libs
 
 
 
