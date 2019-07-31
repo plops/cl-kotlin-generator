@@ -136,19 +136,19 @@
 		 (do0 "private"
 		  (defun example ()
 		    (let ((_rs (RenderScript.create this))
-			  (input_array (IntArrayOf ,@(loop for i below 9 collect i)))
+			  (input_array (intArrayOf ,@(loop for i below 9 collect i)))
 			  (input_alloc (lambda ()
 					 (declare (values Allocation))
 					 (let ((res (Allocation.createSized
 						     _rs
 						     (Element.I32 _rs)
-						     input_array.length)))
+						     input_array.size)))
 					   (res.copyFrom input_array)
 					   (return res))))
-			  (output_array (IntArray input_array.length))
+			  (output_array (IntArray input_array.size))
 			  (output_alloc (Allocation.createSized _rs
 								(Element.I32 _rs)
-								input_array.length))
+								input_array.size))
 			  (myscript (ScriptC_sum _rs))
 			  )
 		      (myscript.forEach_sum2 input_alloc output_alloc)
