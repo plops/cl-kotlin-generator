@@ -12,6 +12,19 @@
 ;; https://youtu.be/LNNyVVLk-ms?t=1268
 ;; Practical Image Processing in Android
 
+;; https://developer.android.com/guide/topics/renderscript/compute
+
+;; use native renderscript api (not support library api). it is the
+;; more modern version and leads to smaller apk's
+
+;; Renderscript: parallel computing on android, the easy way
+
+;; change gradle app
+;; Android.defaultconfig.renderscriptTargetApi 18
+
+
+
+
 (let* ((main-activity "MainActivity")
        (title "QuizActivity")
        (path-lisp "/home/martin/quicklisp/local-projects/cl-kotlin-generator/examples/01_quiz/")
@@ -82,10 +95,6 @@
 
 		
 		
-		android.hardware.SensorEventListener
-		android.hardware.SensorEvent
-		android.hardware.SensorManager
-		android.hardware.Sensor
 		android.os.Bundle
 
 		android.content.Context
@@ -94,8 +103,8 @@
 
 
 	       (defclass MainActivity ((AppCompatActivity)
-				       ;(Activity)
-				       SensorEventListener)
+				       
+				       )
 		 
 		 ,@(loop for e in `((Create ((savedInstanceState Bundle?))
 					    (do0

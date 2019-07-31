@@ -9,8 +9,10 @@
         android:minSdkVersion="25"
         android:targetSdkVersion="29" />
 
-    <uses-permission android:name="android.permission.CAMERA" >
-    </uses-permission>
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" >
+    </uses-feature>
 
     <application
         android:allowBackup="true"
@@ -30,13 +32,6 @@
                 </category>
             </intent-filter>
         </activity>
-
-        <provider
-            android:name="androidx.camera.camera2.impl.Camera2Initializer"
-            android:authorities="com.example.quizactivity.camerax-init"
-            android:exported="false"
-            android:initOrder="100"
-            android:multiprocess="true" />
     </application>
 
 </manifest>
