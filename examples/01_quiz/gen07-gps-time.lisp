@@ -4,7 +4,7 @@
 (in-package :cl-kotlin-generator)
 
 ;; https://stackoverflow.com/questions/8210264/sync-android-devices-via-gps-time 
-
+;; https://github.com/androidthings/drivers-samples/blob/master/gps/src/main/java/com/example/androidthings/driversamples/GpsActivity.java
 (let* ((main-activity "MainActivity")
        (title "QuizActivity")
        (path-lisp "/home/martin/quicklisp/local-projects/cl-kotlin-generator/examples/01_quiz/")
@@ -21,6 +21,17 @@
 	   (manifest
 	    :xmlns.android "http://schemas.android.com/apk/res/android"
 	    :package com.example.quizactivity
+	    ;<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+	    ;<uses-permission android:name="com.google.android.things.permission.MANAGE_GNSS_DRIVERS"/>
+					;<uses-permission android:name="com.google.android.things.permission.USE_PERIPHERAL_IO"/>
+	    ,@(loop for e in
+		   `(android.permission.ACCESS_FINE_LOCATION
+		     com.google.android.things.permission.MANAGE_GNSS_DRIVERS
+		     com.google.android.things.permission.USE_PERIPHERAL_IO)
+		 collect
+		   `(uses-permission
+		     :android.name ,e
+		    ))
 	    (uses-feature
 	     :android.name android.hardware.location.gps
 	     :android.required true )
@@ -71,6 +82,10 @@
 		android.location.LocationManager
 		android.location.OnNmeaMessageListener
 		android.content.Context
+
+		android.Manifest
+		android.content.pm.PackageManager
+		androidx.core.app.ActivityCompat
 		)
 	       (defclass MainActivity ((AppCompatActivity)
 				       
@@ -80,9 +95,18 @@
 			`((Create ((savedInstanceState Bundle?))
 				  (do0
 				   (setContentView R.layout.activity_main)
+				   (ActivityCompat.requestPermissions
+				    this
+				    (arrayOf Manifest.permission.ACCESS_FINE_LOCATION)
+				    123)
+				   
 				   (setf _location_manager (as (getSystemService Context.LOCATION_SERVICE)
 							       LocationManager))
-				   
+				   (unless (== (checkSelfPermission
+						Manifest.permission.ACCESS_FINE_LOCATION)
+					       PackageManager.PERMISSION_GRANTED)
+				     (d (string "martin")
+					(string "missing fine location permission")))
 				   (let ((now (currentTimeMillis)))
 				     (d (string "martin")
 					(string "now = ${now}")))))
