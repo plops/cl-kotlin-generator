@@ -83,10 +83,19 @@
 
 		android.content.Context
 
-		com.example.learn.LoginRequest
-		com.example.learn.LoginServiceGrpc
+		com.example.quizactivity.LoginRequest
+		com.example.quizactivity.LoginResponse
+		com.example.quizactivity.LoginServiceGrpc
 		io.grpc.ManagedChannel
 		io.grpc.okhttp.OkHttpChannelBuilder
+
+		io.reactivex.*
+		io.reactivex.android.schedulers.AndroidSchedulers
+		io.reactivex.disposables.Disposable
+		io.reactivex.schedulers.Schedulers
+
+		;kotlinx.android.synthetic.main.activity_login.*
+
 		       )
 
 
@@ -114,7 +123,28 @@
 						   8080)
 						  (usePlaintext)
 						  (build))))
-						    connection_channel)))))
+						    connection_channel))
+				     (dot
+				      Single.fromCallable
+				      (progn
+					(login_service.logIn request_message)
+					)
+				      (subscribeOn (Schedulers.io))
+				      (observeOn (AndroidSchedulers.mainThread))
+				      (subscribe (dot "object : SingleObserver<LoginResponse>"
+						      (progn
+							(override
+							 (defun onSuccess (response)
+							   (declare (type LoginResponse response))
+							   (d (string "martin")
+							      (string "response")))
+							 )
+							(override
+							 (defun onSubscribe (d)
+							   (declare (type Disposable d))))
+							(override
+							 (defun onError (e)
+							   (declare (type Throwable e)))))))))))
 				    
 				    (SaveInstanceState ((savedInstanceState Bundle)))
 				    (PostCreate ((savedInstanceState Bundle?)))

@@ -2,7 +2,7 @@ syntax = "proto3";
 
 option java_multiple_files = true;
 option java_generic_services = true;
-package com.example.learn;
+package com.example.quizactivity;
 
 message LoginRequest {
     string username = 1;

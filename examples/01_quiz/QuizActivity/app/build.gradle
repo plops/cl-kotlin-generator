@@ -49,7 +49,8 @@ dependencies {
     implementation 'io.grpc:grpc-protobuf-lite:1.12.0'
     implementation 'io.grpc:grpc-okhttp:1.12.0'
     implementation 'io.grpc:grpc-stub:1.12.0'
-
+    implementation "io.reactivex.rxjava2:rxjava:$rx_java_version"
+    implementation "io.reactivex.rxjava2:rxandroid:$rx_android"
 }
 
 // enable this for grpc:

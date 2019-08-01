@@ -3,10 +3,15 @@ import androidx.appcompat.app.AppCompatActivity
 import android.util.Log.d
 import android.os.Bundle
 import android.content.Context
-import com.example.learn.LoginRequest
-import com.example.learn.LoginServiceGrpc
+import com.example.quizactivity.LoginRequest
+import com.example.quizactivity.LoginResponse
+import com.example.quizactivity.LoginServiceGrpc
 import io.grpc.ManagedChannel
 import io.grpc.okhttp.OkHttpChannelBuilder
+import io.reactivex.*
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
@@ -17,6 +22,17 @@ class MainActivity : AppCompatActivity() {
 }
         val login_service = LoginServiceGrpc.newBlockingStub(connection_channel)
         val request_message = LoginRequest.newBuilder().setUsername("bla").setPassword("foo").build()
+        Single.fromCallable{
+            login_service.logIn(request_message)
+}.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(object : SingleObserver<LoginResponse>{
+            override fun onSuccess(response: LoginResponse){
+                d("martin", "response")
+}
+            override fun onSubscribe(d: Disposable){
+}
+            override fun onError(e: Throwable){
+}
+})
 }
     override fun onSaveInstanceState(savedInstanceState: Bundle){
         super.onSaveInstanceState(savedInstanceState)
