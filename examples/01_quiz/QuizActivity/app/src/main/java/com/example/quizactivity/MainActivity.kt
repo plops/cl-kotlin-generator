@@ -2,22 +2,13 @@ package com.example.quizactivity
 import androidx.appcompat.app.AppCompatActivity
 import android.util.Log.d
 import android.os.Bundle
-import java.lang.System.currentTimeMillis
-import android.location.LocationManager
-import android.location.LocationProvider
-import android.location.Location
-import android.location.LocationListener
-import android.location.OnNmeaMessageListener
 import android.content.Context
 import android.Manifest
-import android.content.pm.PackageManager
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import java.io.File
 private const
 val REQUEST_CODE_PERMISSIONS = 10
 private 
-val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
+val REQUIRED_PERMISSIONS = arrayOf()
 class MainActivity : AppCompatActivity(),LocationListener {
     private
     fun allPermissionsGranted(): Boolean {
@@ -25,27 +16,12 @@ class MainActivity : AppCompatActivity(),LocationListener {
             return (ContextCompat.checkSelfPermission(baseContext, it))==(PackageManager.PERMISSION_GRANTED)
 })
 }
-    private lateinit var _location_manager : LocationManager
-    private lateinit var _provider : LocationProvider
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         d("martin", "onCreate")
         setContentView(R.layout.activity_main)
         if ( allPermissionsGranted() ) {
             d("martin", "required permissions obtained")
-            _location_manager=getSystemService(Context.LOCATION_SERVICE) as LocationManager
-            _provider=_location_manager.getProvider(LocationManager.GPS_PROVIDER)
-            if ( (_provider)==(null) ) {
-                d("martin", "no gps provider")
-}
-            _location_manager.addNmeaListener(fun (msg: String, timestamp: Long){
-                val now = currentTimeMillis()
-                val dir = getCacheDir()
-                val file = File(dir, "gps_nmea_log.csv")
-                d("martin", "${file.getName()} ${now} ${timestamp} ${now-timestamp} '${msg.trim()}'")
-                file.appendText("${now},${timestamp},${now-timestamp},'${msg}'")
-})
-            _location_manager.requestLocationUpdates(_provider.getName(), 0, 0.0f, this)
 } else {
             d("martin", "request permissions ${REQUIRED_PERMISSIONS}")
             ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
@@ -90,21 +66,5 @@ class MainActivity : AppCompatActivity(),LocationListener {
         super.onPause()
         d("martin", "onPause")
         // none
-}
-    override public
-    fun onLocationChanged(loc: Location){
-        d("martin", "location = {$loc}")
-}
-    override public
-    fun onStatusChanged(provider: String, status: Int, extras: Bundle){
-        d("martin", "provider={$provider} status={$status}")
-}
-    override public
-    fun onProviderEnabled(provider: String){
-        d("martin", "provider={$provider} enabled")
-}
-    override public
-    fun onProviderDisabled(provider: String){
-        d("martin", "provider={$provider} disabled")
 }
 }

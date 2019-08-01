@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.example.quizactivity">
-  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION">
-</uses-permission>
-  <uses-feature android:required="true" android:name="android.hardware.location.gps">
-</uses-feature>
   <application android:theme="@style/AppTheme" android:supportsRtl="true" android:roundIcon="@mipmap/ic_launcher_round" android:icon="@mipmap/ic_launcher" android:allowBackup="true">
     <activity android:name=".MainActivity">
       <intent-filter>
