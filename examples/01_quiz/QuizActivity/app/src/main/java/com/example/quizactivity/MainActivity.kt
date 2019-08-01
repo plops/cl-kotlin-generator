@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity(),LocationListener {
                 val now = currentTimeMillis()
                 d("martin", "${now} ${timestamp} ${now-timestamp} '${msg.trim()}'")
 })
-            _location_manager.requestLocationUpdates(_provider.getName(), 1, 0.0f, this)
+            _location_manager.requestLocationUpdates(_provider.getName(), 0, 0.0f, this)
 } else {
             d("martin", "request permissions ${REQUIRED_PERMISSIONS}")
             ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)

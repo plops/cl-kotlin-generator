@@ -26,6 +26,10 @@
 
 ;; Perhaps they do this in the phone?
 
+;; every second a block of messages arrives
+;; time between messages (in timestamp) is 2-3ms
+;; perhaps this is good enough. can i verify this by synchronizing two phones via audio or wifi?
+
 (let* ((main-activity "MainActivity")
        (title "QuizActivity")
        (path-lisp "/home/martin/quicklisp/local-projects/cl-kotlin-generator/examples/01_quiz/")
@@ -182,7 +186,7 @@
 				      (string "${now} ${timestamp} ${now-timestamp} '${msg.trim()}'")))))
 			      (_location_manager.requestLocationUpdates
 			       (_provider.getName)
-			       1
+			       0
 			       0.0f
 			       this
 			       )
