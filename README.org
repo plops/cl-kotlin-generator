@@ -75,7 +75,7 @@ This is the eigth in a series of code generators.
 | 03 | read sensors and compute device orientation                                                                                                     |
 | 04 | read out camera images, also ask for permission                                                                                                 |
 | 05 | render script                                                                                                                                   |
-| 06 | grpc                                                                                                                                            |
+| 06 | grpc                                                                                                                                             |
 | 07 | gps time sync can this be precise enough to localize sounds?      https://stackoverflow.com/questions/8210264/sync-android-devices-via-gps-time |
 * Developing the first example 
 
