@@ -5,6 +5,7 @@
 
  
 ;;  https://shuza.ninja/grpc-client-side-implementation-for-android/
+;; https://github.com/google/protobuf-gradle-plugin
 
 (let* ((main-activity "MainActivity")
        (title "QuizActivity")
@@ -89,7 +90,6 @@
 					    (do0
 					     
 					     (setContentView R.layout.activity_main)
-					     (example)
 					     ))
 				    
 				    (SaveInstanceState ((savedInstanceState Bundle))
