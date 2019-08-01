@@ -29,17 +29,18 @@ class MainActivity : AppCompatActivity() {
         d("martin", "onCreate")
         setContentView(R.layout.activity_main)
         if ( allPermissionsGranted() ) {
+            d("martin", "required permissions obtained")
             _location_manager=getSystemService(Context.LOCATION_SERVICE) as LocationManager
             _provider=_location_manager.getProvider(LocationManager.GPS_PROVIDER)
             if ( (_provider)==(null) ) {
                 d("martin", "no gps provider")
 }
-            if ( GpsTestUtil() ) {
-                
-}
-            val now = currentTimeMillis()
-            d("martin", "now = ${now}")
+            _location_manager.addNmeaListener(fun (msg: String, timestamp: Long){
+                val now = currentTimeMillis()
+                d("martin", "${msg} ${now} ${timestamp}")
+})
 } else {
+            d("martin", "request permissions ${REQUIRED_PERMISSIONS}")
             ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
 }
 }

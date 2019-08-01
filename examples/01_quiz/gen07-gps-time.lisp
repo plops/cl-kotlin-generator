@@ -116,19 +116,24 @@
 					       PackageManager.PERMISSION_GRANTED))))))))
 	      
 	      ,@(loop for (var type) in `((_location_manager LocationManager)
-					  (_provider LocationProvider))
+					  (_provider LocationProvider
+						     )
+					  ;(_message_listener OnNmeaMessageListener)
+					  )
 		   collect
 		     (format nil "private lateinit var ~a : ~a" var type))
 	      
 	      ;;"private lateinit var _gps_driver : NmeaGpsDriver"
-	      ,@(loop for e in
-		     `((Create ((savedInstanceState Bundle?))
-			       (do0
-				(setContentView R.layout.activity_main)
-
-
-				(if (allPermissionsGranted)
-				    (do0
+	      ,@(loop
+		   for e in
+		     `((Create
+			((savedInstanceState Bundle?))
+			(do0
+			 (setContentView R.layout.activity_main)
+			 (if (allPermissionsGranted)
+			     (do0
+			      (d (string "martin")
+					(string "required permissions obtained"))
 				     (setf _location_manager (as (getSystemService Context.LOCATION_SERVICE)
 								 LocationManager))
 				     #+nil (do0 (setf _gps_driver (NmeaGpsDriver
@@ -139,15 +144,24 @@
 						(_gps_driver.register))
 				     (setf _provider (_location_manager.getProvider
 						      LocationManager.GPS_PROVIDER))
+				     
 				     (when (== _provider null)
 				       (d (string "martin")
 					  (string "no gps provider")))
-				     (when (GpsTestUtil))
-				     (let ((now (currentTimeMillis)))
-				       (d (string "martin")
-					  (string "now = ${now}"))) 
+				     (_location_manager.addNmeaListener
+					   (lambda
+						   (msg timestamp)
+						 (declare (type String msg)
+							  (type Long timestamp))
+						 (let ((now (currentTimeMillis)))
+						   
+						   (d (string "martin")
+						      (string "${msg} ${now} ${timestamp}")))))
+				      
 				     )
 				    (do0
+				     (d (string "martin")
+					(string "request permissions ${REQUIRED_PERMISSIONS}"))
 				     (ActivityCompat.requestPermissions
 				      this
 				      REQUIRED_PERMISSIONS
