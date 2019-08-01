@@ -30,6 +30,9 @@
 ;; time between messages (in timestamp) is 2-3ms
 ;; perhaps this is good enough. can i verify this by synchronizing two phones via audio or wifi?
 
+;; nmea message format
+;; https://www.gpsinformation.org/dale/nmea.htm#GGA
+
 (let* ((main-activity "MainActivity")
        (title "QuizActivity")
        (path-lisp "/home/martin/quicklisp/local-projects/cl-kotlin-generator/examples/01_quiz/")
