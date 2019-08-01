@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity(),LocationListener {
                 val dir = getCacheDir()
                 val file = File(dir, "gps_nmea_log.csv")
                 d("martin", "${file.getName()} ${now} ${timestamp} ${now-timestamp} '${msg.trim()}'")
-                file.appendText("${now},${timestamp},${now-timestamp},'${msg.trim()}'")
+                file.appendText("${now},${timestamp},${now-timestamp},'${msg}'")
 })
             _location_manager.requestLocationUpdates(_provider.getName(), 0, 0.0f, this)
 } else {

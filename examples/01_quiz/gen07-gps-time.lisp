@@ -183,7 +183,7 @@
 				   
 				   (d (string "martin")
 				      (string "${file.getName()} ${now} ${timestamp} ${now-timestamp} '${msg.trim()}'"))
-				   (file.appendText (string "${now},${timestamp},${now-timestamp},'${msg.trim()}'")))))
+				   (file.appendText (string "${now},${timestamp},${now-timestamp},'${msg}'")))))
 			      (_location_manager.requestLocationUpdates
 			       (_provider.getName)
 			       0
@@ -277,3 +277,5 @@
 	   )))
  
  
+;; adb install -r /home/martin/stage/cl-kotlin-generator/examples/01_quiz/QuizActivity/app/build/outputs/apk/debug/app-debug.apk
+
