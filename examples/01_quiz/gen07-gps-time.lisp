@@ -8,6 +8,24 @@
 
 ;; this example is based on:
 ;; https://github.com/barbeau/gpstest/blob/master/GPSTest/src/main/java/com/android/gpstest/GpsTestActivity.java
+
+
+;;  The NMEA sentences indicate the absolute time which is sent at a
+;;  random time during the second, and the 1 PPS signal indicates when
+;;  a new second starts, so the combination of both is required for
+;;  good time synchronization.
+;; https://kb.meinbergglobal.com/kb/time_sync/ntp/configuration/ntp_nmea_operation
+
+;; I don't think android gives me access to the 1pps signal
+
+;; http://esr.ibiblio.org/?p=4171
+
+;; > That module ships TTL-level serial data, with two lines for TX/RX,
+;; > a ground, RTS, and a fifth wire carrying the PPS strobe (usually
+;; > mapped as the DCD or Data Carrier Detect line).
+
+;; Perhaps they do this in the phone?
+
 (let* ((main-activity "MainActivity")
        (title "QuizActivity")
        (path-lisp "/home/martin/quicklisp/local-projects/cl-kotlin-generator/examples/01_quiz/")
@@ -123,7 +141,7 @@
 	      ,@(loop for (var type) in `((_location_manager LocationManager)
 					  (_provider LocationProvider
 						     )
-					  ;(_message_listener OnNmeaMessageListener)
+					;(_message_listener OnNmeaMessageListener)
 					  )
 		   collect
 		     (format nil "private lateinit var ~a : ~a" var type))
@@ -138,50 +156,50 @@
 			 (if (allPermissionsGranted)
 			     (do0
 			      (d (string "martin")
-					(string "required permissions obtained"))
-				     (setf _location_manager (as (getSystemService Context.LOCATION_SERVICE)
-								 LocationManager))
-				     #+nil (do0 (setf _gps_driver (NmeaGpsDriver
-								   this
-								   (string "UART2")
-								   9600
-								   2.5f))
-						(_gps_driver.register))
-				     (setf _provider (_location_manager.getProvider
-						      LocationManager.GPS_PROVIDER))
+				 (string "required permissions obtained"))
+			      (setf _location_manager (as (getSystemService Context.LOCATION_SERVICE)
+							  LocationManager))
+			      #+nil (do0 (setf _gps_driver (NmeaGpsDriver
+							    this
+							    (string "UART2")
+							    9600
+							    2.5f))
+					 (_gps_driver.register))
+			      (setf _provider (_location_manager.getProvider
+					       LocationManager.GPS_PROVIDER))
 				     
-				     (when (== _provider null)
-				       (d (string "martin")
-					  (string "no gps provider")))
-				     (_location_manager.addNmeaListener
-					   (lambda
-						   (msg timestamp)
-						 (declare (type String msg)
-							  (type Long timestamp))
-						 (let ((now (currentTimeMillis)))
+			      (when (== _provider null)
+				(d (string "martin")
+				   (string "no gps provider")))
+			      (_location_manager.addNmeaListener
+			       (lambda
+				   (msg timestamp)
+				 (declare (type String msg)
+					  (type Long timestamp))
+				 (let ((now (currentTimeMillis)))
 						   
-						   (d (string "martin")
-						      (string "${now} ${timestamp} ${now-timestamp} '${msg.trim()}'")))))
-				     (_location_manager.requestLocationUpdates
-				      (_provider.getName)
-				      1
-				      0.0f
-				      this
-				      )
+				   (d (string "martin")
+				      (string "${now} ${timestamp} ${now-timestamp} '${msg.trim()}'")))))
+			      (_location_manager.requestLocationUpdates
+			       (_provider.getName)
+			       1
+			       0.0f
+			       this
+			       )
 				      
-				     )
-				    (do0
-				     (d (string "martin")
-					(string "request permissions ${REQUIRED_PERMISSIONS}"))
-				     (ActivityCompat.requestPermissions
-				      this
-				      REQUIRED_PERMISSIONS
-				      REQUEST_CODE_PERMISSIONS)))
+			      )
+			     (do0
+			      (d (string "martin")
+				 (string "request permissions ${REQUIRED_PERMISSIONS}"))
+			      (ActivityCompat.requestPermissions
+			       this
+			       REQUIRED_PERMISSIONS
+			       REQUEST_CODE_PERMISSIONS)))
 
 				
 				
 				
-				))
+			 ))
 		       
 		       (SaveInstanceState ((savedInstanceState Bundle)))
 		       (PostCreate ((savedInstanceState Bundle?)))
@@ -217,29 +235,29 @@
 					     (string "provider={$provider} status={$status}"))
 					  override)
 			 (onProviderEnabled ((provider String)
-					   )
-					  (d (string "martin")
-					     (string "provider={$provider} enabled"))
-					  override)
+					     )
+					    (d (string "martin")
+					       (string "provider={$provider} enabled"))
+					    override)
 			 (onProviderDisabled ((provider String)
-					   )
-					  (d (string "martin")
-					     (string "provider={$provider} disabled"))
-					  override))
+					      )
+					     (d (string "martin")
+						(string "provider={$provider} disabled"))
+					     override))
 		    collect
 		      (destructuring-bind (name par code &optional (style 'do0
 									  )) e
-		       `(,style (do0 "public"
-				     (defun ,name (,@(mapcar #'first par))
+			`(,style (do0 "public"
+				      (defun ,name (,@(mapcar #'first par))
 				       
-				(declare ,@(loop for (var type) in par
-					      collect
-						`(type ,type ,var)))
-				#+nil
-				(dot super (,name ,@(mapcar #'first par
+					(declare ,@(loop for (var type) in par
+						      collect
+							`(type ,type ,var)))
+					#+nil
+					(dot super (,name ,@(mapcar #'first par
 
-							    )))
-				,code)))))
+								    )))
+					,code)))))
 	       )
 	      ))))
     (ensure-directories-exist path-kotlin)

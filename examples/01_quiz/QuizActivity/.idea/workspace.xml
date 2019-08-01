@@ -15,7 +15,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1919a353-6271-43a5-80eb-cd4ff694b18c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/quizactivity/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/quizactivity/MainActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -44,10 +44,10 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/quizactivity/MainActivity.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-38">
-              <caret line="108" column="5" selection-start-line="108" selection-start-column="5" selection-end-line="108" selection-end-column="5" />
+            <state relative-caret-position="53">
+              <caret line="43" column="46" selection-start-line="43" selection-start-column="46" selection-end-line="43" selection-end-column="46" />
               <folding>
-                <element signature="e#33#479#0" expanded="true" />
+                <element signature="e#33#553#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -307,7 +307,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1250" height="800" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
       <window_info content_ui="combo" id="Project" order="1" weight="0.35797343" />
@@ -321,12 +320,12 @@
       <window_info anchor="bottom" id="Run" order="0" weight="0.32738096" />
       <window_info anchor="bottom" id="Debug" order="1" />
       <window_info anchor="bottom" id="Find" order="2" />
-      <window_info anchor="bottom" id="Logcat" order="3" weight="0.6369048" />
+      <window_info active="true" anchor="bottom" id="Logcat" order="3" visible="true" weight="0.6369048" />
       <window_info anchor="bottom" id="Version Control" order="4" weight="0.3247768" />
       <window_info anchor="bottom" id="TODO" order="5" weight="0.32589287" />
       <window_info anchor="bottom" id="Terminal" order="6" weight="0.3735119" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Build" order="8" visible="true" weight="0.33035713" />
+      <window_info anchor="bottom" id="Build" order="8" weight="0.33035713" />
       <window_info anchor="bottom" id="Android Profiler" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Inspection Results" order="10" weight="0.19791667" />
       <window_info anchor="right" id="Device File Explorer" order="0" side_tool="true" />
@@ -430,10 +429,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/quizactivity/MainActivity.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-38">
-          <caret line="108" column="5" selection-start-line="108" selection-start-column="5" selection-end-line="108" selection-end-column="5" />
+        <state relative-caret-position="53">
+          <caret line="43" column="46" selection-start-line="43" selection-start-column="46" selection-end-line="43" selection-end-column="46" />
           <folding>
-            <element signature="e#33#479#0" expanded="true" />
+            <element signature="e#33#553#0" expanded="true" />
           </folding>
         </state>
       </provider>
