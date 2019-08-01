@@ -68,15 +68,16 @@ This is the eigth in a series of code generators.
 
 * Examples
 
-|    | comment                                                                                                                                         |
-|----+-------------------------------------------------------------------------------------------------------------------------------------------------|
-| 01 | define layout in xml for a few buttons and some kotlin handlers (based on Big Nerd Ranch quiz_activity)                                         |
-| 02 | open opengles context and draw dark red background                                                                                              |
-| 03 | read sensors and compute device orientation                                                                                                     |
-| 04 | read out camera images, also ask for permission                                                                                                 |
-| 05 | render script                                                                                                                                   |
-| 06 | grpc, also uses reactivex to form http connection                                                                                               |
-| 07 | gps time sync can this be precise enough to localize sounds?      https://stackoverflow.com/questions/8210264/sync-android-devices-via-gps-time |
+|    | comment                                                                                                 |
+|----+---------------------------------------------------------------------------------------------------------|
+| 01 | define layout in xml for a few buttons and some kotlin handlers (based on Big Nerd Ranch quiz_activity) |
+| 02 | open opengles context and draw dark red background                                                      |
+| 03 | read sensors and compute device orientation                                                             |
+| 04 | read out camera images, also ask for permission                                                         |
+| 05 | render script                                                                                           |
+| 06 | grpc, also uses reactivex to form http connection                                                       |
+| 07 | gps time sync can this be precise enough to localize sounds?                                            |
+| 08 | something with encryption                                                                               |
 * Developing the first example 
 
 The project was created in Android Studio 3.6 Canary 5. Older versions

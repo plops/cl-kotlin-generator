@@ -3,13 +3,7 @@
 
 (in-package :cl-kotlin-generator)
 
-
-;; this example is based on this website
-;;  https://shuza.ninja/grpc-client-side-implementation-for-android/ 
-
-;; i obtained the most recent version of protobuf here (it needs to be
-;; written into a gradle file):
-;; https://github.com/google/protobuf-gradle-plugin
+;; https://stackoverflow.com/questions/8210264/sync-android-devices-via-gps-time 
 
 (let* ((main-activity "MainActivity")
        (title "QuizActivity")
@@ -20,14 +14,7 @@
        (path-layout (format nil "~a/~a/app/src/main/res/layout/"
 			    path-lisp title))
        (path-manifest (format nil "~a/~a/app/src/main/"
-			    path-lisp title))
-
-       
-       ;FirstGame/app/src/main/res/layout/content_main.xml
-       ;FirstGame/app/src/main/res/values/strings.xml
-       ;QuizActivity/app/src/main/AndroidManifest.xml
-       
-       )
+			    path-lisp title)))
   (let* ((manifest
 	  `(do0
 	   "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
@@ -80,24 +67,8 @@
 		android.util.Log.d
 
 		android.os.Bundle
-
-		
-		;com.example.quizactivity.LoginRequest
-		;com.example.quizactivity.LoginResponse
-		;com.example.quizactivity.LoginServiceGrpc
-		io.grpc.ManagedChannel
-		io.grpc.okhttp.OkHttpChannelBuilder
-
-		io.reactivex.*
-		io.reactivex.android.schedulers.AndroidSchedulers
-		io.reactivex.disposables.Disposable
-		io.reactivex.schedulers.Schedulers
-
-		;kotlinx.android.synthetic.main.activity_login.*
-
-		       )
-
-
+		java.lang.System.currentTimeMillis
+		)
 	       (defclass MainActivity ((AppCompatActivity)
 				       
 				       )
@@ -106,44 +77,9 @@
 			`((Create ((savedInstanceState Bundle?))
 				  (do0
 				   (setContentView R.layout.activity_main)
-				   (let (connection_channel
-					  
-					 (login_service (LoginServiceGrpc.newBlockingStub
-							 connection_channel))
-					 (request_message (dot (LoginRequest.newBuilder)
-							       (setUsername (string "bla"))
-							       (setPassword (string "foo"))
-							       (build))))
-				     (declare (type (dot
-					   "ManagedChannel by lazy"
-					   (progn
-					     (dot (OkHttpChannelBuilder.forAddress
-						   (string "192.168.1.104")
-						   8080)
-						  (usePlaintext)
-						  (build))))
-						    connection_channel))
-				     (dot
-				      Single.fromCallable
-				      (progn
-					(login_service.logIn request_message)
-					)
-				      (subscribeOn (Schedulers.io))
-				      (observeOn (AndroidSchedulers.mainThread))
-				      (subscribe (dot "object : SingleObserver<LoginResponse>"
-						      (progn
-							(override
-							 (defun onSuccess (response)
-							   (declare (type LoginResponse response))
-							   (d (string "martin")
-							      (string "response")))
-							 )
-							(override
-							 (defun onSubscribe (d)
-							   (declare (type Disposable d))))
-							(override
-							 (defun onError (e)
-							   (declare (type Throwable e)))))))))))
+				   (let ((now (currentTimeMillis)))
+				     (d (string "martin")
+					(string "now = ${now}")))))
 				    
 				    (SaveInstanceState ((savedInstanceState Bundle)))
 				    (PostCreate ((savedInstanceState Bundle?)))
