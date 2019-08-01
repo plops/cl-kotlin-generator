@@ -75,7 +75,7 @@
 	       (package com.example.quizactivity)
 	       (import
 
-
+ 
 		androidx.appcompat.app.AppCompatActivity
 		android.util.Log.d
 
