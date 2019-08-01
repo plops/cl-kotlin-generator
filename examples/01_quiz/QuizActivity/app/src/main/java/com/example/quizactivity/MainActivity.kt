@@ -2,10 +2,6 @@ package com.example.quizactivity
 import androidx.appcompat.app.AppCompatActivity
 import android.util.Log.d
 import android.os.Bundle
-import android.content.Context
-import com.example.quizactivity.LoginRequest
-import com.example.quizactivity.LoginResponse
-import com.example.quizactivity.LoginServiceGrpc
 import io.grpc.ManagedChannel
 import io.grpc.okhttp.OkHttpChannelBuilder
 import io.reactivex.*

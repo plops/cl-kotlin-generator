@@ -81,11 +81,10 @@
 
 		android.os.Bundle
 
-		android.content.Context
-
-		com.example.quizactivity.LoginRequest
-		com.example.quizactivity.LoginResponse
-		com.example.quizactivity.LoginServiceGrpc
+		
+		;com.example.quizactivity.LoginRequest
+		;com.example.quizactivity.LoginResponse
+		;com.example.quizactivity.LoginServiceGrpc
 		io.grpc.ManagedChannel
 		io.grpc.okhttp.OkHttpChannelBuilder
 
