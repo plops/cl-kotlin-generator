@@ -34,9 +34,7 @@
 	   (manifest
 	    :xmlns.android "http://schemas.android.com/apk/res/android"
 	    :package com.example.quizactivity
-	    (uses-feature
-	     :android.name android.hardware.camera
-	     :android.required true )
+	    
 	    (application
 	     :android.allowBackup true
 	     :android.icon @mipmap/ic_launcher

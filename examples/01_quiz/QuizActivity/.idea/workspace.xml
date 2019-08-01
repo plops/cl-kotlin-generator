@@ -15,10 +15,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1919a353-6271-43a5-80eb-cd4ff694b18c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../../../README.org" beforeDir="false" afterPath="$PROJECT_DIR$/../../../README.org" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/quizactivity/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/quizactivity/MainActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../gen07-gps-time.lisp" beforeDir="false" afterPath="$PROJECT_DIR$/../gen07-gps-time.lisp" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -47,10 +44,10 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/quizactivity/MainActivity.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-375">
-              <caret line="5" column="55" selection-start-line="5" selection-start-column="55" selection-end-line="5" selection-end-column="55" />
+            <state relative-caret-position="195">
+              <caret line="14" column="48" lean-forward="true" selection-start-line="14" selection-start-column="48" selection-end-line="14" selection-end-column="48" />
               <folding>
-                <element signature="e#33#131#0" expanded="true" />
+                <element signature="e#33#290#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -105,18 +102,17 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/rs/sum.rs" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/quizactivity/MainActivity.kt" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/proto/LoginService.proto" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/quizactivity/MainActivity.kt" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="89" />
-    <option name="y" value="183" />
-    <option name="width" value="938" />
-    <option name="height" value="706" />
+    <option name="x" value="-4" />
+    <option name="width" value="1258" />
+    <option name="height" value="804" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -300,7 +296,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-4" y="0" width="1258" height="804" extended-state="7" />
+    <frame x="-4" y="0" width="1258" height="804" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
@@ -421,10 +417,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/quizactivity/MainActivity.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-375">
-          <caret line="5" column="55" selection-start-line="5" selection-start-column="55" selection-end-line="5" selection-end-column="55" />
+        <state relative-caret-position="195">
+          <caret line="14" column="48" lean-forward="true" selection-start-line="14" selection-start-column="48" selection-end-line="14" selection-end-column="48" />
           <folding>
-            <element signature="e#33#131#0" expanded="true" />
+            <element signature="e#33#290#0" expanded="true" />
           </folding>
         </state>
       </provider>

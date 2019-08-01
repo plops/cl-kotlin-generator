@@ -22,7 +22,7 @@
 	    :xmlns.android "http://schemas.android.com/apk/res/android"
 	    :package com.example.quizactivity
 	    (uses-feature
-	     :android.name android.hardware.camera
+	     :android.name android.hardware.location.gps
 	     :android.required true )
 	    (application
 	     :android.allowBackup true
@@ -68,15 +68,21 @@
 
 		android.os.Bundle
 		java.lang.System.currentTimeMillis
+		android.location.LocationManager
+		android.location.OnNmeaMessageListener
+		android.content.Context
 		)
 	       (defclass MainActivity ((AppCompatActivity)
 				       
 				       )
-		 
+		 "private lateinit var _location_manager : LocationManager"
 		 ,@(loop for e in
 			`((Create ((savedInstanceState Bundle?))
 				  (do0
 				   (setContentView R.layout.activity_main)
+				   (setf _location_manager (as (getSystemService Context.LOCATION_SERVICE)
+							       LocationManager))
+				   
 				   (let ((now (currentTimeMillis)))
 				     (d (string "martin")
 					(string "now = ${now}")))))
