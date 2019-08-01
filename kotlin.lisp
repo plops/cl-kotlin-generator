@@ -104,14 +104,17 @@ entry return-values contains a list of return values"
 				       (format nil "~a ~a~@[: ~a~]~@[ = ~a~]"
 					       style
 					       name
-					       (lookup-type name :env env)
+					       (let ((type (lookup-type name :env env)))
+						 (if type
+						     (funcall emit type)
+						     type))
 					       (funcall emit value)))
-				     (format nil "~a ~a ~a"
+				     (format nil "~a ~a: ~a"
 					     style
 					     decl
 					     (let ((type (lookup-type decl :env env)))
 					       (if type
-						   type
+						   (funcall emit type)
 						   (break "type ~a not defined." decl))))))
 			  ,@body)))))))
 

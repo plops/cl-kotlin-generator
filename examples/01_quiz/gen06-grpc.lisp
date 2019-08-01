@@ -83,6 +83,10 @@
 
 		android.content.Context
 
+		com.example.learn.LoginRequest
+		com.example.learn.LoginServiceGrpc
+		io.grpc.ManagedChannel
+		io.grpc.okhttp.OkHttpChannelBuilder
 		       )
 
 
@@ -90,14 +94,29 @@
 				       
 				       )
 		 
-		 ,@(loop for e in `((Create ((savedInstanceState Bundle?))
-					    (do0
-					     
-					     (setContentView R.layout.activity_main)
-					     ))
+		 ,@(loop for e in
+			`((Create ((savedInstanceState Bundle?))
+				  (do0
+				   (setContentView R.layout.activity_main)
+				   (let (connection_channel
+					  
+					 (login_service (LoginServiceGrpc.newBlockingStub
+							 connection_channel))
+					 (request_message (dot (LoginRequest.newBuilder)
+							       (setUsername (string "bla"))
+							       (setPassword (string "foo"))
+							       (build))))
+				     (declare (type (dot
+					   "ManagedChannel by lazy"
+					   (progn
+					     (dot (OkHttpChannelBuilder.forAddress
+						   (string "192.168.1.104")
+						   8080)
+						  (usePlaintext)
+						  (build))))
+						    connection_channel)))))
 				    
-				    (SaveInstanceState ((savedInstanceState Bundle))
-						       )
+				    (SaveInstanceState ((savedInstanceState Bundle)))
 				    (PostCreate ((savedInstanceState Bundle?)))
 				    (Destroy)
 				    (Start)
