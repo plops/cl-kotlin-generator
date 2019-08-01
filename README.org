@@ -83,8 +83,9 @@ The project was created in Android Studio 3.6 Canary 5. Older versions
 will not open it.
 
 ** Directory structure
-   - these files are what the tutorials usually touch
-   - is it sufficient to generate those and android studio will create the rest? that would be nice
+   - an android project consists of a lot of different files
+   - currently the lisp code generates kotlin and xml files. these are
+     required to implement the logic and layout of the gui
 #+BEGIN_QUOTE
 FirstGame/app/src/main/java/com/example/firstgame/MainActivity.kt
 FirstGame/app/src/main/res/layout/activity_main.xml
@@ -93,7 +94,15 @@ FirstGame/app/src/main/res/values/strings.xml
 #+END_QUOTE
    - https://stackoverflow.com/questions/20801042/how-to-create-android-project-with-gradle-from-command-line
    - apparently it used to be possible to create an android project from the command line 
-   
+   - for now each lisp example overwrites files in a single android
+     project. that works for me but has the drawback that the
+     different expanded examples can't be viewed in the repo.
+   - gradle files are written in groovy language syntax. currently i
+     don't generate them from lisp. unfortunately that means that two
+     gradle files and the gradle.properties need to be edited to make
+     the examples run
+   - the proto file for the grpc example is also stored directly in
+     the repo. ideally i would want to generate this from lisp as well
 ** XML generation
  - android takes layout definitions as xml files
  - eventually i will probably figure out how to create layouts from
