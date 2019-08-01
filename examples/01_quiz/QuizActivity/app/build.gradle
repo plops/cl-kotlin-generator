@@ -11,7 +11,7 @@ android {
     buildToolsVersion "29.0.1"
     defaultConfig {
         applicationId "com.example.quizactivity"
-        minSdkVersion 25
+        minSdkVersion 27 //25
         targetSdkVersion 29
         //renderscriptTargetApi 18
         //renderscriptSupportModeEnabled true
@@ -43,6 +43,8 @@ dependencies {
     //implementation "androidx.camera:camera-core:${camerax_version}"
     //implementation "androidx.camera:camera-camera2:${camerax_version}"
 
+    // for gps example
+    implementation 'com.google.android.things.contrib:driver-gps:1.0'
 
     // enable this for grpc example:
     implementation 'javax.annotation:javax.annotation-api:1.2'

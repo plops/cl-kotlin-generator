@@ -9,19 +9,34 @@ import android.content.Context
 import android.Manifest
 import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import com.google.android.things.contrib.driver.gps.NmeaGpsDriver
+private const
+val REQUEST_CODE_PERMISSIONS = 10
+private 
+val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
 class MainActivity : AppCompatActivity() {
+    private
+    fun allPermissionsGranted(): Boolean {
+        return REQUIRED_PERMISSIONS.all(fun (it: String): Boolean {
+            return (ContextCompat.checkSelfPermission(baseContext, it))==(PackageManager.PERMISSION_GRANTED)
+})
+}
     private lateinit var _location_manager : LocationManager
+    private lateinit var _gps_driver : NmeaGpsDriver
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         d("martin", "onCreate")
         setContentView(R.layout.activity_main)
-        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 123)
-        _location_manager=getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        if ( !((checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION))==(PackageManager.PERMISSION_GRANTED)) ) {
-            d("martin", "missing fine location permission")
+        if ( allPermissionsGranted() ) {
+            _location_manager=getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            _gps_driver=NmeaGpsDriver(this, "UART2", 9600, 2.5f)
+            _gps_driver.register()
+            val now = currentTimeMillis()
+            d("martin", "now = ${now}")
+} else {
+            ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
 }
-        val now = currentTimeMillis()
-        d("martin", "now = ${now}")
 }
     override fun onSaveInstanceState(savedInstanceState: Bundle){
         super.onSaveInstanceState(savedInstanceState)

@@ -86,30 +86,64 @@
 		android.Manifest
 		android.content.pm.PackageManager
 		androidx.core.app.ActivityCompat
-		)
+		androidx.core.content.ContextCompat
+		com.google.android.things.contrib.driver.gps.NmeaGpsDriver)
+
+	       (do0
+                  (do0
+                   "private const"
+                   (let ((REQUEST_CODE_PERMISSIONS 10))))
+                  (do0
+                   "private "
+                   (let ((REQUIRED_PERMISSIONS (arrayOf Manifest.permission.ACCESS_FINE_LOCATION
+							))))))
 	       (defclass MainActivity ((AppCompatActivity)
 				       
 				       )
+		 (do0 "private"
+                      (defun allPermissionsGranted ()
+                       (declare (values Boolean))
+                       (return (dot REQUIRED_PERMISSIONS
+                                    (all (lambda (it)
+                                           (declare (type String it)
+                                                    (values Boolean))
+                                           (return
+                                             (== (ContextCompat.checkSelfPermission
+                                                 baseContext it)
+                                                PackageManager.PERMISSION_GRANTED))))))))
+		 
 		 "private lateinit var _location_manager : LocationManager"
+		 "private lateinit var _gps_driver : NmeaGpsDriver"
 		 ,@(loop for e in
 			`((Create ((savedInstanceState Bundle?))
 				  (do0
 				   (setContentView R.layout.activity_main)
-				   (ActivityCompat.requestPermissions
-				    this
-				    (arrayOf Manifest.permission.ACCESS_FINE_LOCATION)
-				    123)
+
+
+				    (if (allPermissionsGranted)
+                                                 (do0
+                                                  (setf _location_manager (as (getSystemService Context.LOCATION_SERVICE)
+									      LocationManager))
+						  (setf _gps_driver (NmeaGpsDriver
+								     this
+								     (string "UART2")
+								     9600
+								     2.5f))
+						  (_gps_driver.register)
+						  (let ((now (currentTimeMillis)))
+						    (d (string "martin")
+						       (string "now = ${now}")))
+						  )
+                                                 (do0
+                                                  (ActivityCompat.requestPermissions
+                                                   this
+                                                   REQUIRED_PERMISSIONS
+                                                   REQUEST_CODE_PERMISSIONS)))
+
+				    
 				   
-				   (setf _location_manager (as (getSystemService Context.LOCATION_SERVICE)
-							       LocationManager))
-				   (unless (== (checkSelfPermission
-						Manifest.permission.ACCESS_FINE_LOCATION)
-					       PackageManager.PERMISSION_GRANTED)
-				     (d (string "martin")
-					(string "missing fine location permission")))
-				   (let ((now (currentTimeMillis)))
-				     (d (string "martin")
-					(string "now = ${now}")))))
+				   
+				   ))
 				    
 				    (SaveInstanceState ((savedInstanceState Bundle)))
 				    (PostCreate ((savedInstanceState Bundle?)))
