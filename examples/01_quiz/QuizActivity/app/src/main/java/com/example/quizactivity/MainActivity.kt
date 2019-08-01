@@ -34,6 +34,9 @@ class MainActivity : AppCompatActivity() {
             if ( (_provider)==(null) ) {
                 d("martin", "no gps provider")
 }
+            if ( GpsTestUtil() ) {
+                
+}
             val now = currentTimeMillis()
             d("martin", "now = ${now}")
 } else {
