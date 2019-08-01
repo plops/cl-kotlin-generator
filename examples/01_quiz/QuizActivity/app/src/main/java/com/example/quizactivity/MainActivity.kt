@@ -4,13 +4,13 @@ import android.util.Log.d
 import android.os.Bundle
 import java.lang.System.currentTimeMillis
 import android.location.LocationManager
+import android.location.LocationProvider
 import android.location.OnNmeaMessageListener
 import android.content.Context
 import android.Manifest
 import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.google.android.things.contrib.driver.gps.NmeaGpsDriver
 private const
 val REQUEST_CODE_PERMISSIONS = 10
 private 
@@ -23,15 +23,17 @@ class MainActivity : AppCompatActivity() {
 })
 }
     private lateinit var _location_manager : LocationManager
-    private lateinit var _gps_driver : NmeaGpsDriver
+    private lateinit var _provider : LocationProvider
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         d("martin", "onCreate")
         setContentView(R.layout.activity_main)
         if ( allPermissionsGranted() ) {
             _location_manager=getSystemService(Context.LOCATION_SERVICE) as LocationManager
-            _gps_driver=NmeaGpsDriver(this, "UART2", 9600, 2.5f)
-            _gps_driver.register()
+            _provider=_location_manager.getProvider(LocationManager.GPS_PROVIDER)
+            if ( (_provider)==(null) ) {
+                d("martin", "no gps provider")
+}
             val now = currentTimeMillis()
             d("martin", "now = ${now}")
 } else {

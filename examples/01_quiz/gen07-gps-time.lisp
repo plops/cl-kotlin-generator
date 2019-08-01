@@ -26,8 +26,9 @@
 					;<uses-permission android:name="com.google.android.things.permission.USE_PERIPHERAL_IO"/>
 	    ,@(loop for e in
 		   `(android.permission.ACCESS_FINE_LOCATION
-		     com.google.android.things.permission.MANAGE_GNSS_DRIVERS
-		     com.google.android.things.permission.USE_PERIPHERAL_IO)
+		     ;com.google.android.things.permission.MANAGE_GNSS_DRIVERS
+		     ;com.google.android.things.permission.USE_PERIPHERAL_IO
+		     )
 		 collect
 		   `(uses-permission
 		     :android.name ,e
@@ -80,6 +81,7 @@
 		android.os.Bundle
 		java.lang.System.currentTimeMillis
 		android.location.LocationManager
+		android.location.LocationProvider
 		android.location.OnNmeaMessageListener
 		android.content.Context
 
@@ -87,7 +89,8 @@
 		android.content.pm.PackageManager
 		androidx.core.app.ActivityCompat
 		androidx.core.content.ContextCompat
-		com.google.android.things.contrib.driver.gps.NmeaGpsDriver)
+		;com.google.android.things.contrib.driver.gps.NmeaGpsDriver
+		)
 
 	       (do0
                   (do0
@@ -112,8 +115,12 @@
                                                  baseContext it)
                                                 PackageManager.PERMISSION_GRANTED))))))))
 		 
-		 "private lateinit var _location_manager : LocationManager"
-		 "private lateinit var _gps_driver : NmeaGpsDriver"
+		 ,@(loop for (var type) in `((_location_manager LocationManager)
+					     (_provider LocationProvider))
+		      collect
+			(format nil "private lateinit var ~a : ~a" var type))
+		 
+		 ;;"private lateinit var _gps_driver : NmeaGpsDriver"
 		 ,@(loop for e in
 			`((Create ((savedInstanceState Bundle?))
 				  (do0
@@ -124,12 +131,17 @@
                                                  (do0
                                                   (setf _location_manager (as (getSystemService Context.LOCATION_SERVICE)
 									      LocationManager))
-						  (setf _gps_driver (NmeaGpsDriver
-								     this
-								     (string "UART2")
-								     9600
-								     2.5f))
-						  (_gps_driver.register)
+						  #+nil (do0 (setf _gps_driver (NmeaGpsDriver
+									    this
+									    (string "UART2")
+									    9600
+									    2.5f))
+							     (_gps_driver.register))
+						  (setf _provider (_location_manager.getProvider
+								   LocationManager.GPS_PROVIDER))
+						  (when (== _provider null)
+						    (d (string "martin")
+						       (string "no gps provider")))
 						  (let ((now (currentTimeMillis)))
 						    (d (string "martin")
 						       (string "now = ${now}")))
