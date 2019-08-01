@@ -13,6 +13,7 @@ import android.Manifest
 import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import java.io.File
 private const
 val REQUEST_CODE_PERMISSIONS = 10
 private 
@@ -39,7 +40,10 @@ class MainActivity : AppCompatActivity(),LocationListener {
 }
             _location_manager.addNmeaListener(fun (msg: String, timestamp: Long){
                 val now = currentTimeMillis()
-                d("martin", "${now} ${timestamp} ${now-timestamp} '${msg.trim()}'")
+                val dir = getCacheDir()
+                val file = File(dir, "gps_nmea_log.csv")
+                d("martin", "${file.getName()} ${now} ${timestamp} ${now-timestamp} '${msg.trim()}'")
+                file.appendText("${now},${timestamp},${now-timestamp},'${msg.trim()}'")
 })
             _location_manager.requestLocationUpdates(_provider.getName(), 0, 0.0f, this)
 } else {

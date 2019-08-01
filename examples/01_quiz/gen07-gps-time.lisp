@@ -117,6 +117,7 @@
 	     androidx.core.app.ActivityCompat
 	     androidx.core.content.ContextCompat
 					;com.google.android.things.contrib.driver.gps.NmeaGpsDriver
+	     java.io.File
 	     )
 
 	    (do0
@@ -163,12 +164,7 @@
 				 (string "required permissions obtained"))
 			      (setf _location_manager (as (getSystemService Context.LOCATION_SERVICE)
 							  LocationManager))
-			      #+nil (do0 (setf _gps_driver (NmeaGpsDriver
-							    this
-							    (string "UART2")
-							    9600
-							    2.5f))
-					 (_gps_driver.register))
+			      
 			      (setf _provider (_location_manager.getProvider
 					       LocationManager.GPS_PROVIDER))
 				     
@@ -180,10 +176,14 @@
 				   (msg timestamp)
 				 (declare (type String msg)
 					  (type Long timestamp))
-				 (let ((now (currentTimeMillis)))
-						   
+				 (let ((now (currentTimeMillis))
+				       (dir (getCacheDir))
+				       (file (File dir (string "gps_nmea_log.csv")))
+				       )
+				   
 				   (d (string "martin")
-				      (string "${now} ${timestamp} ${now-timestamp} '${msg.trim()}'")))))
+				      (string "${file.getName()} ${now} ${timestamp} ${now-timestamp} '${msg.trim()}'"))
+				   (file.appendText (string "${now},${timestamp},${now-timestamp},'${msg.trim()}'")))))
 			      (_location_manager.requestLocationUpdates
 			       (_provider.getName)
 			       0

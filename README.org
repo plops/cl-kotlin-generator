@@ -76,7 +76,7 @@ This is the eigth in a series of code generators.
 | 04 | read out camera images, also ask for permission                                                                    |
 | 05 | render script                                                                                                      |
 | 06 | grpc, also uses reactivex to form http connection                                                                  |
-| 07 | gps time sync can this be precise enough to localize sounds?                                                       |
+| 07 | store gps nmea messages in a temporary file                                                                        |
 | 08 | store locally                  https://developer.android.com/training/data-storage/files.html#WriteInternalStorage |
 | 09 | something with encryption                                                                                          |
 
