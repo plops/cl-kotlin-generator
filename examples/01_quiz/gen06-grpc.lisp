@@ -3,8 +3,12 @@
 
 (in-package :cl-kotlin-generator)
 
- 
-;;  https://shuza.ninja/grpc-client-side-implementation-for-android/
+
+;; this example is based on this website
+;;  https://shuza.ninja/grpc-client-side-implementation-for-android/ 
+
+;; i obtained the most recent version of protobuf here (it needs to be
+;; written into a gradle file):
 ;; https://github.com/google/protobuf-gradle-plugin
 
 (let* ((main-activity "MainActivity")
