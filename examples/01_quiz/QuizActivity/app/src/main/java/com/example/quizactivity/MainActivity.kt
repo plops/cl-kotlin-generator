@@ -5,6 +5,8 @@ import android.os.Bundle
 import java.lang.System.currentTimeMillis
 import android.location.LocationManager
 import android.location.LocationProvider
+import android.location.Location
+import android.location.LocationListener
 import android.location.OnNmeaMessageListener
 import android.content.Context
 import android.Manifest
@@ -15,7 +17,7 @@ private const
 val REQUEST_CODE_PERMISSIONS = 10
 private 
 val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),LocationListener {
     private
     fun allPermissionsGranted(): Boolean {
         return REQUIRED_PERMISSIONS.all(fun (it: String): Boolean {
@@ -37,8 +39,9 @@ class MainActivity : AppCompatActivity() {
 }
             _location_manager.addNmeaListener(fun (msg: String, timestamp: Long){
                 val now = currentTimeMillis()
-                d("martin", "${msg} ${now} ${timestamp}")
+                d("martin", "${now} ${timestamp} ${now-timestamp} '${msg.trim()}'")
 })
+            _location_manager.requestLocationUpdates(_provider.getName(), 1, 0.0f, this)
 } else {
             d("martin", "request permissions ${REQUIRED_PERMISSIONS}")
             ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
@@ -83,5 +86,21 @@ class MainActivity : AppCompatActivity() {
         super.onPause()
         d("martin", "onPause")
         // none
+}
+    override public
+    fun onLocationChanged(loc: Location){
+        d("martin", "location = {$loc}")
+}
+    override public
+    fun onStatusChanged(provider: String, status: Int, extras: Bundle){
+        d("martin", "provider={$provider} status={$status}")
+}
+    override public
+    fun onProviderEnabled(provider: String){
+        d("martin", "provider={$provider} enabled")
+}
+    override public
+    fun onProviderDisabled(provider: String){
+        d("martin", "provider={$provider} disabled")
 }
 }

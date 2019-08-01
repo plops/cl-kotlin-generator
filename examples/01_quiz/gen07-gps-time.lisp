@@ -5,6 +5,9 @@
 
 ;; https://stackoverflow.com/questions/8210264/sync-android-devices-via-gps-time 
 ;; https://github.com/androidthings/drivers-samples/blob/master/gps/src/main/java/com/example/androidthings/driversamples/GpsActivity.java
+
+;; this example is based on:
+;; https://github.com/barbeau/gpstest/blob/master/GPSTest/src/main/java/com/android/gpstest/GpsTestActivity.java
 (let* ((main-activity "MainActivity")
        (title "QuizActivity")
        (path-lisp "/home/martin/quicklisp/local-projects/cl-kotlin-generator/examples/01_quiz/")
@@ -82,6 +85,8 @@
 	     java.lang.System.currentTimeMillis
 	     android.location.LocationManager
 	     android.location.LocationProvider
+	     android.location.Location
+	     android.location.LocationListener
 	     android.location.OnNmeaMessageListener
 	     android.content.Context
 
@@ -101,7 +106,7 @@
 	      (let ((REQUIRED_PERMISSIONS (arrayOf Manifest.permission.ACCESS_FINE_LOCATION
 						   ))))))
 	    (defclass MainActivity ((AppCompatActivity)
-				    
+				    LocationListener
 				    )
 	      (do0 "private"
 		   (defun allPermissionsGranted ()
@@ -156,7 +161,13 @@
 						 (let ((now (currentTimeMillis)))
 						   
 						   (d (string "martin")
-						      (string "${msg} ${now} ${timestamp}")))))
+						      (string "${now} ${timestamp} ${now-timestamp} '${msg.trim()}'")))))
+				     (_location_manager.requestLocationUpdates
+				      (_provider.getName)
+				      1
+				      0.0f
+				      this
+				      )
 				      
 				     )
 				    (do0
@@ -191,6 +202,45 @@
 				      ,(if extra
 					   extra
 					   "// none"))))))
+	      (do0
+	       ;; locationlistener
+	       ,@(loop for e
+		    in `((onLocationChanged ((loc Location))
+					    (d (string "martin")
+					       (string "location = {$loc}"))
+					    override
+					    )
+			 (onStatusChanged ((provider String)
+					   (status Int)
+					   (extras Bundle))
+					  (d (string "martin")
+					     (string "provider={$provider} status={$status}"))
+					  override)
+			 (onProviderEnabled ((provider String)
+					   )
+					  (d (string "martin")
+					     (string "provider={$provider} enabled"))
+					  override)
+			 (onProviderDisabled ((provider String)
+					   )
+					  (d (string "martin")
+					     (string "provider={$provider} disabled"))
+					  override))
+		    collect
+		      (destructuring-bind (name par code &optional (style 'do0
+									  )) e
+		       `(,style (do0 "public"
+				     (defun ,name (,@(mapcar #'first par))
+				       
+				(declare ,@(loop for (var type) in par
+					      collect
+						`(type ,type ,var)))
+				#+nil
+				(dot super (,name ,@(mapcar #'first par
+
+							    )))
+				,code)))))
+	       )
 	      ))))
     (ensure-directories-exist path-kotlin)
     (ensure-directories-exist path-layout)
