@@ -93,11 +93,12 @@
 	      (let ((REQUEST_CODE_PERMISSIONS 10))))
 	     (do0
 	      "private "
-	      (let ((REQUIRED_PERMISSIONS (arrayOf ; Manifest.permission.ACCESS_FINE_LOCATION
-						   ))))))
-	    (defclass MainActivity ((AppCompatActivity)
-				    
-				    )
+	      (let ((REQUIRED_PERMISSIONS
+		     
+		     (arrayOf<String> ;  Manifest.permission.ACCESS_FINE_LOCATION
+			       )))
+		)))
+	    (defclass MainActivity ((AppCompatActivity))
 	      (do0 "private"
 		   (defun allPermissionsGranted ()
 		     (declare (values Boolean))
@@ -149,6 +150,10 @@
 				      (cipher (Cipher.getInstance
 					       (string "AES/GCM/NoPadding"))))
 				  (cipher.init Cipher.ENCRYPT_MODE secretkey)
+				  (let ((iv (cipher.getIV))
+					(encryption (cipher.doFinal
+						     (dot (string "hello world")
+							  (toByteArray))))))
 				  ))
 			      )
 			     (do0

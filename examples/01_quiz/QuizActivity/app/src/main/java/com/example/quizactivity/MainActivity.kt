@@ -16,7 +16,7 @@ import android.security.keystore.KeyProperties
 private const
 val REQUEST_CODE_PERMISSIONS = 10
 private 
-val REQUIRED_PERMISSIONS = arrayOf()
+val REQUIRED_PERMISSIONS = arrayOf<String>()
 class MainActivity : AppCompatActivity() {
     private
     fun allPermissionsGranted(): Boolean {
@@ -44,6 +44,8 @@ class MainActivity : AppCompatActivity() {
             val secretkey = keygen.generateKey()
             val cipher = Cipher.getInstance("AES/GCM/NoPadding")
             cipher.init(Cipher.ENCRYPT_MODE, secretkey)
+            val iv = cipher.getIV()
+            val encryption = cipher.doFinal("hello world".toByteArray())
 } else {
             d("martin", "request permissions ${REQUIRED_PERMISSIONS}")
             ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
