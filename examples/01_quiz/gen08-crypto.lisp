@@ -182,7 +182,7 @@
 			     (do0
 			      (d (string "martin")
 				 (string "required permissions obtained"))
-			      "// FIXME: eventually my use case would be to store a key in the keystore when the app is installed. all output that is stored in files must be encrypted with this key."
+			      "// FIXME: eventually my use case would be to store a key in the keystore when the app is installed. all output that is stored in files must be encrypted with this key. i'm not sure if this code adds a new key at every start of the app"
 			      (let (((paren data iv) (encrypt (string "hello world")))
 				    (dec (decrypt data iv))))
 			      (d (string "martin")
