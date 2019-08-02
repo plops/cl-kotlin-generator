@@ -77,7 +77,7 @@ This is the eigth in a series of code generators.
 | 05 | render script                                                                                                       |
 | 06 | grpc, also uses reactivex to form http connection                                                                   |
 | 07 | store gps nmea messages in a temporary file                                                                         |
-| 08 | store key in secure container, write into encrypted file (TODO)                                                     |
+| 08 | store key in secure container                                                                                       |
 | 09 | write compressed data into file  (TODO) https://developer.android.com/reference/java/util/zip/GZIPOutputStream.html |
 |    |                                                                                                                     |
 * Developing the first example 
