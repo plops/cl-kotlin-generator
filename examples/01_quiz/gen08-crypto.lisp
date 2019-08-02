@@ -144,7 +144,7 @@
 					     (setBlockModes
 					      KeyProperties.BLOCK_MODE_GCM)
 					     (setEncryptionPaddings
-					      KeyProperties.ENCRYTION_PADDING_NONE)
+					      KeyProperties.ENCRYPTION_PADDING_NONE)
 					     (build)))
 				    )
 				(keygen.init spec)

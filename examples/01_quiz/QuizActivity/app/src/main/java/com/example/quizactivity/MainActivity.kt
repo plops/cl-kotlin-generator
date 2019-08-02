@@ -39,9 +39,8 @@ class MainActivity : AppCompatActivity() {
 })()
             val keygen = KeyGenerator.getInstance("AES", "AndroidKeyStore")
             val alias = "alias0"
-            val purpose = KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
-            val spec_builder = KeyGenParameterSpec.Builder(alias, purpose)
-            val spec = spec_builder.setBlockModes(KeyProperties.BLOCK_MODE_GCM).setEncryptionPaddings(KeyProperties.ENCRYTION_PADDING_NONE).build()
+            val spec_builder = KeyGenParameterSpec.Builder(alias, ((KeyProperties.PURPOSE_ENCRYPT) or (KeyProperties.PURPOSE_DECRYPT)))
+            val spec = spec_builder.setBlockModes(KeyProperties.BLOCK_MODE_GCM).setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE).build()
             keygen.init(spec)
             val secretkey = keygen.generateKey()
             val cipher = Cipher.getInstance("AES/GCM/NoPadding")
