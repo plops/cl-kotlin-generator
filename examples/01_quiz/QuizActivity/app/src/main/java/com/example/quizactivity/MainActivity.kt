@@ -5,23 +5,33 @@ import android.os.Bundle
 import android.content.Context
 import android.Manifest
 import java.io.File
+import android.content.pm.PackageManager
+import androidx.core.content.ContextCompat
+import androidx.core.app.ActivityCompat
+import java.security.KeyStore
 private const
 val REQUEST_CODE_PERMISSIONS = 10
 private 
 val REQUIRED_PERMISSIONS = arrayOf()
-class MainActivity : AppCompatActivity(),LocationListener {
+class MainActivity : AppCompatActivity() {
     private
     fun allPermissionsGranted(): Boolean {
         return REQUIRED_PERMISSIONS.all(fun (it: String): Boolean {
             return (ContextCompat.checkSelfPermission(baseContext, it))==(PackageManager.PERMISSION_GRANTED)
 })
 }
+    private lateinit var _key_store : KeyStore
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         d("martin", "onCreate")
         setContentView(R.layout.activity_main)
         if ( allPermissionsGranted() ) {
             d("martin", "required permissions obtained")
+            _key_store=(fun (){
+                val ks = KeyStore.getInstance("AndroidKeyStore")
+                ks.load(null)
+                return ks
+})()
 } else {
             d("martin", "request permissions ${REQUIRED_PERMISSIONS}")
             ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)

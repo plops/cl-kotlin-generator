@@ -5,6 +5,9 @@
 
 ;; https://proandroiddev.com/secure-data-in-android-encryption-in-android-part-1-e5fd150e316f
 
+;; key store trust zone (if available) will be used to store keys in a
+;; way that makes them difficult to read from the device
+;; keys will be deleted from store when its app is deleted
 (let* ((main-activity "MainActivity")
        (title "QuizActivity")
        (path-lisp "/home/martin/quicklisp/local-projects/cl-kotlin-generator/examples/01_quiz/")
@@ -69,6 +72,11 @@
 
 	     android.Manifest
 	     java.io.File
+
+	     android.content.pm.PackageManager
+	     androidx.core.content.ContextCompat
+	     androidx.core.app.ActivityCompat
+	     java.security.KeyStore
 	     )
 
 	    (do0
@@ -80,7 +88,7 @@
 	      (let ((REQUIRED_PERMISSIONS (arrayOf ; Manifest.permission.ACCESS_FINE_LOCATION
 						   ))))))
 	    (defclass MainActivity ((AppCompatActivity)
-				    LocationListener
+				    
 				    )
 	      (do0 "private"
 		   (defun allPermissionsGranted ()
@@ -94,7 +102,7 @@
 						baseContext it)
 					       PackageManager.PERMISSION_GRANTED))))))))
 	      
-	      #+nil ,@(loop for (var type) in `((_provider LocationProvider)) collect
+	      ,@(loop for (var type) in `((_key_store KeyStore)) collect
 		     (format nil "private lateinit var ~a : ~a" var type))
 	      
 	      ,@(loop
@@ -107,6 +115,12 @@
 			     (do0
 			      (d (string "martin")
 				 (string "required permissions obtained"))
+			      (setf _key_store ((lambda ()
+						  (let ((ks (KeyStore.getInstance
+							     (string "AndroidKeyStore")))
+							)
+						    (ks.load null)
+						    (return ks)))))
 			      )
 			     (do0
 			      (d (string "martin")
