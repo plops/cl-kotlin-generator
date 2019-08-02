@@ -9,6 +9,7 @@ import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
 import androidx.core.app.ActivityCompat
 import java.security.KeyStore
+import java.security.KeyPairGenerator
 private const
 val REQUEST_CODE_PERMISSIONS = 10
 private 
@@ -27,11 +28,16 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         if ( allPermissionsGranted() ) {
             d("martin", "required permissions obtained")
-            _key_store=(fun (){
+            // secure place to store keys
+            _key_store=(fun (): KeyStore {
                 val ks = KeyStore.getInstance("AndroidKeyStore")
                 ks.load(null)
                 return ks
 })()
+            val generator = KeyPairGenerator("RSA", "AndroidKeyStore")
+            val alias = "alias0"
+            initGeneratorWithKeyGenParameterSpec(generator, alias)
+            val pair = generator.generateKeyPair()
 } else {
             d("martin", "request permissions ${REQUIRED_PERMISSIONS}")
             ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)

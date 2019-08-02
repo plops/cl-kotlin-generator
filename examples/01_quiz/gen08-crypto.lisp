@@ -8,6 +8,8 @@
 ;; key store trust zone (if available) will be used to store keys in a
 ;; way that makes them difficult to read from the device
 ;; keys will be deleted from store when its app is deleted
+
+;; KeyInfo.isInsideSecurityHardware()
 (let* ((main-activity "MainActivity")
        (title "QuizActivity")
        (path-lisp "/home/martin/quicklisp/local-projects/cl-kotlin-generator/examples/01_quiz/")
@@ -77,6 +79,8 @@
 	     androidx.core.content.ContextCompat
 	     androidx.core.app.ActivityCompat
 	     java.security.KeyStore
+	     java.security.KeyPairGenerator
+
 	     )
 
 	    (do0
@@ -117,6 +121,7 @@
 				 (string "required permissions obtained"))
 			      "// secure place to store keys"
 			      (setf _key_store ((lambda ()
+						  (declare (values KeyStore))
 						  (let ((ks (KeyStore.getInstance
 							     (string "AndroidKeyStore")))
 							)

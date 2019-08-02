@@ -68,17 +68,18 @@ This is the eigth in a series of code generators.
 
 * Examples
 
-|    | comment                                                                                                            |
-|----+--------------------------------------------------------------------------------------------------------------------|
-| 01 | define layout in xml for a few buttons and some kotlin handlers (based on Big Nerd Ranch quiz_activity)            |
-| 02 | open opengles context and draw dark red background                                                                 |
-| 03 | read sensors and compute device orientation                                                                        |
-| 04 | read out camera images, also ask for permission                                                                    |
-| 05 | render script                                                                                                      |
-| 06 | grpc, also uses reactivex to form http connection                                                                  |
-| 07 | store gps nmea messages in a temporary file                                                                        |
-| 08 | something with encryption                                                                                          |
-
+|    | comment                                                                                                             |
+|----+---------------------------------------------------------------------------------------------------------------------|
+| 01 | define layout in xml for a few buttons and some kotlin handlers (based on Big Nerd Ranch quiz_activity)             |
+| 02 | open opengles context and draw dark red background                                                                  |
+| 03 | read sensors and compute device orientation                                                                         |
+| 04 | read out camera images, also ask for permission                                                                     |
+| 05 | render script                                                                                                       |
+| 06 | grpc, also uses reactivex to form http connection                                                                   |
+| 07 | store gps nmea messages in a temporary file                                                                         |
+| 08 | store key in secure container, write into encrypted file (TODO)                                                     |
+| 09 | write compressed data into file  (TODO) https://developer.android.com/reference/java/util/zip/GZIPOutputStream.html |
+|    |                                                                                                                     |
 * Developing the first example 
 
 The project was created in Android Studio 3.6 Canary 5. Older versions
