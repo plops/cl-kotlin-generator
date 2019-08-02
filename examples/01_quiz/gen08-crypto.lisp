@@ -115,12 +115,19 @@
 			     (do0
 			      (d (string "martin")
 				 (string "required permissions obtained"))
+			      "// secure place to store keys"
 			      (setf _key_store ((lambda ()
 						  (let ((ks (KeyStore.getInstance
 							     (string "AndroidKeyStore")))
 							)
 						    (ks.load null)
 						    (return ks)))))
+			      (let ((generator (KeyPairGenerator (string "RSA")
+								 (string "AndroidKeyStore")))
+				    (alias (string "alias0")))
+				(initGeneratorWithKeyGenParameterSpec generator alias)
+				(let ((pair (generator.generateKeyPair)))
+				  ))
 			      )
 			     (do0
 			      (d (string "martin")
