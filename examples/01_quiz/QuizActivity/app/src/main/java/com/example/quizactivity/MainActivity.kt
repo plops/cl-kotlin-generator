@@ -9,7 +9,10 @@ import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
 import androidx.core.app.ActivityCompat
 import java.security.KeyStore
-import java.security.KeyPairGenerator
+import javax.crypto.Cipher
+import javax.crypto.KeyGenerator
+import android.security.keystore.KeyGenParameterSpec
+import android.security.keystore.KeyProperties
 private const
 val REQUEST_CODE_PERMISSIONS = 10
 private 
@@ -34,10 +37,13 @@ class MainActivity : AppCompatActivity() {
                 ks.load(null)
                 return ks
 })()
-            val generator = KeyPairGenerator("RSA", "AndroidKeyStore")
+            val keygen = KeyGenerator.getInstance("AES", "AndroidKeyStore")
             val alias = "alias0"
-            initGeneratorWithKeyGenParameterSpec(generator, alias)
-            val pair = generator.generateKeyPair()
+            val keygen_spec = KeyGenParameterSpec.Builder(alias, KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT).setBlockModes(KeyProperties.BLOCK_MODE_GCM).setEncryptionPaddings(KeyProperties.ENCPYTION_PADDING_NONE).build()
+            keygen.init(keygen_spec)
+            val secretkey = keygen.generateKey()
+            val cipher = Cipher.getInstance("AES/GCM/NoPadding")
+            cipher.init(Cipher.ENCRYPT_MODE, secretkey)
 } else {
             d("martin", "request permissions ${REQUIRED_PERMISSIONS}")
             ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)

@@ -10,6 +10,8 @@
 ;; keys will be deleted from store when its app is deleted
 
 ;; KeyInfo.isInsideSecurityHardware()
+
+;; https://medium.com/@josiassena/using-the-android-keystore-system-to-store-sensitive-information-3a56175a454b
 (let* ((main-activity "MainActivity")
        (title "QuizActivity")
        (path-lisp "/home/martin/quicklisp/local-projects/cl-kotlin-generator/examples/01_quiz/")
@@ -79,8 +81,10 @@
 	     androidx.core.content.ContextCompat
 	     androidx.core.app.ActivityCompat
 	     java.security.KeyStore
-	     java.security.KeyPairGenerator
-
+	     javax.crypto.Cipher
+	     javax.crypto.KeyGenerator
+	     android.security.keystore.KeyGenParameterSpec
+	     android.security.keystore.KeyProperties
 	     )
 
 	    (do0
@@ -127,11 +131,24 @@
 							)
 						    (ks.load null)
 						    (return ks)))))
-			      (let ((generator (KeyPairGenerator (string "RSA")
-								 (string "AndroidKeyStore")))
-				    (alias (string "alias0")))
-				(initGeneratorWithKeyGenParameterSpec generator alias)
-				(let ((pair (generator.generateKeyPair)))
+			      (let ((keygen (KeyGenerator.getInstance (string "AES")
+									 (string "AndroidKeyStore")))
+				    (alias (string "alias0"))
+				    (keygen_spec (dot (KeyGenParameterSpec.Builder
+						       alias
+						       (logior
+							KeyProperties.PURPOSE_ENCRYPT
+							KeyProperties.PURPOSE_DECRYPT))
+						      (setBlockModes
+						       KeyProperties.BLOCK_MODE_GCM)
+						      (setEncryptionPaddings
+						       KeyProperties.ENCPYTION_PADDING_NONE)
+						      (build))))
+				(keygen.init keygen_spec)
+				(let ((secretkey (keygen.generateKey))
+				      (cipher (Cipher.getInstance
+					       (string "AES/GCM/NoPadding"))))
+				  (cipher.init Cipher.ENCRYPT_MODE secretkey)
 				  ))
 			      )
 			     (do0
