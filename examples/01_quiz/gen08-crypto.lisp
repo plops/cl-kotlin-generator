@@ -135,17 +135,19 @@
 			      (let ((keygen (KeyGenerator.getInstance (string "AES")
 									 (string "AndroidKeyStore")))
 				    (alias (string "alias0"))
-				    (keygen_spec (dot (KeyGenParameterSpec.Builder
-						       alias
-						       (logior
-							KeyProperties.PURPOSE_ENCRYPT
-							KeyProperties.PURPOSE_DECRYPT))
-						      (setBlockModes
-						       KeyProperties.BLOCK_MODE_GCM)
-						      (setEncryptionPaddings
-						       KeyProperties.ENCPYTION_PADDING_NONE)
-						      (build))))
-				(keygen.init keygen_spec)
+				    (spec_builder (KeyGenParameterSpec.Builder
+					  alias
+					  (logior
+					   KeyProperties.PURPOSE_ENCRYPT
+					   KeyProperties.PURPOSE_DECRYPT)))
+				    (spec (dot spec_builder
+					     (setBlockModes
+					      KeyProperties.BLOCK_MODE_GCM)
+					     (setEncryptionPaddings
+					      KeyProperties.ENCRYTION_PADDING_NONE)
+					     (build)))
+				    )
+				(keygen.init spec)
 				(let ((secretkey (keygen.generateKey))
 				      (cipher (Cipher.getInstance
 					       (string "AES/GCM/NoPadding"))))
