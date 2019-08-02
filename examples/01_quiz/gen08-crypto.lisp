@@ -85,6 +85,7 @@
 	     javax.crypto.KeyGenerator
 	     android.security.keystore.KeyGenParameterSpec
 	     android.security.keystore.KeyProperties
+	     javax.crypto.spec.GCMParameterSpec
 	     )
 
 	    (do0
@@ -98,6 +99,63 @@
 		     (arrayOf<String> ;  Manifest.permission.ACCESS_FINE_LOCATION
 			       )))
 		)))
+	    ,(let ((alias `(string "alias0"))
+		   (trafo `(string "AES/GCM/NoPadding")))
+	       `(do0
+		 "data class EncryptionResult(val data:ByteArray,val init_vec:ByteArray)"
+	       (defun encrypt (str)
+		 (declare (type String str)
+			  (values EncryptionResult))
+		 (let ((keystore (KeyStore.getInstance
+				  (string "AndroidKeyStore"))))
+		   (keystore.load null)
+		   (let ((keygen (KeyGenerator.getInstance (string "AES")
+							   (string "AndroidKeyStore")))
+			 (spec_builder (KeyGenParameterSpec.Builder
+					,alias
+					(logior
+					 KeyProperties.PURPOSE_ENCRYPT
+					 KeyProperties.PURPOSE_DECRYPT)))
+			 (spec (dot spec_builder
+				    (setBlockModes
+				     KeyProperties.BLOCK_MODE_GCM)
+				    (setEncryptionPaddings
+				     KeyProperties.ENCRYPTION_PADDING_NONE)
+				    (build)))
+			 )
+		     (keygen.init spec)
+		     (let ((secretkey (keygen.generateKey))
+			   (cipher (Cipher.getInstance
+				    ,trafo
+				    )))
+		       (cipher.init Cipher.ENCRYPT_MODE secretkey)
+		       (let ((iv (cipher.getIV))
+			     (encryption (cipher.doFinal
+					  (dot str
+					       (toByteArray)))))
+			 (return (EncryptionResult encryption
+						   iv)))
+		       ))))
+	       (defun decrypt (data init_vector)
+		 (declare (type ByteArray data
+				init_vector)
+			  (values String))
+		 (let ((keystore (KeyStore.getInstance
+				  (string "AndroidKeyStore"))))
+		   (keystore.load null)
+		   (let (
+			 (cipher (Cipher.getInstance ,trafo))
+			 (spec (GCMParameterSpec 128 init_vector))
+			 (entry (as (dot keystore
+				       (getEntry ,alias null)
+				       )
+				    KeyStore.SecretKeyEntry)))
+		     (cipher.init Cipher.DECRYPT_MODE
+				  (entry.getSecretKey)
+				  spec)
+		     (return (String (cipher.doFinal data)
+				     Charsets.UTF_8)))))))
+	    
 	    (defclass MainActivity ((AppCompatActivity))
 	      (do0 "private"
 		   (defun allPermissionsGranted ()
@@ -111,7 +169,7 @@
 						baseContext it)
 					       PackageManager.PERMISSION_GRANTED))))))))
 	      
-	      ,@(loop for (var type) in `((_key_store KeyStore)) collect
+	      #+nil,@(loop for (var type) in `((_key_store KeyStore)) collect
 		     (format nil "private lateinit var ~a : ~a" var type))
 	      
 	      ,@(loop
@@ -125,38 +183,11 @@
 			      (d (string "martin")
 				 (string "required permissions obtained"))
 			      "// secure place to store keys"
-			      (setf _key_store ((lambda ()
-						  (declare (values KeyStore))
-						  (let ((ks (KeyStore.getInstance
-							     (string "AndroidKeyStore")))
-							)
-						    (ks.load null)
-						    (return ks)))))
-			      (let ((keygen (KeyGenerator.getInstance (string "AES")
-									 (string "AndroidKeyStore")))
-				    (alias (string "alias0"))
-				    (spec_builder (KeyGenParameterSpec.Builder
-					  alias
-					  (logior
-					   KeyProperties.PURPOSE_ENCRYPT
-					   KeyProperties.PURPOSE_DECRYPT)))
-				    (spec (dot spec_builder
-					     (setBlockModes
-					      KeyProperties.BLOCK_MODE_GCM)
-					     (setEncryptionPaddings
-					      KeyProperties.ENCRYPTION_PADDING_NONE)
-					     (build)))
-				    )
-				(keygen.init spec)
-				(let ((secretkey (keygen.generateKey))
-				      (cipher (Cipher.getInstance
-					       (string "AES/GCM/NoPadding"))))
-				  (cipher.init Cipher.ENCRYPT_MODE secretkey)
-				  (let ((iv (cipher.getIV))
-					(encryption (cipher.doFinal
-						     (dot (string "hello world")
-							  (toByteArray))))))
-				  ))
+
+			      (let (((paren data iv) (encrypt (string "hello world")))
+				    (dec (decrypt data iv))))
+			      (d (string "martin")
+				 (string "${dec}"))
 			      )
 			     (do0
 			      (d (string "martin")

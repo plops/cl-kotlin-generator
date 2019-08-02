@@ -44,10 +44,10 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/quizactivity/MainActivity.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="42" column="124" selection-start-line="42" selection-start-column="124" selection-end-line="42" selection-end-column="124" />
+            <state relative-caret-position="132">
+              <caret line="42" column="40" selection-start-line="42" selection-start-column="40" selection-end-line="42" selection-end-column="40" />
               <folding>
-                <element signature="e#33#520#0" expanded="true" />
+                <element signature="e#33#562#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -288,7 +288,7 @@
       <window_info anchor="bottom" id="Logcat" order="3" weight="0.6354167" />
       <window_info anchor="bottom" id="Version Control" order="4" weight="0.32440478" />
       <window_info anchor="bottom" id="TODO" order="5" weight="0.32589287" />
-      <window_info anchor="bottom" id="Terminal" order="6" weight="0.4106383" />
+      <window_info anchor="bottom" id="Terminal" order="6" weight="0.40922618" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info active="true" anchor="bottom" id="Build" order="8" visible="true" weight="0.32886904" />
       <window_info anchor="bottom" id="Android Profiler" order="9" show_stripe_button="false" />
@@ -408,10 +408,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/quizactivity/MainActivity.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="42" column="124" selection-start-line="42" selection-start-column="124" selection-end-line="42" selection-end-column="124" />
+        <state relative-caret-position="132">
+          <caret line="42" column="40" selection-start-line="42" selection-start-column="40" selection-end-line="42" selection-end-column="40" />
           <folding>
-            <element signature="e#33#520#0" expanded="true" />
+            <element signature="e#33#562#0" expanded="true" />
           </folding>
         </state>
       </provider>

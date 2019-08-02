@@ -103,7 +103,7 @@ entry return-values contains a list of return values"
 				     (destructuring-bind (name &optional value) decl
 				       (format nil "~a ~a~@[: ~a~]~@[ = ~a~]"
 					       style
-					       name
+					       (funcall emit name)
 					       (let ((type (lookup-type name :env env)))
 						 (if type
 						     (funcall emit type)

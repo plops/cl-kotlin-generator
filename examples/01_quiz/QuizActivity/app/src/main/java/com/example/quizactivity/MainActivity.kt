@@ -13,10 +13,35 @@ import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
+import javax.crypto.spec.GCMParameterSpec
 private const
 val REQUEST_CODE_PERMISSIONS = 10
 private 
 val REQUIRED_PERMISSIONS = arrayOf<String>()
+data class EncryptionResult(val data:ByteArray,val init_vec:ByteArray)
+fun encrypt(str: String): EncryptionResult {
+    val keystore = KeyStore.getInstance("AndroidKeyStore")
+    keystore.load(null)
+    val keygen = KeyGenerator.getInstance("AES", "AndroidKeyStore")
+    val spec_builder = KeyGenParameterSpec.Builder("alias0", ((KeyProperties.PURPOSE_ENCRYPT) or (KeyProperties.PURPOSE_DECRYPT)))
+    val spec = spec_builder.setBlockModes(KeyProperties.BLOCK_MODE_GCM).setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE).build()
+    keygen.init(spec)
+    val secretkey = keygen.generateKey()
+    val cipher = Cipher.getInstance("AES/GCM/NoPadding")
+    cipher.init(Cipher.ENCRYPT_MODE, secretkey)
+    val iv = cipher.getIV()
+    val encryption = cipher.doFinal(str.toByteArray())
+    return EncryptionResult(encryption, iv)
+}
+fun decrypt(data: ByteArray, init_vector: ByteArray): String {
+    val keystore = KeyStore.getInstance("AndroidKeyStore")
+    keystore.load(null)
+    val cipher = Cipher.getInstance("AES/GCM/NoPadding")
+    val spec = GCMParameterSpec(128, init_vector)
+    val entry = keystore.getEntry("alias0", null) as KeyStore.SecretKeyEntry
+    cipher.init(Cipher.DECRYPT_MODE, entry.getSecretKey(), spec)
+    return String(cipher.doFinal(data), Charsets.UTF_8)
+}
 class MainActivity : AppCompatActivity() {
     private
     fun allPermissionsGranted(): Boolean {
@@ -24,7 +49,6 @@ class MainActivity : AppCompatActivity() {
             return (ContextCompat.checkSelfPermission(baseContext, it))==(PackageManager.PERMISSION_GRANTED)
 })
 }
-    private lateinit var _key_store : KeyStore
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         d("martin", "onCreate")
@@ -32,21 +56,9 @@ class MainActivity : AppCompatActivity() {
         if ( allPermissionsGranted() ) {
             d("martin", "required permissions obtained")
             // secure place to store keys
-            _key_store=(fun (): KeyStore {
-                val ks = KeyStore.getInstance("AndroidKeyStore")
-                ks.load(null)
-                return ks
-})()
-            val keygen = KeyGenerator.getInstance("AES", "AndroidKeyStore")
-            val alias = "alias0"
-            val spec_builder = KeyGenParameterSpec.Builder(alias, ((KeyProperties.PURPOSE_ENCRYPT) or (KeyProperties.PURPOSE_DECRYPT)))
-            val spec = spec_builder.setBlockModes(KeyProperties.BLOCK_MODE_GCM).setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE).build()
-            keygen.init(spec)
-            val secretkey = keygen.generateKey()
-            val cipher = Cipher.getInstance("AES/GCM/NoPadding")
-            cipher.init(Cipher.ENCRYPT_MODE, secretkey)
-            val iv = cipher.getIV()
-            val encryption = cipher.doFinal("hello world".toByteArray())
+            val (data, iv) = encrypt("hello world")
+            val dec = decrypt(data, iv)
+            d("martin", "${dec}")
 } else {
             d("martin", "request permissions ${REQUIRED_PERMISSIONS}")
             ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
