@@ -232,12 +232,12 @@
 				    (file (File dir (string "data.aes.iv")))
 				    )
 				(file.writeBytes iv)
-				(for (i "1..2100")
+				(for (i "1..21100")
 				     (do0
 				      ;(Thread.sleep 100)
 				      (crypto_gzip_write o (generate_data i))))
 				)
-			      (decrypt_gzip_stream (string "data.aes.gz") iv)
+			      ;(decrypt_gzip_stream (string "data.aes.gz") iv)
 			      
 			      )
 			     (do0

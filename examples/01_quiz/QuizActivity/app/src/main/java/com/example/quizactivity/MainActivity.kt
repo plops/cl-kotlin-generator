@@ -91,10 +91,9 @@ class MainActivity : AppCompatActivity() {
             val dir = getCacheDir()
             val file = File(dir, "data.aes.iv")
             file.writeBytes(iv)
-            for (i in 1..2100) {
+            for (i in 1..21100) {
                 crypto_gzip_write(o, generate_data(i))
 }
-            decrypt_gzip_stream("data.aes.gz", iv)
 } else {
             d("martin", "request permissions ${REQUIRED_PERMISSIONS}")
             ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)

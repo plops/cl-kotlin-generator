@@ -16,6 +16,7 @@
   <component name="ChangeListManager">
     <list default="true" id="1919a353-6271-43a5-80eb-cd4ff694b18c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/quizactivity/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/quizactivity/MainActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../gen10-compress-encrypt-stream.lisp" beforeDir="false" afterPath="$PROJECT_DIR$/../gen10-compress-encrypt-stream.lisp" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -44,8 +45,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/quizactivity/MainActivity.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-22">
-              <caret line="20" column="37" lean-forward="true" selection-start-line="20" selection-start-column="37" selection-end-line="20" selection-end-column="37" />
+            <state relative-caret-position="953">
+              <caret line="102" column="49" lean-forward="true" selection-start-line="102" selection-start-column="49" selection-end-line="102" selection-end-column="49" />
               <folding>
                 <element signature="e#33#658#0" expanded="true" />
               </folding>
@@ -285,7 +286,7 @@
       <window_info anchor="bottom" id="Run" order="0" weight="0.32738096" />
       <window_info anchor="bottom" id="Debug" order="1" />
       <window_info anchor="bottom" id="Find" order="2" />
-      <window_info anchor="bottom" id="Logcat" order="3" weight="0.52991456" />
+      <window_info anchor="bottom" id="Logcat" order="3" weight="0.5295759" />
       <window_info anchor="bottom" id="Version Control" order="4" weight="0.32440478" />
       <window_info anchor="bottom" id="TODO" order="5" weight="0.32589287" />
       <window_info active="true" anchor="bottom" id="Terminal" order="6" visible="true" weight="0.15345982" />
@@ -410,8 +411,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/quizactivity/MainActivity.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-22">
-          <caret line="20" column="37" lean-forward="true" selection-start-line="20" selection-start-column="37" selection-end-line="20" selection-end-column="37" />
+        <state relative-caret-position="953">
+          <caret line="102" column="49" lean-forward="true" selection-start-line="102" selection-start-column="49" selection-end-line="102" selection-end-column="49" />
           <folding>
             <element signature="e#33#658#0" expanded="true" />
           </folding>
