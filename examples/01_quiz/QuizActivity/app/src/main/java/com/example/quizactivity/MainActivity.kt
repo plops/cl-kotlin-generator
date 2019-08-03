@@ -9,10 +9,40 @@ import java.io.File
 import java.lang.System.currentTimeMillis
 import java.io.FileOutputStream
 import java.util.zip.GZIPOutputStream
+import java.security.KeyStore
+import javax.crypto.Cipher
+import javax.crypto.KeyGenerator
+import android.security.keystore.KeyGenParameterSpec
+import android.security.keystore.KeyProperties
+import javax.crypto.spec.GCMParameterSpec
 private const
 val REQUEST_CODE_PERMISSIONS = 10
 private 
 val REQUIRED_PERMISSIONS = arrayOf<String>()
+data class EncryptionResult(val data:ByteArray,val init_vec:ByteArray)
+fun encrypt(str: String): EncryptionResult {
+    val keystore = KeyStore.getInstance("AndroidKeyStore")
+    keystore.load(null)
+    val keygen = KeyGenerator.getInstance("AES", "AndroidKeyStore")
+    val spec_builder = KeyGenParameterSpec.Builder("alias0", ((KeyProperties.PURPOSE_ENCRYPT) or (KeyProperties.PURPOSE_DECRYPT)))
+    val spec = spec_builder.setBlockModes(KeyProperties.BLOCK_MODE_GCM).setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE).build()
+    keygen.init(spec)
+    val secretkey = keygen.generateKey()
+    val cipher = Cipher.getInstance("AES/GCM/NoPadding")
+    cipher.init(Cipher.ENCRYPT_MODE, secretkey)
+    val iv = cipher.getIV()
+    val encryption = cipher.doFinal(str.toByteArray())
+    return EncryptionResult(encryption, iv)
+}
+fun decrypt(data: ByteArray, init_vector: ByteArray): String {
+    val keystore = KeyStore.getInstance("AndroidKeyStore")
+    keystore.load(null)
+    val cipher = Cipher.getInstance("AES/GCM/NoPadding")
+    val spec = GCMParameterSpec(128, init_vector)
+    val entry = keystore.getEntry("alias0", null) as KeyStore.SecretKeyEntry
+    cipher.init(Cipher.DECRYPT_MODE, entry.getSecretKey(), spec)
+    return String(cipher.doFinal(data), Charsets.UTF_8)
+}
 class MainActivity : AppCompatActivity() {
     private
     fun allPermissionsGranted(): Boolean {

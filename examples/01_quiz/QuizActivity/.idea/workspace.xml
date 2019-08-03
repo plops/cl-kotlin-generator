@@ -16,6 +16,7 @@
   <component name="ChangeListManager">
     <list default="true" id="1919a353-6271-43a5-80eb-cd4ff694b18c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/quizactivity/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/quizactivity/MainActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../gen10-compress-encrypt-stream.lisp" beforeDir="false" afterPath="$PROJECT_DIR$/../gen10-compress-encrypt-stream.lisp" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -44,10 +45,10 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/quizactivity/MainActivity.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="432">
-              <caret line="55" column="42" lean-forward="true" selection-start-line="55" selection-start-column="42" selection-end-line="55" selection-end-column="42" />
+            <state relative-caret-position="657">
+              <caret line="64" column="53" lean-forward="true" selection-start-line="64" selection-start-column="53" selection-end-line="64" selection-end-column="53" />
               <folding>
-                <element signature="e#33#387#0" expanded="true" />
+                <element signature="e#33#619#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -82,7 +83,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="56" />
     <option name="y" value="63" />
     <option name="width" value="938" />
@@ -270,7 +271,8 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-4" y="0" width="1258" height="804" extended-state="6" />
+    <frame x="-4" y="0" width="1258" height="804" extended-state="7" />
+    <editor active="true" />
     <layout>
       <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
       <window_info content_ui="combo" id="Project" order="1" weight="0.35797343" />
@@ -409,10 +411,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/quizactivity/MainActivity.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="55" column="42" lean-forward="true" selection-start-line="55" selection-start-column="42" selection-end-line="55" selection-end-column="42" />
+        <state relative-caret-position="657">
+          <caret line="64" column="53" lean-forward="true" selection-start-line="64" selection-start-column="53" selection-end-line="64" selection-end-column="53" />
           <folding>
-            <element signature="e#33#387#0" expanded="true" />
+            <element signature="e#33#619#0" expanded="true" />
           </folding>
         </state>
       </provider>
