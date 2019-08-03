@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
 import androidx.core.app.ActivityCompat
+import java.io.File
 private const
 val REQUEST_CODE_PERMISSIONS = 10
 private 
@@ -15,6 +16,16 @@ class MainActivity : AppCompatActivity() {
         return REQUIRED_PERMISSIONS.all(fun (it: String): Boolean {
             return (ContextCompat.checkSelfPermission(baseContext, it))==(PackageManager.PERMISSION_GRANTED)
 })
+}
+    fun generate_data(): ByteArray {
+        val now = currentTimeMillis()
+        val str = "${now},bsltaa"
+        return str.toBytes()
+}
+    fun append_to_gzip(fn: String, data: ByteArray){
+        val dir = getCacheDir()
+        val file = File(dir, fn)
+        file.appendBytes(data)
 }
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)

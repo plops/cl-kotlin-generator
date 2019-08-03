@@ -6,6 +6,7 @@
 ;; reference: https://developer.android.com/reference/java/util/zip/GZIPOutputStream.html
 ;; example of using streams: https://www.javacodegeeks.com/2015/01/working-with-gzip-and-compressed-data.html
 ;; discussion how to append to gzip: https://stackoverflow.com/questions/10924783/append-data-to-a-gzip-file-with-java
+;; looks like i can't append in java. but it should be useful enough to keep the stream open
 (let* ((main-activity "MainActivity")
        (title "QuizActivity")
        (path-lisp "/home/martin/quicklisp/local-projects/cl-kotlin-generator/examples/01_quiz/")
@@ -104,8 +105,14 @@
 
 	      (defun generate_data ()
 		(declare (values ByteArray))
-		(let ((now (currentTimeMillis)))
-		  ))
+		(let ((now (currentTimeMillis))
+		      (str (string "${now},bsltaa")))
+		  (return (str.toBytes))))
+
+	      (defun make_gzip_stream (fn)
+		(declare 
+		 (type String fn))
+		(let ((o (ByteArrayOutputStream )))))
 	      
 	      (defun append_to_gzip (fn data)
 		(declare (type ByteArray data)
