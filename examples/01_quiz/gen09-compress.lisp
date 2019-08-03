@@ -110,7 +110,7 @@
 		(declare (values String)
 			 (type Int count))
 		(let ((now (currentTimeMillis))
-		      (str (string "${now},bsltaa,${count}")))
+		      (str (string "${now},bsltaa,${count}\\n")))
 		  (return str)))
 
 	      (defun make_appending_gzip_stream (fn)

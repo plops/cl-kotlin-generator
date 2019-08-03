@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
 }
     fun generate_data(count: Int): String {
         val now = currentTimeMillis()
-        val str = "${now},bsltaa,${count}"
+        val str = "${now},bsltaa,${count}\n"
         return str
 }
     fun make_appending_gzip_stream(fn: String): GZIPOutputStream {
