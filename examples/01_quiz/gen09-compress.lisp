@@ -3,15 +3,9 @@
 
 (in-package :cl-kotlin-generator)
 
-;; https://proandroiddev.com/secure-data-in-android-encryption-in-android-part-1-e5fd150e316f
-
-;; key store trust zone (if available) will be used to store keys in a
-;; way that makes them difficult to read from the device
-;; keys will be deleted from store when its app is deleted
-
-;; KeyInfo.isInsideSecurityHardware()
-
-;; https://medium.com/@josiassena/using-the-android-keystore-system-to-store-sensitive-information-3a56175a454b
+;; reference: https://developer.android.com/reference/java/util/zip/GZIPOutputStream.html
+;; example of using streams: https://www.javacodegeeks.com/2015/01/working-with-gzip-and-compressed-data.html
+;; discussion how to append to gzip: https://stackoverflow.com/questions/10924783/append-data-to-a-gzip-file-with-java
 (let* ((main-activity "MainActivity")
        (title "QuizActivity")
        (path-lisp "/home/martin/quicklisp/local-projects/cl-kotlin-generator/examples/01_quiz/")
@@ -72,20 +66,11 @@
 	     android.util.Log.d
 
 	     android.os.Bundle
-	     android.content.Context
-
-	     android.Manifest
-	     java.io.File
 
 	     android.content.pm.PackageManager
 	     androidx.core.content.ContextCompat
 	     androidx.core.app.ActivityCompat
-	     java.security.KeyStore
-	     javax.crypto.Cipher
-	     javax.crypto.KeyGenerator
-	     android.security.keystore.KeyGenParameterSpec
-	     android.security.keystore.KeyProperties
-	     javax.crypto.spec.GCMParameterSpec
+	     java.io.File
 	     )
 
 	    (do0
@@ -99,62 +84,7 @@
 		     (arrayOf<String> ;  Manifest.permission.ACCESS_FINE_LOCATION
 			       )))
 		)))
-	    ,(let ((alias `(string "alias0"))
-		   (trafo `(string "AES/GCM/NoPadding")))
-	       `(do0
-		 "data class EncryptionResult(val data:ByteArray,val init_vec:ByteArray)"
-	       (defun encrypt (str)
-		 (declare (type String str)
-			  (values EncryptionResult))
-		 (let ((keystore (KeyStore.getInstance
-				  (string "AndroidKeyStore"))))
-		   (keystore.load null)
-		   (let ((keygen (KeyGenerator.getInstance (string "AES")
-							   (string "AndroidKeyStore")))
-			 (spec_builder (KeyGenParameterSpec.Builder
-					,alias
-					(logior
-					 KeyProperties.PURPOSE_ENCRYPT
-					 KeyProperties.PURPOSE_DECRYPT)))
-			 (spec (dot spec_builder
-				    (setBlockModes
-				     KeyProperties.BLOCK_MODE_GCM)
-				    (setEncryptionPaddings
-				     KeyProperties.ENCRYPTION_PADDING_NONE)
-				    (build)))
-			 )
-		     (keygen.init spec)
-		     (let ((secretkey (keygen.generateKey))
-			   (cipher (Cipher.getInstance
-				    ,trafo
-				    )))
-		       (cipher.init Cipher.ENCRYPT_MODE secretkey)
-		       (let ((iv (cipher.getIV))
-			     (encryption (cipher.doFinal
-					  (dot str
-					       (toByteArray)))))
-			 (return (EncryptionResult encryption
-						   iv)))
-		       ))))
-	       (defun decrypt (data init_vector)
-		 (declare (type ByteArray data
-				init_vector)
-			  (values String))
-		 (let ((keystore (KeyStore.getInstance
-				  (string "AndroidKeyStore"))))
-		   (keystore.load null)
-		   (let (
-			 (cipher (Cipher.getInstance ,trafo))
-			 (spec (GCMParameterSpec 128 init_vector))
-			 (entry (as (dot keystore
-				       (getEntry ,alias null)
-				       )
-				    KeyStore.SecretKeyEntry)))
-		     (cipher.init Cipher.DECRYPT_MODE
-				  (entry.getSecretKey)
-				  spec)
-		     (return (String (cipher.doFinal data)
-				     Charsets.UTF_8)))))))
+
 	    
 	    (defclass MainActivity ((AppCompatActivity))
 	      (do0 "private"
@@ -170,8 +100,21 @@
 					       PackageManager.PERMISSION_GRANTED))))))))
 	      
 	      #+nil,@(loop for (var type) in `((_key_store KeyStore)) collect
-		     (format nil "private lateinit var ~a : ~a" var type))
+			  (format nil "private lateinit var ~a : ~a" var type))
+
+	      (defun generate_data ()
+		(declare (values ByteArray))
+		(let ((now (currentTimeMillis)))
+		  ))
 	      
+	      (defun append_to_gzip (fn data)
+		(declare (type ByteArray data)
+			 (type String fn))
+		(let ((dir (getCacheDir))
+		      (file (File dir fn))
+		      )
+		
+		  (file.appendBytes data)))
 	      ,@(loop
 		   for e in
 		     `((Create
@@ -182,11 +125,8 @@
 			     (do0
 			      (d (string "martin")
 				 (string "required permissions obtained"))
-			      "// FIXME: eventually my use case would be to store a key in the keystore when the app is installed. all output that is stored in files must be encrypted with this key. i'm not sure if this code adds a new key at every start of the app"
-			      (let (((paren data iv) (encrypt (string "hello world")))
-				    (dec (decrypt data iv))))
-			      (d (string "martin")
-				 (string "${dec}"))
+			      
+			      
 			      )
 			     (do0
 			      (d (string "martin")
