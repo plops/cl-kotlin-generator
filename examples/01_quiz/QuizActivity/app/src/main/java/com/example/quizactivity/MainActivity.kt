@@ -6,6 +6,9 @@ import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
 import androidx.core.app.ActivityCompat
 import java.io.File
+import java.lang.System.currentTimeMillis
+import java.io.FileOutputStream
+import java.util.zip.GZIPOutputStream
 private const
 val REQUEST_CODE_PERMISSIONS = 10
 private 
@@ -17,15 +20,21 @@ class MainActivity : AppCompatActivity() {
             return (ContextCompat.checkSelfPermission(baseContext, it))==(PackageManager.PERMISSION_GRANTED)
 })
 }
-    fun generate_data(): ByteArray {
+    fun generate_data(): String {
         val now = currentTimeMillis()
         val str = "${now},bsltaa"
-        return str.toBytes()
+        return str
 }
-    fun append_to_gzip(fn: String, data: ByteArray){
+    fun make_appending_gzip_stream(fn: String): GZIPOutputStream {
         val dir = getCacheDir()
         val file = File(dir, fn)
-        file.appendBytes(data)
+        val o = FileOutputStream(file, true)
+        val oz = GZIPOutputStream(o)
+        return oz
+}
+    fun gzip_write(o: GZIPOutputStream, str: String){
+        val data = str.toByteArray(Charsets.UTF_8)
+        o.write(data)
 }
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
@@ -33,6 +42,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         if ( allPermissionsGranted() ) {
             d("martin", "required permissions obtained")
+            val o = make_appending_gzip_stream("data.gz")
+            for (i in 1..210) {
+                Thread.sleep(100)
+                gzip_write(o, generate_data())
+}
 } else {
             d("martin", "request permissions ${REQUIRED_PERMISSIONS}")
             ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)

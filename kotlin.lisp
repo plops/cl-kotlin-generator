@@ -393,6 +393,11 @@ entry return-values contains a list of return values"
 						       `(do0
 							 ,@(mapcar #'emit
 								   forms))))))))))))
+		(for (destructuring-bind ((item collection) &rest body) (cdr code)
+		       (format nil "for (~a in ~a) ~a"
+			       (emit item)
+			       (emit collection)
+			       (emit `(progn ,@body)))))
 		(t (destructuring-bind (name &rest args) code
 
 		     (if (listp name)

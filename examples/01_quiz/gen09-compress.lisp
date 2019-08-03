@@ -72,6 +72,9 @@
 	     androidx.core.content.ContextCompat
 	     androidx.core.app.ActivityCompat
 	     java.io.File
+	     java.lang.System.currentTimeMillis
+	     java.io.FileOutputStream
+	     java.util.zip.GZIPOutputStream
 	     )
 
 	    (do0
@@ -104,24 +107,27 @@
 			  (format nil "private lateinit var ~a : ~a" var type))
 
 	      (defun generate_data ()
-		(declare (values ByteArray))
+		(declare (values String))
 		(let ((now (currentTimeMillis))
 		      (str (string "${now},bsltaa")))
-		  (return (str.toBytes))))
+		  (return str)))
 
-	      (defun make_gzip_stream (fn)
-		(declare 
-		 (type String fn))
-		(let ((o (ByteArrayOutputStream )))))
-	      
-	      (defun append_to_gzip (fn data)
-		(declare (type ByteArray data)
-			 (type String fn))
+	      (defun make_appending_gzip_stream (fn)
+		(declare (type String fn)
+			 (values GZIPOutputStream))
+		;; apppend if it exists
 		(let ((dir (getCacheDir))
 		      (file (File dir fn))
-		      )
-		
-		  (file.appendBytes data)))
+		      (o (FileOutputStream file true))
+		      (oz (GZIPOutputStream o)))
+		  (return oz)))
+
+	      (defun gzip_write (o str)
+		(declare (type GZIPOutputStream o)
+			 (type String str))
+		(let ((data (str.toByteArray Charsets.UTF_8)))
+		  (o.write data)))
+	      
 	      ,@(loop
 		   for e in
 		     `((Create
@@ -132,7 +138,11 @@
 			     (do0
 			      (d (string "martin")
 				 (string "required permissions obtained"))
-			      
+			      (let ((o (make_appending_gzip_stream (string "data.gz"))))
+				(for (i "1..210")
+				     (do0
+				      (Thread.sleep 100)
+				      (gzip_write o (generate_data)))))
 			      
 			      )
 			     (do0
