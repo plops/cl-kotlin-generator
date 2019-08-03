@@ -236,8 +236,8 @@
 				     (do0
 				      ;(Thread.sleep 100)
 				      (crypto_gzip_write o (generate_data i))))
-				)
-			      ;(decrypt_gzip_stream (string "data.aes.gz") iv)
+				(o.close))
+					;(decrypt_gzip_stream (string "data.aes.gz") iv)
 			      
 			      )
 			     (do0

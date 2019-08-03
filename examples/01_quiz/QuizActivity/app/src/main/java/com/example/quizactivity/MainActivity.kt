@@ -94,6 +94,7 @@ class MainActivity : AppCompatActivity() {
             for (i in 1..21100) {
                 crypto_gzip_write(o, generate_data(i))
 }
+            o.close()
 } else {
             d("martin", "request permissions ${REQUIRED_PERMISSIONS}")
             ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
