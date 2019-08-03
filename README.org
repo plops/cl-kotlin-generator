@@ -79,7 +79,7 @@ This is the eigth in a series of code generators.
 | 07 | store gps nmea messages in a temporary file                                                             |
 | 08 | store key in secure container                                                                           |
 | 09 | write compressed data into file  (streaming)                                                            |
-|    |                                                                                                         |
+| 10 | write compressed and encrypted stream to file (TODO)                                                    |
 * Developing the first example 
 
 The project was created in Android Studio 3.6 Canary 5. Older versions
