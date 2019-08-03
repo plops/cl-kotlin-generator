@@ -75,6 +75,7 @@
 	     java.io.File
 	     java.lang.System.currentTimeMillis
 	     java.io.FileOutputStream
+	     java.io.FileInputStream
 	     java.util.zip.GZIPOutputStream
 
 	     java.security.KeyStore
@@ -87,6 +88,11 @@
 	     javax.crypto.CipherOutputStream
 	     
 	     javax.crypto.spec.GCMParameterSpec
+
+
+	     java.util.zip.GZIPInputStream
+	     javax.crypto.CipherInputStream
+	     
 	     )
 
 	    (do0
@@ -132,27 +138,8 @@
 		       (cipher.init Cipher.ENCRYPT_MODE secretkey)
 		       (let ((iv (cipher.getIV)))
 			 (return (CipherResult cipher iv)))))))
-	       #+nil
-	       (defun decrypt (data init_vector)
-		 (declare (type ByteArray data
-				init_vector)
-			  (values String))
-		 (let ((keystore (KeyStore.getInstance
-				  (string "AndroidKeyStore"))))
-		   (keystore.load null)
-		   (let (
-			 (cipher (Cipher.getInstance ,trafo))
-			 (spec (GCMParameterSpec 128 init_vector))
-			 (entry (as (dot keystore
-				       (getEntry ,alias null)
-				       )
-				    KeyStore.SecretKeyEntry)))
-		     (cipher.init Cipher.DECRYPT_MODE
-				  (entry.getSecretKey)
-				  spec)
-		     (return (String (cipher.doFinal data)
-				     Charsets.UTF_8)))))))
-	    (defclass MainActivity ((AppCompatActivity))
+	      
+	       (defclass MainActivity ((AppCompatActivity))
 	      (do0 "private"
 		   (defun allPermissionsGranted ()
 		     (declare (values Boolean))
@@ -174,27 +161,61 @@
 		(let ((now (currentTimeMillis))
 		      (str (string "${now},bsltaa,${count}\\n")))
 		  (return str)))
-	      "data class CompressedCryptoStream(val stream:GZIPOutputStream,val init_vec:ByteArray)"
-	      (defun make_crypto_appending_gzip_stream (fn)
-		(declare (type String fn)
-			 (values CompressedCryptoStream))
-		;; apppend if it exists
-		(let ((dir (getCacheDir))
-		      (file (File dir fn))
-		      (o (FileOutputStream file true))
-		      
-		      ((paren cipher iv) (make_cipher))
-		      (oc (CipherOutputStream o cipher))
-		      
-		      (oz (GZIPOutputStream oc))
-		      )
-		  (return (CompressedCryptoStream oz iv))))
+	      
 
+	      (defun decrypt_gzip_stream (fn init_vector)
+		(declare (type ByteArray init_vector)
+			 (type String fn)
+					;(values String)
+			  )
+		 (let ((keystore (KeyStore.getInstance
+				  (string "AndroidKeyStore"))))
+		   (keystore.load null)
+		   (let (
+			 (cipher (Cipher.getInstance ,trafo))
+			 (spec (GCMParameterSpec 128 init_vector))
+			 (entry (as (dot keystore
+					 (getEntry ,alias null)
+					 )
+				    KeyStore.SecretKeyEntry)))
+		     (cipher.init Cipher.DECRYPT_MODE
+				  (entry.getSecretKey)
+				  spec)
+		     (let ((dir (getCacheDir))
+			   (file (File dir fn))
+			   (istr (FileInputStream file))
+			   (ic (CipherInputStream istr cipher))
+			   (iz (GZIPInputStream ic))
+			   (n 1024)
+			   (data (ByteArray n))
+			   (bytes_read (iz.read data 0 n))
+			   (data_str (data.toString)))
+		       (d (string "martin")
+			  (string "${data_str}"))
+		       ))))
+	      
 	      (defun crypto_gzip_write (o str)
 		(declare (type GZIPOutputStream o)
 			 (type String str))
 		(let ((data (str.toByteArray Charsets.UTF_8)))
 		  (o.write data)))
+
+	      (do0 "data class CompressedCryptoStream(val stream:GZIPOutputStream,val init_vec:ByteArray)"
+		   (defun make_crypto_appending_gzip_stream (fn)
+		     (declare (type String fn)
+			      (values CompressedCryptoStream))
+		     ;; apppend if it exists
+		     (let ((dir (getCacheDir))
+			   (file (File dir fn))
+			   (o (FileOutputStream file; true
+						))
+			   
+			   ((paren cipher iv) (make_cipher))
+			   (oc (CipherOutputStream o cipher))
+			   
+			   (oz (GZIPOutputStream oc))
+			   )
+		       (return (CompressedCryptoStream oz iv)))))
 	      
 	      ,@(loop
 		   for e in
@@ -211,10 +232,12 @@
 				    (file (File dir (string "data.aes.iv")))
 				    )
 				(file.writeBytes iv)
-				(for (i "1..2100320")
+				(for (i "1..2100")
 				     (do0
 				      ;(Thread.sleep 100)
-				      (crypto_gzip_write o (generate_data i)))))
+				      (crypto_gzip_write o (generate_data i))))
+				)
+			      (decrypt_gzip_stream (string "data.aes.gz") iv)
 			      
 			      )
 			     (do0
@@ -243,7 +266,10 @@
 				      (d (string "martin") (string ,(format nil "~a" name)))
 				      ,(if extra
 					   extra
-					   "// none"))))))))))
+					   "// none"))))))))
+
+	       )
+	    )))
     (ensure-directories-exist path-kotlin)
     (ensure-directories-exist path-layout)
     

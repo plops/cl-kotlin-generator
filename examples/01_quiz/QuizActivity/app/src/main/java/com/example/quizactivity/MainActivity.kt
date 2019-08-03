@@ -8,6 +8,7 @@ import androidx.core.app.ActivityCompat
 import java.io.File
 import java.lang.System.currentTimeMillis
 import java.io.FileOutputStream
+import java.io.FileInputStream
 import java.util.zip.GZIPOutputStream
 import java.security.KeyStore
 import javax.crypto.Cipher
@@ -16,6 +17,8 @@ import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import javax.crypto.CipherOutputStream
 import javax.crypto.spec.GCMParameterSpec
+import java.util.zip.GZIPInputStream
+import javax.crypto.CipherInputStream
 private const
 val REQUEST_CODE_PERMISSIONS = 10
 private 
@@ -46,19 +49,37 @@ class MainActivity : AppCompatActivity() {
         val str = "${now},bsltaa,${count}\n"
         return str
 }
-    data class CompressedCryptoStream(val stream:GZIPOutputStream,val init_vec:ByteArray)
-    fun make_crypto_appending_gzip_stream(fn: String): CompressedCryptoStream {
+    fun decrypt_gzip_stream(fn: String, init_vector: ByteArray){
+        val keystore = KeyStore.getInstance("AndroidKeyStore")
+        keystore.load(null)
+        val cipher = Cipher.getInstance("AES/GCM/NoPadding")
+        val spec = GCMParameterSpec(128, init_vector)
+        val entry = keystore.getEntry("alias0", null) as KeyStore.SecretKeyEntry
+        cipher.init(Cipher.DECRYPT_MODE, entry.getSecretKey(), spec)
         val dir = getCacheDir()
         val file = File(dir, fn)
-        val o = FileOutputStream(file, true)
-        val (cipher, iv) = make_cipher()
-        val oc = CipherOutputStream(o, cipher)
-        val oz = GZIPOutputStream(oc)
-        return CompressedCryptoStream(oz, iv)
+        val istr = FileInputStream(file)
+        val ic = CipherInputStream(istr, cipher)
+        val iz = GZIPInputStream(ic)
+        val n = 1024
+        val data = ByteArray(n)
+        val bytes_read = iz.read(data, 0, n)
+        val data_str = data.toString()
+        d("martin", "${data_str}")
 }
     fun crypto_gzip_write(o: GZIPOutputStream, str: String){
         val data = str.toByteArray(Charsets.UTF_8)
         o.write(data)
+}
+    data class CompressedCryptoStream(val stream:GZIPOutputStream,val init_vec:ByteArray)
+    fun make_crypto_appending_gzip_stream(fn: String): CompressedCryptoStream {
+        val dir = getCacheDir()
+        val file = File(dir, fn)
+        val o = FileOutputStream(file)
+        val (cipher, iv) = make_cipher()
+        val oc = CipherOutputStream(o, cipher)
+        val oz = GZIPOutputStream(oc)
+        return CompressedCryptoStream(oz, iv)
 }
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
@@ -70,9 +91,10 @@ class MainActivity : AppCompatActivity() {
             val dir = getCacheDir()
             val file = File(dir, "data.aes.iv")
             file.writeBytes(iv)
-            for (i in 1..2100320) {
+            for (i in 1..2100) {
                 crypto_gzip_write(o, generate_data(i))
 }
+            decrypt_gzip_stream("data.aes.gz", iv)
 } else {
             d("martin", "request permissions ${REQUIRED_PERMISSIONS}")
             ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
