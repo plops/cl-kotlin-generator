@@ -5,6 +5,8 @@
 
 ;; https://proandroiddev.com/security-best-practices-symmetric-encryption-with-aes-in-java-7616beaaade9
 
+;; the init vector needs to be stored as well
+
 (let* ((main-activity "MainActivity")
        (title "QuizActivity")
        (path-lisp "/home/martin/quicklisp/local-projects/cl-kotlin-generator/examples/01_quiz/")
