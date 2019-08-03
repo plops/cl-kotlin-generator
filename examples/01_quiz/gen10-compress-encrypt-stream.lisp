@@ -131,8 +131,7 @@
 				    ,trafo)))
 		       (cipher.init Cipher.ENCRYPT_MODE secretkey)
 		       (let ((iv (cipher.getIV)))
-			 (return (CipherResult cipher iv)))
-		       ))))
+			 (return (CipherResult cipher iv)))))))
 	       #+nil
 	       (defun decrypt (data init_vector)
 		 (declare (type ByteArray data
@@ -175,10 +174,10 @@
 		(let ((now (currentTimeMillis))
 		      (str (string "${now},bsltaa,${count}\\n")))
 		  (return str)))
-
+	      "data class CompressedCryptoStream(val stream:GZIPOutputStream,val init_vec:ByteArray)"
 	      (defun make_crypto_appending_gzip_stream (fn)
 		(declare (type String fn)
-			 (values GZIPOutputStream))
+			 (values CompressedCryptoStream))
 		;; apppend if it exists
 		(let ((dir (getCacheDir))
 		      (file (File dir fn))
@@ -189,7 +188,7 @@
 		      
 		      (oz (GZIPOutputStream oc))
 		      )
-		  (return oz)))
+		  (return (CompressedCryptoStream oz iv))))
 
 	      (defun crypto_gzip_write (o str)
 		(declare (type GZIPOutputStream o)
@@ -207,7 +206,11 @@
 			     (do0
 			      (d (string "martin")
 				 (string "required permissions obtained"))
-			      (let ((o (make_crypto_appending_gzip_stream (string "data.aes.gz"))))
+			      (let (((paren o iv) (make_crypto_appending_gzip_stream (string "data.aes.gz")))
+				    (dir (getCacheDir)) ;; FIXME do i need to hide the init vector?
+				    (file (File dir (string "data.aes.iv")))
+				    )
+				(file.writeBytes iv)
 				(for (i "1..2100320")
 				     (do0
 				      ;(Thread.sleep 100)

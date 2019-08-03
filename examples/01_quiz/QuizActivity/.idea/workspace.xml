@@ -16,7 +16,6 @@
   <component name="ChangeListManager">
     <list default="true" id="1919a353-6271-43a5-80eb-cd4ff694b18c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/quizactivity/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/quizactivity/MainActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../gen10-compress-encrypt-stream.lisp" beforeDir="false" afterPath="$PROJECT_DIR$/../gen10-compress-encrypt-stream.lisp" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -45,8 +44,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/quizactivity/MainActivity.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="46">
-              <caret line="22" column="29" selection-start-line="22" selection-start-column="29" selection-end-line="22" selection-end-column="29" />
+            <state relative-caret-position="826">
+              <caret line="71" column="20" lean-forward="true" selection-start-line="71" selection-start-column="20" selection-end-line="71" selection-end-column="20" />
               <folding>
                 <element signature="e#33#619#0" expanded="true" />
               </folding>
@@ -84,8 +83,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1354" />
-    <option name="y" value="630" />
+    <option name="x" value="1356" />
+    <option name="y" value="1042" />
     <option name="width" value="938" />
     <option name="height" value="600" />
   </component>
@@ -271,7 +270,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1480" y="782" width="938" height="600" extended-state="0" />
+    <frame x="1276" y="0" width="1088" height="1924" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
@@ -286,10 +285,10 @@
       <window_info anchor="bottom" id="Run" order="0" weight="0.32738096" />
       <window_info anchor="bottom" id="Debug" order="1" />
       <window_info anchor="bottom" id="Find" order="2" />
-      <window_info anchor="bottom" id="Logcat" order="3" weight="0.53125" />
+      <window_info anchor="bottom" id="Logcat" order="3" weight="0.52991456" />
       <window_info anchor="bottom" id="Version Control" order="4" weight="0.32440478" />
       <window_info anchor="bottom" id="TODO" order="5" weight="0.32589287" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="6" visible="true" weight="0.58760685" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="6" visible="true" weight="0.15345982" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Build" order="8" weight="0.32886904" />
       <window_info anchor="bottom" id="Android Profiler" order="9" show_stripe_button="false" />
@@ -411,8 +410,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/quizactivity/MainActivity.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="46">
-          <caret line="22" column="29" selection-start-line="22" selection-start-column="29" selection-end-line="22" selection-end-column="29" />
+        <state relative-caret-position="826">
+          <caret line="71" column="20" lean-forward="true" selection-start-line="71" selection-start-column="20" selection-end-line="71" selection-end-column="20" />
           <folding>
             <element signature="e#33#619#0" expanded="true" />
           </folding>

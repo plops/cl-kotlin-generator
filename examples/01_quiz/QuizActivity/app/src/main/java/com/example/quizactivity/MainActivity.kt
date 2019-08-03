@@ -46,14 +46,15 @@ class MainActivity : AppCompatActivity() {
         val str = "${now},bsltaa,${count}\n"
         return str
 }
-    fun make_crypto_appending_gzip_stream(fn: String): GZIPOutputStream {
+    data class CompressedCryptoStream(val stream:GZIPOutputStream,val init_vec:ByteArray)
+    fun make_crypto_appending_gzip_stream(fn: String): CompressedCryptoStream {
         val dir = getCacheDir()
         val file = File(dir, fn)
         val o = FileOutputStream(file, true)
         val (cipher, iv) = make_cipher()
         val oc = CipherOutputStream(o, cipher)
         val oz = GZIPOutputStream(oc)
-        return oz
+        return CompressedCryptoStream(oz, iv)
 }
     fun crypto_gzip_write(o: GZIPOutputStream, str: String){
         val data = str.toByteArray(Charsets.UTF_8)
@@ -65,7 +66,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         if ( allPermissionsGranted() ) {
             d("martin", "required permissions obtained")
-            val o = make_crypto_appending_gzip_stream("data.aes.gz")
+            val (o, iv) = make_crypto_appending_gzip_stream("data.aes.gz")
+            val dir = getCacheDir()
+            val file = File(dir, "data.aes.iv")
+            file.writeBytes(iv)
             for (i in 1..2100320) {
                 crypto_gzip_write(o, generate_data(i))
 }
