@@ -65,7 +65,9 @@ class MainActivity : AppCompatActivity() {
         val data = ByteArray(n)
         val bytes_read = iz.read(data, 0, n)
         val data_str = data.toString()
-        d("martin", "${data_str}")
+        d("martin", "bytes_read=${bytes_read}")
+        d("martin", "data=${data[0].toChar()}${data[1].toChar()}${data[2].toChar()}${data[3].toChar()}${data[4].toChar()}${data[5].toChar()}${data[6].toChar()}${data[7].toChar()}${data[8].toChar()}${data[9].toChar()}${data[10].toChar()}${data[11].toChar()}${data[12].toChar()}${data[13].toChar()}${data[14].toChar()}${data[15].toChar()}${data[16].toChar()}${data[17].toChar()}${data[18].toChar()}${data[19].toChar()}${data[20].toChar()}${data[21].toChar()}${data[22].toChar()}${data[23].toChar()}${data[24].toChar()}${data[25].toChar()}${data[26].toChar()}${data[27].toChar()}${data[28].toChar()}${data[29].toChar()}")
+        d("martin", data_str)
 }
     fun crypto_gzip_write(o: GZIPOutputStream, str: String){
         val data = str.toByteArray(Charsets.UTF_8)

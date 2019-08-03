@@ -190,8 +190,11 @@
 			   (data (ByteArray n))
 			   (bytes_read (iz.read data 0 n))
 			   (data_str (data.toString)))
-		       (d (string "martin")
-			  (string "${data_str}"))
+		       (d (string "martin") (string "bytes_read=${bytes_read}"))
+		       (d (string "martin") (string ,(format nil "data=~{~a~}"
+							     (loop for i below 30 collect
+								 (format nil "${data[~a].toChar()}" i)))))
+		       (d (string "martin") data_str)
 		       ))))
 	      
 	      (defun crypto_gzip_write (o str)
