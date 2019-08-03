@@ -78,7 +78,7 @@ This is the eigth in a series of code generators.
 | 06 | grpc, also uses reactivex to form http connection                                                       |
 | 07 | store gps nmea messages in a temporary file                                                             |
 | 08 | store key in secure container                                                                           |
-| 09 | write compressed data into file  (TODO)                                                                 |
+| 09 | write compressed data into file  (streaming)                                                            |
 |    |                                                                                                         |
 * Developing the first example 
 
