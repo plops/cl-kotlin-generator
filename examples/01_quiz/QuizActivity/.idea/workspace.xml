@@ -45,8 +45,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/quizactivity/MainActivity.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="657">
-              <caret line="64" column="53" lean-forward="true" selection-start-line="64" selection-start-column="53" selection-end-line="64" selection-end-column="53" />
+            <state relative-caret-position="46">
+              <caret line="22" column="29" selection-start-line="22" selection-start-column="29" selection-end-line="22" selection-end-column="29" />
               <folding>
                 <element signature="e#33#619#0" expanded="true" />
               </folding>
@@ -83,9 +83,9 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
-    <option name="x" value="56" />
-    <option name="y" value="63" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="1483" />
+    <option name="y" value="639" />
     <option name="width" value="938" />
     <option name="height" value="600" />
   </component>
@@ -271,7 +271,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-4" y="0" width="1258" height="804" extended-state="7" />
+    <frame x="1480" y="782" width="938" height="600" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
@@ -289,7 +289,7 @@
       <window_info anchor="bottom" id="Logcat" order="3" weight="0.53125" />
       <window_info anchor="bottom" id="Version Control" order="4" weight="0.32440478" />
       <window_info anchor="bottom" id="TODO" order="5" weight="0.32589287" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="6" visible="true" weight="0.40922618" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="6" visible="true" weight="0.58760685" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Build" order="8" weight="0.32886904" />
       <window_info anchor="bottom" id="Android Profiler" order="9" show_stripe_button="false" />
@@ -411,8 +411,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/quizactivity/MainActivity.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="657">
-          <caret line="64" column="53" lean-forward="true" selection-start-line="64" selection-start-column="53" selection-end-line="64" selection-end-column="53" />
+        <state relative-caret-position="46">
+          <caret line="22" column="29" selection-start-line="22" selection-start-column="29" selection-end-line="22" selection-end-column="29" />
           <folding>
             <element signature="e#33#619#0" expanded="true" />
           </folding>

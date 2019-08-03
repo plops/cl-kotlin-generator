@@ -4,6 +4,7 @@
 (in-package :cl-kotlin-generator)
 
 ;; https://proandroiddev.com/security-best-practices-symmetric-encryption-with-aes-in-java-7616beaaade9
+;; https://developer.android.com/reference/javax/crypto/CipherOutputStream.html
 
 ;; the init vector needs to be stored as well
 
@@ -82,6 +83,9 @@
 	     javax.crypto.KeyGenerator
 	     android.security.keystore.KeyGenParameterSpec
 	     android.security.keystore.KeyProperties
+
+	     javax.crypto.CipherOutputStream
+	     
 	     javax.crypto.spec.GCMParameterSpec
 	     )
 
@@ -101,10 +105,9 @@
 	    ,(let ((alias `(string "alias0"))
 		   (trafo `(string "AES/GCM/NoPadding")))
 	       `(do0
-		 "data class EncryptionResult(val data:ByteArray,val init_vec:ByteArray)"
-	       (defun encrypt (str)
-		 (declare (type String str)
-			  (values EncryptionResult))
+		 "data class CipherResult(val cipher:Cipher,val init_vec:ByteArray)"
+	       (defun make_cipher ()
+		 (declare (values CipherResult))
 		 (let ((keystore (KeyStore.getInstance
 				  (string "AndroidKeyStore"))))
 		   (keystore.load null)
@@ -125,16 +128,12 @@
 		     (keygen.init spec)
 		     (let ((secretkey (keygen.generateKey))
 			   (cipher (Cipher.getInstance
-				    ,trafo
-				    )))
+				    ,trafo)))
 		       (cipher.init Cipher.ENCRYPT_MODE secretkey)
-		       (let ((iv (cipher.getIV))
-			     (encryption (cipher.doFinal
-					  (dot str
-					       (toByteArray)))))
-			 (return (EncryptionResult encryption
-						   iv)))
+		       (let ((iv (cipher.getIV)))
+			 (return (CipherResult cipher iv)))
 		       ))))
+	       #+nil
 	       (defun decrypt (data init_vector)
 		 (declare (type ByteArray data
 				init_vector)
@@ -177,17 +176,22 @@
 		      (str (string "${now},bsltaa,${count}\\n")))
 		  (return str)))
 
-	      (defun make_appending_gzip_stream (fn)
+	      (defun make_crypto_appending_gzip_stream (fn)
 		(declare (type String fn)
 			 (values GZIPOutputStream))
 		;; apppend if it exists
 		(let ((dir (getCacheDir))
 		      (file (File dir fn))
 		      (o (FileOutputStream file true))
-		      (oz (GZIPOutputStream o)))
+		      
+		      ((paren cipher iv) (make_cipher))
+		      (oc (CipherOutputStream o cipher))
+		      
+		      (oz (GZIPOutputStream oc))
+		      )
 		  (return oz)))
 
-	      (defun gzip_write (o str)
+	      (defun crypto_gzip_write (o str)
 		(declare (type GZIPOutputStream o)
 			 (type String str))
 		(let ((data (str.toByteArray Charsets.UTF_8)))
@@ -203,11 +207,11 @@
 			     (do0
 			      (d (string "martin")
 				 (string "required permissions obtained"))
-			      (let ((o (make_appending_gzip_stream (string "data.gz"))))
+			      (let ((o (make_crypto_appending_gzip_stream (string "data.aes.gz"))))
 				(for (i "1..2100320")
 				     (do0
 				      ;(Thread.sleep 100)
-				      (gzip_write o (generate_data i)))))
+				      (crypto_gzip_write o (generate_data i)))))
 			      
 			      )
 			     (do0

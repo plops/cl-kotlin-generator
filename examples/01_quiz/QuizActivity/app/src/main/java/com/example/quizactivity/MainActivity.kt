@@ -14,13 +14,14 @@ import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
+import javax.crypto.CipherOutputStream
 import javax.crypto.spec.GCMParameterSpec
 private const
 val REQUEST_CODE_PERMISSIONS = 10
 private 
 val REQUIRED_PERMISSIONS = arrayOf<String>()
-data class EncryptionResult(val data:ByteArray,val init_vec:ByteArray)
-fun encrypt(str: String): EncryptionResult {
+data class CipherResult(val cipher:Cipher,val init_vec:ByteArray)
+fun make_cipher(): CipherResult {
     val keystore = KeyStore.getInstance("AndroidKeyStore")
     keystore.load(null)
     val keygen = KeyGenerator.getInstance("AES", "AndroidKeyStore")
@@ -31,17 +32,7 @@ fun encrypt(str: String): EncryptionResult {
     val cipher = Cipher.getInstance("AES/GCM/NoPadding")
     cipher.init(Cipher.ENCRYPT_MODE, secretkey)
     val iv = cipher.getIV()
-    val encryption = cipher.doFinal(str.toByteArray())
-    return EncryptionResult(encryption, iv)
-}
-fun decrypt(data: ByteArray, init_vector: ByteArray): String {
-    val keystore = KeyStore.getInstance("AndroidKeyStore")
-    keystore.load(null)
-    val cipher = Cipher.getInstance("AES/GCM/NoPadding")
-    val spec = GCMParameterSpec(128, init_vector)
-    val entry = keystore.getEntry("alias0", null) as KeyStore.SecretKeyEntry
-    cipher.init(Cipher.DECRYPT_MODE, entry.getSecretKey(), spec)
-    return String(cipher.doFinal(data), Charsets.UTF_8)
+    return CipherResult(cipher, iv)
 }
 class MainActivity : AppCompatActivity() {
     private
@@ -55,14 +46,16 @@ class MainActivity : AppCompatActivity() {
         val str = "${now},bsltaa,${count}\n"
         return str
 }
-    fun make_appending_gzip_stream(fn: String): GZIPOutputStream {
+    fun make_crypto_appending_gzip_stream(fn: String): GZIPOutputStream {
         val dir = getCacheDir()
         val file = File(dir, fn)
         val o = FileOutputStream(file, true)
-        val oz = GZIPOutputStream(o)
+        val (cipher, iv) = make_cipher()
+        val oc = CipherOutputStream(o, cipher)
+        val oz = GZIPOutputStream(oc)
         return oz
 }
-    fun gzip_write(o: GZIPOutputStream, str: String){
+    fun crypto_gzip_write(o: GZIPOutputStream, str: String){
         val data = str.toByteArray(Charsets.UTF_8)
         o.write(data)
 }
@@ -72,9 +65,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         if ( allPermissionsGranted() ) {
             d("martin", "required permissions obtained")
-            val o = make_appending_gzip_stream("data.gz")
+            val o = make_crypto_appending_gzip_stream("data.aes.gz")
             for (i in 1..2100320) {
-                gzip_write(o, generate_data(i))
+                crypto_gzip_write(o, generate_data(i))
 }
 } else {
             d("martin", "request permissions ${REQUIRED_PERMISSIONS}")
