@@ -95,6 +95,7 @@ class MainActivity : AppCompatActivity() {
                 crypto_gzip_write(o, generate_data(i))
 }
             o.close()
+            decrypt_gzip_stream("data.aes.gz", iv)
 } else {
             d("martin", "request permissions ${REQUIRED_PERMISSIONS}")
             ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
