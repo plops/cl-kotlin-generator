@@ -20,9 +20,9 @@ class MainActivity : AppCompatActivity() {
             return (ContextCompat.checkSelfPermission(baseContext, it))==(PackageManager.PERMISSION_GRANTED)
 })
 }
-    fun generate_data(): String {
+    fun generate_data(count: Int): String {
         val now = currentTimeMillis()
-        val str = "${now},bsltaa"
+        val str = "${now},bsltaa,${count}"
         return str
 }
     fun make_appending_gzip_stream(fn: String): GZIPOutputStream {
@@ -43,9 +43,8 @@ class MainActivity : AppCompatActivity() {
         if ( allPermissionsGranted() ) {
             d("martin", "required permissions obtained")
             val o = make_appending_gzip_stream("data.gz")
-            for (i in 1..210) {
-                Thread.sleep(100)
-                gzip_write(o, generate_data())
+            for (i in 1..2100320) {
+                gzip_write(o, generate_data(i))
 }
 } else {
             d("martin", "request permissions ${REQUIRED_PERMISSIONS}")

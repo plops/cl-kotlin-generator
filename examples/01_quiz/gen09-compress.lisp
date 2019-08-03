@@ -106,10 +106,11 @@
 	      #+nil,@(loop for (var type) in `((_key_store KeyStore)) collect
 			  (format nil "private lateinit var ~a : ~a" var type))
 
-	      (defun generate_data ()
-		(declare (values String))
+	      (defun generate_data (count)
+		(declare (values String)
+			 (type Int count))
 		(let ((now (currentTimeMillis))
-		      (str (string "${now},bsltaa")))
+		      (str (string "${now},bsltaa,${count}")))
 		  (return str)))
 
 	      (defun make_appending_gzip_stream (fn)
@@ -139,10 +140,10 @@
 			      (d (string "martin")
 				 (string "required permissions obtained"))
 			      (let ((o (make_appending_gzip_stream (string "data.gz"))))
-				(for (i "1..210")
+				(for (i "1..2100320")
 				     (do0
-				      (Thread.sleep 100)
-				      (gzip_write o (generate_data)))))
+				      ;(Thread.sleep 100)
+				      (gzip_write o (generate_data i)))))
 			      
 			      )
 			     (do0
