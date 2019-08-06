@@ -80,6 +80,34 @@ This is the eigth in a series of code generators.
 | 08 | store key in secure container                                                                           |
 | 09 | write compressed data into file  (streaming)                                                            |
 | 10 | write compressed and encrypted stream to file                                                           |
+
+* How to run
+
+- Note: I realize that having to install the code in
+  /home/martin/stage is not acceptable for other users. I haven't
+  decided how to handle directories, though. So far absolute paths
+  seemed the easiest solution for now.
+
+- install sbcl, quicklisp and emacs
+- install android studio and android sdk
+
+#+BEGIN_EXAMPLE
+mkdir -p /home/martin/stage
+cd /home/martin/stage
+git pull https://github.com/plops/cl-kotlin-generator
+ln -s /home/martin/stage/cl-kotlin-generator ~/quicklisp/local-projects
+#+END_EXAMPLE
+
+- open and run cl-kotlin-generator/examples/01_quiz/gen.lisp in Emacs/Slime
+- open cl-kotlin-generator/examples/01_quiz/QuizActivity project in android studio
+- modify
+  https://github.com/plops/cl-kotlin-generator/blob/master/examples/01_quiz/QuizActivity/app/build.gradle
+  and
+  https://github.com/plops/cl-kotlin-generator/blob/master/examples/01_quiz/QuizActivity/build.gradle
+  to enable or disable certain features. eventually the gradle
+  (groovy) files should also be written by gen.lisp.
+- run gen02-opengl.lisp or any of the other files to try different examples
+
 * Developing the first example 
 
 The project was created in Android Studio 3.6 Canary 5. Older versions
