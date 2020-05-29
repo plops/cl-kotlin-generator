@@ -1,0 +1,14 @@
+https://developer.android.com/jetpack/compose/tutorial
+
+
+* How to populate this directory 
+
+- android studio creates a lot of boilerplate that i don't understand and don't want to put in the repo
+- here is how to generate https://developer.android.com/jetpack/compose/setup
+- If you’re in the Welcome to Android Studio window, click Start a new Android Studio project. If you already have an Android Studio project open, select File > New > New Project from the menu bar.
+  - In the Select a Project Template window, select Empty Compose Activity and click Next.
+  - In the Configure your project window, do the following:
+  - Set the Name, Package name, and Save location as you normally would.
+  - Note that, in the Language dropdown menu, Kotlin is the only available option because Jetpack Compose works only with classes written in Kotlin.
+  - In the Minimum API level dropdown menu, select API level 21 or higher.
+  - Click Finish.
