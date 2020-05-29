@@ -243,6 +243,10 @@ entry return-values contains a list of return values"
 				       (format s "~&import ~a as ~a"
 					       name nick ))
 				     (format s "~&import ~a" e))))))
+		(space
+		   ;; space {args}*
+		   (let ((args (cdr code)))
+		     (format nil "~{~a~^ ~}" (mapcar #'emit args))))
 		(progn (with-output-to-string (s)
 			 ;; progrn {form}*
 			 ;; like do but surrounds forms with braces.

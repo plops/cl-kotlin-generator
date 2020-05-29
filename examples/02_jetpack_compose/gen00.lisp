@@ -27,22 +27,22 @@
 
 
 	    (defclass MainActivity ((AppCompatActivity))
-	      (do0
+	      (space
 	       "override"
 		 (defun onCreate (saved_instance_state)
 		   (declare (type Bundle? saved_instance_state))
 		   (super.onCreate saved_instance_state)
-		   (do0
+		   (space
 		    setContent
 		    (progn
 		      (Greeting (string "Android")))))))
-	    (do0
+	    (space
 	     "@Composable"
 	     (defun Greeting (name)
 	       (declare (type String name))
 	       (Text (string "Hello $name!")))
 	     )
-	    (do0
+	    (space
 	     "@Preview"
 	     "@Composable"
 	     (defun PreviewGreeting ()

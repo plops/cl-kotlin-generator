@@ -6,20 +6,16 @@ import androidx.ui.core.setContent
 import androidx.ui.foundation.Text
 import androidx.ui.tooling.preview.Preview
 class MainActivity : AppCompatActivity() {
-    override
-    fun onCreate(saved_instance_state: Bundle?){
+    override fun onCreate(saved_instance_state: Bundle?){
         super.onCreate(saved_instance_state)
         setContent {
             Greeting("Android")
-        }
-    }
 }
-@Composable
-fun Greeting(name: String){
+}
+}
+@Composable fun Greeting(name: String){
     Text("Hello $name!")
 }
-@Preview
-@Composable
-fun PreviewGreeting(){
+@Preview @Composable fun PreviewGreeting(){
     Greeting("Android")
 }
