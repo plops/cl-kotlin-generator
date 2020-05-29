@@ -9,7 +9,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(saved_instance_state: Bundle?){
         super.onCreate(saved_instance_state)
         setContent {
-            Greeting("Android")
+            NewsStory()
 }
 }
 }
@@ -18,4 +18,12 @@ class MainActivity : AppCompatActivity() {
 }
 @Preview @Composable fun PreviewGreeting(){
     Greeting("Android")
+}
+@Composable fun NewsStory(){
+    Text("a day in shark fin cove")
+    Text("davenport california")
+    Text("dec 2018")
+}
+@Preview @Composable fun PreviewNewsStory(){
+    NewsStory()
 }

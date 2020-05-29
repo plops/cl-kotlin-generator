@@ -35,18 +35,37 @@
 		   (space
 		    setContent
 		    (progn
-		      (Greeting (string "Android")))))))
-	    (space
-	     "@Composable"
-	     (defun Greeting (name)
-	       (declare (type String name))
-	       (Text (string "Hello $name!")))
-	     )
-	    (space
-	     "@Preview"
-	     "@Composable"
-	     (defun PreviewGreeting ()
-	       (Greeting (string "Android"))))
+		      (NewsStory)
+		      ;(Greeting (string "Android"))
+		      )))))
+	    
+	    (do0
+	     (space
+	      "@Composable"
+	      (defun Greeting (name)
+		(declare (type String name))
+		(Text (string "Hello $name!")))
+	      )
+	     (space
+	      "@Preview"
+	      "@Composable"
+	      (defun PreviewGreeting ()
+		(Greeting (string "Android")))))
+
+	    (do0
+	     (space
+	      "@Composable"
+	      (defun NewsStory ()
+		,@(loop for e in `("a day in shark fin cove"
+				   "davenport california"
+				   "dec 2018")
+		       collect
+		       `(Text (string ,e)))))
+	     (space
+	      "@Preview"
+	      "@Composable"
+	      (defun PreviewNewsStory ()
+		(NewsStory))))
 
 	    
 	    )))
