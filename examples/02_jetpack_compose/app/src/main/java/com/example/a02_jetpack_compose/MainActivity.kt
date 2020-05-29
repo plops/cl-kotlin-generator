@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.Composable
 import androidx.ui.core.setContent
 import androidx.ui.foundation.Text
+import androidx.ui.layout.Column
 import androidx.ui.tooling.preview.Preview
 class MainActivity : AppCompatActivity() {
     override fun onCreate(saved_instance_state: Bundle?){
@@ -20,9 +21,11 @@ class MainActivity : AppCompatActivity() {
     Greeting("Android")
 }
 @Composable fun NewsStory(){
-    Text("a day in shark fin cove")
-    Text("davenport california")
-    Text("dec 2018")
+    Column {
+        Text("a day in shark fin cove")
+        Text("davenport california")
+        Text("dec 2018")
+}
 }
 @Preview @Composable fun PreviewNewsStory(){
     NewsStory()

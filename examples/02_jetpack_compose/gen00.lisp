@@ -19,6 +19,7 @@
 	     androidx.compose.Composable
 	     androidx.ui.core.setContent
 	     androidx.ui.foundation.Text
+	     androidx.ui.layout.Column
 	     androidx.ui.tooling.preview.Preview
 	     ;com.example.a02_jetpack_compose.ui.AppTheme
 	     )
@@ -56,11 +57,13 @@
 	     (space
 	      "@Composable"
 	      (defun NewsStory ()
-		,@(loop for e in `("a day in shark fin cove"
-				   "davenport california"
-				   "dec 2018")
-		       collect
-		       `(Text (string ,e)))))
+		(space Column
+		       (progn
+			,@(loop for e in `("a day in shark fin cove"
+					   "davenport california"
+					   "dec 2018")
+			     collect
+			       `(Text (string ,e)))))))
 	     (space
 	      "@Preview"
 	      "@Composable"
