@@ -3,11 +3,6 @@
 
 (in-package :cl-kotlin-generator)
 
-;; https://proandroiddev.com/security-best-practices-symmetric-encryption-with-aes-in-java-7616beaaade9
-;; https://developer.android.com/reference/javax/crypto/CipherOutputStream.html
-
-;; the init vector needs to be stored as well
-
 (let* ((main-activity "MainActivity")
        (path-kotlin "/home/martin/stage/cl-kotlin-generator/examples/02_jetpack_compose/app/src/main/java/com/example/a02_jetpack_compose/MainActivity"))
   (let* ((code

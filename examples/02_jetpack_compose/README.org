@@ -1,4 +1,6 @@
-https://developer.android.com/jetpack/compose/tutorial
+- basic tutorial https://developer.android.com/jetpack/compose/tutorial
+
+- how to change the gui at runtime https://blog.mindorks.com/state-management-in-jetpack-compose
 
 
 * How to populate this directory 
