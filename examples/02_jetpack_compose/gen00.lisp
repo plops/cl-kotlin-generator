@@ -11,8 +11,9 @@
 	    (imports (androidx.ui.layout Column padding Spacer preferredHeight fillMaxSize)
 		     (androidx.ui.core setContent Modifier)
 		     (androidx.ui.foundation Text Canvas) 
-		     (androidx.ui.material MaterialTheme Typography)
-		     (androidx.ui.material.MaterialTheme typography)
+		     (androidx.ui.material MaterialTheme)
+		     (androidx.ui.geometry Offset)
+		     (androidx.ui.graphics Paint Color)
 		     (androidx.ui.text.style TextOverflow))
 	    (import
 	     android.os.Bundle
@@ -75,9 +76,13 @@
 					`(Text (string ,e)
 					       :style MaterialTheme.typography.body2
 					       ))))
-			#+nil (space (Canvas :modifier (Modifier.fillMaxSize))
-			       (progn
-				 (drawCircle :color Color.Red :radius 300f)))))))
+			(let ((paint (Paint)))
+			  (setf paint.color (Color #xFF0000FF))
+			  (space (Canvas :modifier (Modifier.fillMaxSize))
+				(progn
+				  (drawCircle :center (Offset 50f 200f)
+					      :radius 40f
+					      :paint paint))))))))
 	     (space
 	      "@Preview"
 	      "@Composable"

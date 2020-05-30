@@ -9,8 +9,9 @@ import androidx.ui.core.Modifier
 import androidx.ui.foundation.Text
 import androidx.ui.foundation.Canvas
 import androidx.ui.material.MaterialTheme
-import androidx.ui.material.Typography
-import androidx.ui.material.MaterialTheme.typography
+import androidx.ui.geometry.Offset
+import androidx.ui.graphics.Paint
+import androidx.ui.graphics.Color
 import androidx.ui.text.style.TextOverflow
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -39,6 +40,11 @@ class MainActivity : AppCompatActivity() {
             Text("a day in shark fin cove", style = MaterialTheme.typography.body2)
             Text("davenport california", style = MaterialTheme.typography.body2)
             Text("dec 2018", style = MaterialTheme.typography.body2)
+}
+        val paint = Paint()
+        paint.color=Color(4278190335)
+        Canvas(modifier = Modifier.fillMaxSize()) {
+            drawCircle(center = Offset(50f, 200f), radius = 40f, paint = paint)
 }
 }
 }
