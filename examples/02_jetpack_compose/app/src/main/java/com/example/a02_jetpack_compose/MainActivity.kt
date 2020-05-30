@@ -13,6 +13,7 @@ import androidx.ui.geometry.Offset
 import androidx.ui.graphics.Paint
 import androidx.ui.graphics.Color
 import androidx.ui.graphics.Path
+import androidx.ui.graphics.PaintingStyle
 import androidx.ui.text.style.TextOverflow
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -49,6 +50,8 @@ class MainActivity : AppCompatActivity() {
             val path = Path()
             val paint_path = Paint()
             paint_path.color=Color.Red
+            paint_path.strokeWidth=15f
+            paint_path.style=PaintingStyle.stroke
             path.moveTo(50f, 500f)
             path.lineTo(55f, 550f)
             path.lineTo(105f, 650f)

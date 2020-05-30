@@ -13,7 +13,7 @@
 		     (androidx.ui.foundation Text Canvas) 
 		     (androidx.ui.material MaterialTheme)
 		     (androidx.ui.geometry Offset)
-		     (androidx.ui.graphics Paint Color Path)
+		     (androidx.ui.graphics Paint Color Path PaintingStyle)
 		     (androidx.ui.text.style TextOverflow))
 	    (import
 	     android.os.Bundle
@@ -85,11 +85,16 @@
 					      :paint paint)
 				  (let ((path (Path))
 					(paint_path (Paint)))
-				    (setf paint_path.color Color.Red)
+				    (setf paint_path.color Color.Red
+					  paint_path.strokeWidth 15f
+					  paint_path.style PaintingStyle.stroke
+					  )
+				    ;(setf path.fillType evenOdd)
 				    (path.moveTo 50f 500f)
 				    (path.lineTo 55f 550f)
 				    (path.lineTo 105f 650f)
 				    (path.lineTo 305f 1250f)
+				    
 				    (drawPath :path path
 					      :paint paint_path)))))))))
 	     (space
