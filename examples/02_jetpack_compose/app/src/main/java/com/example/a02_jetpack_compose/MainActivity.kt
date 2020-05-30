@@ -26,6 +26,25 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.ui.unit.dp
 import androidx.ui.tooling.preview.Preview
 class MainActivity : AppCompatActivity() {
+    val have_internet_permission_p: MutableState<Int> = state {
+        0
+}
+    override fun request_permission_INTERNET(){
+        if ( shouldShowRequestPermissionRationaleCompat(Manifest.permission.INTERNET) ) {
+            requestPermissionCompat(arrayOf(Manifest.permission.INTERNET), format(, PERMISSION_REQUEST_~a, e))
+} else {
+            requestPermissionCompat(arrayOf(Manifest.permission.INTERNET), format(, PERMISSION_REQUEST_~a, e))
+}
+}
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray){
+        (if ( (requestCode)==(format(, PERMISSION_REQUEST_~a, e)) ) {
+            if ( &&((grantResults.size)==(1), (grantResults[0])==(PackageManager.PERMISSION_GRANTED)) ) {
+                have_internet_permission_p.value=1
+} else {
+                have_internet_permission_p.value=0
+}
+})()
+}
     override fun onCreate(saved_instance_state: Bundle?){
         super.onCreate(saved_instance_state)
         setContent {
@@ -47,8 +66,8 @@ class MainActivity : AppCompatActivity() {
     val counter2 = Counter()
     MaterialTheme {
         Column(modifier = Modifier.padding(16.dp)) {
-            val _code_generation_time = "14:22:30 of Saturday, 2020-05-30 (GMT+1)"
-            val _code_git_hash = "git:1024194eb3e0e42cf0be0c69da44527b07fabbda"
+            val _code_generation_time = "20:33:28 of Saturday, 2020-05-30 (GMT+1)"
+            val _code_git_hash = "git:d42f3d0355738a79ebb9f7baa3add0c3d306ac7d"
             TopAppBar(title = {
                 Text(text = _code_generation_time)
 })
