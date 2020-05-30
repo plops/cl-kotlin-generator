@@ -11,7 +11,11 @@
 
 - example how to change paint https://github.com/Foso/Jetpack-Compose-Playground/wiki/How-to-draw-to-canvas%3F
 
+
+- ask for permission https://developer.android.com/training/permissions/requesting
+
 - coroutines https://proandroiddev.com/kotlin-coroutines-channels-csp-android-db441400965f
+
 
 * How to populate this directory 
 

@@ -21,11 +21,17 @@ import androidx.compose.Model
 import androidx.compose.Composable
 import androidx.compose.state
 import androidx.compose.MutableState
+import com.example.a02_jetpack_compose.basicpermissions.util.checkSelfPermissionCompat
+import com.example.a02_jetpack_compose.basicpermissions.util.requestPermissionsCompat
+import com.example.a02_jetpack_compose.basicpermissions.util.shouldShowRequestPermissionRationaleCompat
+import android.Manifest
+import androidx.core.app.ActivityCompat
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.ui.unit.dp
 import androidx.ui.tooling.preview.Preview
-class MainActivity : AppCompatActivity() {
+const val PERMISSION_REQUEST_INTERNET = 0
+class MainActivity : AppCompatActivity(),ActivityCompat.onRequestPermissionsResultCallback {
     val have_internet_permission_p: MutableState<Int> = state {
         0
 }
@@ -37,13 +43,13 @@ class MainActivity : AppCompatActivity() {
 }
 }
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray){
-        (if ( (requestCode)==(format(, PERMISSION_REQUEST_~a, e)) ) {
+        if ( (requestCode)==(PERMISSION_REQUEST_INTERNET) ) {
             if ( &&((grantResults.size)==(1), (grantResults[0])==(PackageManager.PERMISSION_GRANTED)) ) {
                 have_internet_permission_p.value=1
 } else {
                 have_internet_permission_p.value=0
 }
-})()
+}
 }
     override fun onCreate(saved_instance_state: Bundle?){
         super.onCreate(saved_instance_state)
@@ -66,8 +72,8 @@ class MainActivity : AppCompatActivity() {
     val counter2 = Counter()
     MaterialTheme {
         Column(modifier = Modifier.padding(16.dp)) {
-            val _code_generation_time = "20:33:28 of Saturday, 2020-05-30 (GMT+1)"
-            val _code_git_hash = "git:d42f3d0355738a79ebb9f7baa3add0c3d306ac7d"
+            val _code_generation_time = "20:42:47 of Saturday, 2020-05-30 (GMT+1)"
+            val _code_git_hash = "git:1bc610cec623e7a9705834b103dc0720a09aea25"
             TopAppBar(title = {
                 Text(text = _code_generation_time)
 })

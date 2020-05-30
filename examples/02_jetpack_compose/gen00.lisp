@@ -20,8 +20,13 @@
 		     (androidx.ui.geometry Offset)
 		     (androidx.ui.graphics Paint Color Path PaintingStyle)
 		     (androidx.ui.text.style TextOverflow)
-		     (androidx.compose Model Composable state MutableState))
+		     (androidx.compose Model Composable state MutableState)
+		     (com.example.a02_jetpack_compose.basicpermissions.util checkSelfPermissionCompat
+								requestPermissionsCompat
+								shouldShowRequestPermissionRationaleCompat))
 	    (import
+	     android.Manifest
+	     androidx.core.app.ActivityCompat
 	     android.os.Bundle
 	     androidx.appcompat.app.AppCompatActivity
 	     
@@ -35,53 +40,54 @@
 
 	    
 
-
-	    (defclass MainActivity ((AppCompatActivity))
-	      (let (("have_internet_permission_p: MutableState<Int>" (space state (progn 0)))))
+	    ,(let ((permissions `(INTERNET)))
+	       `(do0
+		 ,@(loop for e in permissions and j from 0 collect
+			      (format nil "const val PERMISSION_REQUEST_~a = ~a" e j))
+		   (defclass MainActivity ((AppCompatActivity) ActivityCompat.onRequestPermissionsResultCallback)
+		 (let (("have_internet_permission_p: MutableState<Int>" (space state (progn 0)))))
 	      
-	      ,(let ((permissions `(INTERNET)))
-		 `(do0
-		   ,@(loop for e in permissions collect
-			  `(do0
-			    (space override
-				   (defun ,(format nil "request_permission_~a" e) ()
-				     (if (shouldShowRequestPermissionRationaleCompat
-					  (dot Manifest permission ,e))
-					 (do0
-					  (requestPermissionCompat
-					   (arrayOf (dot Manifest permission ,e))
-					   (format nil "PERMISSION_REQUEST_~a" e)))
-					 (do0
-					  (requestPermissionCompat
-					   (arrayOf (dot Manifest permission ,e))
-					   (format nil "PERMISSION_REQUEST_~a" e))))))))
-		   (space override
-			  (defun onRequestPermissionsResult (requestCode
-							     permissions
-							     grantResults)
-			    (declare (type Int requestCode)
-				     (type Array<String> permissions)
-				     (type IntArray grantResults))
+		     ,@(loop for e in permissions collect
+			     `(do0
+			       (space override
+				      (defun ,(format nil "request_permission_~a" e) ()
+					(if (shouldShowRequestPermissionRationaleCompat
+					     (dot Manifest permission ,e))
+					    (do0
+					     (requestPermissionCompat
+					      (arrayOf (dot Manifest permission ,e))
+					      (format nil "PERMISSION_REQUEST_~a" e)))
+					    (do0
+					     (requestPermissionCompat
+					      (arrayOf (dot Manifest permission ,e))
+					      (format nil "PERMISSION_REQUEST_~a" e))))))))
+		     (space override
+			    (defun onRequestPermissionsResult (requestCode
+							       permissions
+							       grantResults)
+			      (declare (type Int requestCode)
+				       (type Array<String> permissions)
+				       (type IntArray grantResults))
 
-			    ,(loop for e in permissions collect
-				  `(when (== requestCode (format nil "PERMISSION_REQUEST_~a" e))
-				     (if (&& (== grantResults.size 1)
-					     (== (aref grantResults 0) PackageManager.PERMISSION_GRANTED))
-					 (setf have_internet_permission_p.value 1)
-					 (setf have_internet_permission_p.value 0))))
-			   ))))
+			      ,@(loop for e in permissions collect
+				     `(when (== requestCode ,(format nil "PERMISSION_REQUEST_~a" e))
+					(if (&& (== grantResults.size 1)
+						(== (aref grantResults 0) PackageManager.PERMISSION_GRANTED))
+					    (setf have_internet_permission_p.value 1)
+					    (setf have_internet_permission_p.value 0))))
+			      ))
 	      
-	      (space
-	       "override"
-		 (defun onCreate (saved_instance_state)
-		   (declare (type Bundle? saved_instance_state))
-		   (super.onCreate saved_instance_state)
-		   (space
-		    setContent
-		    (progn
-		      (NewsStory)
-		      ;(Greeting (string "Android"))
-		      )))))
+		 (space
+		  "override"
+		  (defun onCreate (saved_instance_state)
+		    (declare (type Bundle? saved_instance_state))
+		    (super.onCreate saved_instance_state)
+		    (space
+		     setContent
+		     (progn
+		       (NewsStory)
+					;(Greeting (string "Android"))
+		       )))))))
 	    
 	    (do0
 	     (space
