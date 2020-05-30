@@ -2,6 +2,9 @@
 
 - how to change the gui at runtime https://blog.mindorks.com/state-management-in-jetpack-compose
 
+- many examples https://github.com/vinaygaba/Learn-Jetpack-Compose-By-Example
+
+- framerate https://android-developers.googleblog.com/2020/04/high-refresh-rate-rendering-on-android.html 
 
 * How to populate this directory 
 
