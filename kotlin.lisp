@@ -429,6 +429,7 @@ entry return-values contains a list of return values"
 				 (emit name)
 				 (emit `(paren ,@args)))
 			 ;; function call
+			 ;; support keyword arguments
          		 (let* ((positional (loop for i below (length args) until (keywordp (elt args i)) collect
 						 (elt args i)))
 				(plist (subseq args (length positional)))
