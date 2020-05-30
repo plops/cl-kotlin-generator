@@ -8,8 +8,9 @@
   (let* ((code
 	  `(do0
 	    (package com.example.a02_jetpack_compose)
-	    (imports (androidx.ui.layout Column padding Spacer preferredHeight)
+	    (imports (androidx.ui.layout Column padding Spacer preferredHeight fillMaxSize)
 		     (androidx.ui.core setContent Modifier)
+		     (androidx.ui.foundation Text Canvas) 
 		     (androidx.ui.material MaterialTheme Typography)
 		     (androidx.ui.material.MaterialTheme typography)
 		     (androidx.ui.text.style TextOverflow))
@@ -17,7 +18,7 @@
 	     android.os.Bundle
 	     androidx.appcompat.app.AppCompatActivity
 	     androidx.compose.Composable
-	     androidx.ui.foundation.Text
+	     
 	     androidx.ui.unit.dp
 	     androidx.ui.tooling.preview.Preview
 					;com.example.a02_jetpack_compose.ui.AppTheme
@@ -63,7 +64,7 @@
 			(space (Column :modifier (Modifier.padding 16.dp))
 			       (progn
 				 (Text (string "title atisrnt iasto aesnt arnstiea atansr enosrietan einsrt oaiesnt ars inoanesr tas astie na rienstodypbv kp vienkvtk ae nrtoanr arstioenasirn taoist oiasntinaie")
-				       ;:style MaterialTheme.typography.h6
+					:style MaterialTheme.typography.h2
 				       :maxLines 2
 				       :overflow TextOverflow.Ellipsis)
 				 (Spacer (Modifier.preferredHeight 16.dp))
@@ -72,8 +73,11 @@
 						    "dec 2018")
 				      collect
 					`(Text (string ,e)
-					       ;:style typography.body2
-					       ))))))))
+					       :style MaterialTheme.typography.body2
+					       ))))
+			#+nil (space (Canvas :modifier (Modifier.fillMaxSize))
+			       (progn
+				 (drawCircle :color Color.Red :radius 300f)))))))
 	     (space
 	      "@Preview"
 	      "@Composable"

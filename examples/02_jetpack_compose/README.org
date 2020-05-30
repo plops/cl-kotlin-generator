@@ -7,6 +7,8 @@
 
 - framerate https://android-developers.googleblog.com/2020/04/high-refresh-rate-rendering-on-android.html 
 
+- api reference https://developer.android.com/reference/kotlin/androidx/ui/packages
+
 * How to populate this directory 
 
 - android studio creates a lot of boilerplate that i don't understand and don't want to put in the repo
