@@ -12,6 +12,7 @@ import androidx.ui.material.MaterialTheme
 import androidx.ui.geometry.Offset
 import androidx.ui.graphics.Paint
 import androidx.ui.graphics.Color
+import androidx.ui.graphics.Path
 import androidx.ui.text.style.TextOverflow
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -44,7 +45,15 @@ class MainActivity : AppCompatActivity() {
         val paint = Paint()
         paint.color=Color(4278190335)
         Canvas(modifier = Modifier.fillMaxSize()) {
-            drawCircle(center = Offset(50f, 700f), radius = 40f, paint = paint)
+            drawCircle(center = Offset(50f, 500f), radius = 40f, paint = paint)
+            val path = Path()
+            val paint_path = Paint()
+            paint_path.color=Color.Red
+            path.moveTo(50f, 500f)
+            path.lineTo(55f, 550f)
+            path.lineTo(105f, 650f)
+            path.lineTo(305f, 1250f)
+            drawPath(path = path, paint = paint_path)
 }
 }
 }

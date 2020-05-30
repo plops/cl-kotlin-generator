@@ -13,7 +13,7 @@
 		     (androidx.ui.foundation Text Canvas) 
 		     (androidx.ui.material MaterialTheme)
 		     (androidx.ui.geometry Offset)
-		     (androidx.ui.graphics Paint Color)
+		     (androidx.ui.graphics Paint Color Path)
 		     (androidx.ui.text.style TextOverflow))
 	    (import
 	     android.os.Bundle
@@ -80,9 +80,18 @@
 			  (setf paint.color (Color #xFF0000FF))
 			  (space (Canvas :modifier (Modifier.fillMaxSize))
 				(progn
-				  (drawCircle :center (Offset 50f 200f)
+				  (drawCircle :center (Offset 50f 500f)
 					      :radius 40f
-					      :paint paint))))))))
+					      :paint paint)
+				  (let ((path (Path))
+					(paint_path (Paint)))
+				    (setf paint_path.color Color.Red)
+				    (path.moveTo 50f 500f)
+				    (path.lineTo 55f 550f)
+				    (path.lineTo 105f 650f)
+				    (path.lineTo 305f 1250f)
+				    (drawPath :path path
+					      :paint paint_path)))))))))
 	     (space
 	      "@Preview"
 	      "@Composable"
