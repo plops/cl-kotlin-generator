@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         val paint = Paint()
         paint.color=Color(4278190335)
         Canvas(modifier = Modifier.fillMaxSize()) {
-            drawCircle(center = Offset(50f, 200f), radius = 40f, paint = paint)
+            drawCircle(center = Offset(50f, 700f), radius = 40f, paint = paint)
 }
 }
 }
