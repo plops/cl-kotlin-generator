@@ -11,6 +11,8 @@
 
 - example how to change paint https://github.com/Foso/Jetpack-Compose-Playground/wiki/How-to-draw-to-canvas%3F
 
+- coroutines https://proandroiddev.com/kotlin-coroutines-channels-csp-android-db441400965f
+
 * How to populate this directory 
 
 - android studio creates a lot of boilerplate that i don't understand and don't want to put in the repo
