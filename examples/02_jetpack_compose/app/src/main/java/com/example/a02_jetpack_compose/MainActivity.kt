@@ -9,6 +9,7 @@ import androidx.ui.core.Modifier
 import androidx.ui.foundation.Text
 import androidx.ui.foundation.Canvas
 import androidx.ui.material.MaterialTheme
+import androidx.ui.material.TopAppBar
 import androidx.ui.geometry.Offset
 import androidx.ui.graphics.Paint
 import androidx.ui.graphics.Color
@@ -37,6 +38,11 @@ class MainActivity : AppCompatActivity() {
 @Composable fun NewsStory(){
     MaterialTheme {
         Column(modifier = Modifier.padding(16.dp)) {
+            val _code_generation_time = "11:36:31 of Saturday, 2020-05-30 (GMT+1)"
+            val _code_git_hash = "bf1d89f098747ef52f13b5ca106a3b4db934a4c8"
+            TopAppBar(title = {
+                Text(text = _code_generation_time)
+})
             Text("title atisrnt iasto aesnt arnstiea atansr enosrietan einsrt oaiesnt ars inoanesr tas astie na rienstodypbv kp vienkvtk ae nrtoanr arstioenasirn taoist oiasntinaie", style = MaterialTheme.typography.h2, maxLines = 2, overflow = TextOverflow.Ellipsis)
             Spacer(Modifier.preferredHeight(16.dp))
             Text("a day in shark fin cove", style = MaterialTheme.typography.body2)

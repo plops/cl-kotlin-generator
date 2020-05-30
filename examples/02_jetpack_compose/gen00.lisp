@@ -3,6 +3,11 @@
 
 (in-package :cl-kotlin-generator)
 
+(defparameter *day-names*
+    '("Monday" "Tuesday" "Wednesday"
+      "Thursday" "Friday" "Saturday"
+      "Sunday"))
+
 (let* ((main-activity "MainActivity")
        (path-kotlin "/home/martin/stage/cl-kotlin-generator/examples/02_jetpack_compose/app/src/main/java/com/example/a02_jetpack_compose/MainActivity"))
   (let* ((code
@@ -11,7 +16,7 @@
 	    (imports (androidx.ui.layout Column padding Spacer preferredHeight fillMaxSize)
 		     (androidx.ui.core setContent Modifier)
 		     (androidx.ui.foundation Text Canvas) 
-		     (androidx.ui.material MaterialTheme)
+		     (androidx.ui.material MaterialTheme TopAppBar)
 		     (androidx.ui.geometry Offset)
 		     (androidx.ui.graphics Paint Color Path PaintingStyle)
 		     (androidx.ui.text.style TextOverflow))
@@ -64,6 +69,29 @@
 		 (progn
 			(space (Column :modifier (Modifier.padding 16.dp))
 			       (progn
+
+				 (let ((_code_generation_time
+					(string ,(multiple-value-bind
+							(second minute hour date month year day-of-week dst-p tz)
+						      (get-decoded-time)
+						    (declare (ignorable dst-p))
+						    (format nil "~2,'0d:~2,'0d:~2,'0d of ~a, ~d-~2,'0d-~2,'0d (GMT~@d)"
+							    hour
+							    minute
+							    second
+							    (nth day-of-week *day-names*)
+							    year
+							    month
+							    date
+							    (- tz)))))
+				       (_code_git_hash (string ,(let ((str (with-output-to-string (s)
+								      (sb-ext:run-program "/usr/bin/git" (list "rev-parse" "HEAD") :output s))))
+							   (subseq str 0 (1- (length str))))))))
+				 
+				 (TopAppBar
+				  :title
+				  (progn
+				    (Text :text _code_generation_time)))
 				 (Text (string "title atisrnt iasto aesnt arnstiea atansr enosrietan einsrt oaiesnt ars inoanesr tas astie na rienstodypbv kp vienkvtk ae nrtoanr arstioenasirn taoist oiasntinaie")
 					:style MaterialTheme.typography.h2
 				       :maxLines 2
