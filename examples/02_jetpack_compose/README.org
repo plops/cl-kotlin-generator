@@ -3,6 +3,7 @@
 - how to change the gui at runtime https://blog.mindorks.com/state-management-in-jetpack-compose
 
 - many examples https://github.com/vinaygaba/Learn-Jetpack-Compose-By-Example
+  - in particular canvas https://github.com/vinaygaba/Learn-Jetpack-Compose-By-Example/blob/master/app/src/main/java/com/example/jetpackcompose/customview/CustomViewActivity.kt
 
 - framerate https://android-developers.googleblog.com/2020/04/high-refresh-rate-rendering-on-android.html 
 
