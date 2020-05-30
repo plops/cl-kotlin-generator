@@ -187,8 +187,27 @@ entry return-values contains a list of return values"
 
 
 
+(defun print-sufficient-digits-f64 (f)
+  "print a double floating point number as a string with a given nr. of                                                                                                                                             
+  digits. parse it again and increase nr. of digits until the same bit                                                                                                                                              
+  pattern."
 
-
+  (let* ((a f)
+         (digits 1)
+         (b (- a 1)))
+    (unless (= a 0)
+      (loop while (and (< 1d-12
+			  (/ (abs (- a b))
+			     (abs a))
+			  )
+		       (< digits 30)) do
+           (setf b (read-from-string (format nil "~,vG" digits a)))
+	   (incf digits)))
+    ;(format t "~,v,,,,,'eG~%" digits a)
+    (format nil "~,v,,,,,'eG" digits a)
+    ;(substitute #\e #\d (format nil "~,vG" digits a))
+    ))
+#+nil
 (defun print-sufficient-digits-f64 (f)
   "print a double floating point number as a string with a given nr. of
   digits. parse it again and increase nr. of digits until the same bit
@@ -402,6 +421,25 @@ entry return-values contains a list of return values"
 			       (emit item)
 			       (emit collection)
 			       (emit `(progn ,@body)))))
+
+		(t (destructuring-bind (name &rest args) code
+		     (if (listp name)
+			 ;; lambda call and similar complex constructs
+			 (format nil "(~a)~a"
+				 (emit name)
+				 (emit `(paren ,@args)))
+			 ;; function call
+         		 (let* ((positional (loop for i below (length args) until (keywordp (elt args i)) collect
+						 (elt args i)))
+				(plist (subseq args (length positional)))
+				(props (loop for e in plist by #'cddr collect e)))
+			   (format nil "~a~a" name
+				   (emit `(paren ,@(append
+						    positional
+						    (loop for e in props collect
+							 (format nil "~a: ~a" e (emit (getf plist e))))))))))))
+		
+		#+nil
 		(t (destructuring-bind (name &rest args) code
 
 		     (if (listp name)
@@ -662,3 +700,4 @@ entry return-values contains a list of return values"
 				  ;; http://blog.fogus.me/2010/09/28/thrush-in-clojure-redux/
 				  ;; -> {form}*
 				  (emit (reduce #'(lambda (x y) (list (emit x) (emit y))) forms)))))
+
