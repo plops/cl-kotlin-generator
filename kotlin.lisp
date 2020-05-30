@@ -437,7 +437,7 @@ entry return-values contains a list of return values"
 				   (emit `(paren ,@(append
 						    positional
 						    (loop for e in props collect
-							 (format nil "~a: ~a" e (emit (getf plist e))))))))))))
+							 (format nil "~a = ~a" e (emit (getf plist e))))))))))))
 		
 		#+nil
 		(t (destructuring-bind (name &rest args) code

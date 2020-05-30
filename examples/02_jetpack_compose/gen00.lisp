@@ -13,10 +13,15 @@
 	     androidx.appcompat.app.AppCompatActivity
 	     androidx.compose.Composable
 	     androidx.ui.core.setContent
+	     androidx.ui.core.Modifier
 	     androidx.ui.foundation.Text
 	     androidx.ui.layout.Column
+	     androidx.ui.layout.padding
+	     androidx.ui.unit.dp
 	     androidx.ui.tooling.preview.Preview
-	     ;com.example.a02_jetpack_compose.ui.AppTheme
+					;com.example.a02_jetpack_compose.ui.AppTheme
+
+	     ;; use Alt+Enter on red tokens in android studio to get proposals for the import
 	     )
 
 	    
@@ -52,7 +57,7 @@
 	     (space
 	      "@Composable"
 	      (defun NewsStory ()
-		(space Column
+		(space (Column :modifier (Modifier.padding 16.dp))
 		       (progn
 			,@(loop for e in `("a day in shark fin cove"
 					   "davenport california"
