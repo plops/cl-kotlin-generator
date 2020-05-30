@@ -20,7 +20,7 @@
 		     (androidx.ui.geometry Offset)
 		     (androidx.ui.graphics Paint Color Path PaintingStyle)
 		     (androidx.ui.text.style TextOverflow)
-		     (androidx.compose Composable state MutableState))
+		     (androidx.compose Model Composable state MutableState))
 	    (import
 	     android.os.Bundle
 	     androidx.appcompat.app.AppCompatActivity
@@ -63,77 +63,89 @@
 		(Greeting (string "Android")))))
 
 	    (do0
+	     (space @Model
+		    data
+		    class
+		    (Counter "var value: Int = 0"))
 	     (space
 	      "@Composable"
 	      (defun NewsStory ()
-		(space MaterialTheme
-		 (progn
-			(space (Column :modifier (Modifier.padding 16.dp))
-			       (progn
+		(let (("counter_state: MutableState<Int>" (space state (progn 0)))
+		      (counter2 (Counter)))
+		 (space MaterialTheme
+			(progn
+			  (space (Column :modifier (Modifier.padding 16.dp))
+				 (progn
 
-				 (let ((_code_generation_time
-					(string ,(multiple-value-bind
-							(second minute hour date month year day-of-week dst-p tz)
-						      (get-decoded-time)
-						    (declare (ignorable dst-p))
-						    (format nil "~2,'0d:~2,'0d:~2,'0d of ~a, ~d-~2,'0d-~2,'0d (GMT~@d)"
-							    hour
-							    minute
-							    second
-							    (nth day-of-week *day-names*)
-							    year
-							    month
-							    date
-							    (- tz)))))
-				       (_code_git_hash (string ,(format nil "git:~a"
-									(let ((str (with-output-to-string (s)
-										     (sb-ext:run-program "/usr/bin/git" (list "rev-parse" "HEAD") :output s))))
-								   (subseq str 0 (1- (length str)))))))))
+				   (let ((_code_generation_time
+					  (string ,(multiple-value-bind
+							 (second minute hour date month year day-of-week dst-p tz)
+						       (get-decoded-time)
+						     (declare (ignorable dst-p))
+						     (format nil "~2,'0d:~2,'0d:~2,'0d of ~a, ~d-~2,'0d-~2,'0d (GMT~@d)"
+							     hour
+							     minute
+							     second
+							     (nth day-of-week *day-names*)
+							     year
+							     month
+							     date
+							     (- tz)))))
+					 (_code_git_hash (string ,(format nil "git:~a"
+									  (let ((str (with-output-to-string (s)
+										       (sb-ext:run-program "/usr/bin/git" (list "rev-parse" "HEAD") :output s))))
+									    (subseq str 0 (1- (length str)))))))))
 				 
-				 (TopAppBar
-				  :title
-				  (progn
-				    (Text :text _code_generation_time)))
-				 (let (("counter_state: MutableState<Int>" (space state (progn 0))))
-				   (Text :text (counter_state.value.toString))
-				   (space (Button :onClick (progn
-							     (incf counter_state.value 5)
-							    ))
-					 (progn
-					   (Text :text (string "Click to Add 5")))))
-				 (Text (string "title atisrnt iasto aesnt arnstiea atansr enosrietan einsrt oaiesnt ars inoanesr tas astie na rienstodypbv kp vienkvtk ae nrtoanr arstioenasirn taoist oiasntinaie")
-					:style MaterialTheme.typography.h2
-				       :maxLines 2
-				       :overflow TextOverflow.Ellipsis)
-				 (Spacer (Modifier.preferredHeight 16.dp))
-				 ,@(loop for e in `("a day in shark fin cove" 
-						    "davenport california" 
-						    "dec 2018")
-				      collect
-					`(Text (string ,e)
-					       :style MaterialTheme.typography.body2
-					       ))))
-			(let ((paint (Paint)))
-			  (setf paint.color (Color #xFF0000FF))
-			  (space (Canvas :modifier (Modifier.fillMaxSize))
-				(progn
-				  (drawCircle :center (Offset 50f 500f)
-					      :radius 40f
-					      :paint paint)
-				  (let ((path (Path))
-					(paint_path (Paint)))
-				    (setf paint_path.color Color.Red
-					  paint_path.strokeWidth 15f
-					  paint_path.style PaintingStyle.stroke
-					  )
-				    ;(setf path.fillType evenOdd)
-				    (path.moveTo 50f 500f)
-				    (path.lineTo 55f 550f)
-				    (path.lineTo 105f 650f)
-				    (path.lineTo 305f 1250f)
+				   (TopAppBar
+				    :title
+				    (progn
+				      (Text :text _code_generation_time)))
+				   (do0
+				    (Text :text (counter_state.value.toString))
+				    (Text :text (counter2.value.toString))
+				    (space (Button :onClick (progn
+							      (incf counter_state.value 5)
+							      ))
+					   (progn
+					     (Text :text (string "Click to Add 5"))))
+				    (space (Button :onClick (progn
+							      (incf counter2.value 15)
+							      ))
+					   (progn
+					     (Text :text (string "Click to Add 15 to 2")))))
+				   (Text (string "title atisrnt iasto aesnt arnstiea atansr enosrietan einsrt oaiesnt ars inoanesr tas astie na rienstodypbv kp vienkvtk ae nrtoanr arstioenasirn taoist oiasntinaie")
+					 :style MaterialTheme.typography.h2
+					 :maxLines 2
+					 :overflow TextOverflow.Ellipsis)
+				   (Spacer (Modifier.preferredHeight 16.dp))
+				   ,@(loop for e in `("a day in shark fin cove" 
+						      "davenport california" 
+						      "dec 2018")
+					collect
+					  `(Text (string ,e)
+						 :style MaterialTheme.typography.body2
+						 ))))
+			  (let ((paint (Paint)))
+			    (setf paint.color (Color #xFF0000FF))
+			    (space (Canvas :modifier (Modifier.fillMaxSize))
+				   (progn
+				     (drawCircle :center (Offset 50f 500f)
+						 :radius 40f
+						 :paint paint)
+				     (let ((path (Path))
+					   (paint_path (Paint)))
+				       (setf paint_path.color Color.Red
+					     paint_path.strokeWidth 15f
+					     paint_path.style PaintingStyle.stroke
+					     )
+					;(setf path.fillType evenOdd)
+				       (path.moveTo 50f 500f)
+				       (path.lineTo 55f 550f)
+				       (path.lineTo 105f 650f)
+				       (path.lineTo 305f (+ 1250f counter_state.value))
 				    
-				    (drawPath :path path
-					      :paint paint_path)))))))))
+				       (drawPath :path path
+						 :paint paint_path))))))))))
 	     (space
 	      "@Preview"
 	      "@Composable"
