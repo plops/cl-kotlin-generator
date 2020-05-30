@@ -248,6 +248,17 @@ entry return-values contains a list of return values"
 			       (emit (cadr code))
 			       (mapcar #'(lambda (x) (emit `(indent ,x) 0)) (cddr code)))))
 		(package (format nil "package ~a" (car (cdr code))))
+		(imports (let ((args (cdr code)))
+			   ;; imports {[name | (prefix {name}*)]}*
+			   ;; allow to import multiple names with the same prefix
+			   ;; (imports (androidx.ui.layout Column padding Spacer preferredHeight))
+			   (with-output-to-string (s)
+			     (loop for e in args do
+				  (if (listp e)
+				      (destructuring-bind (prefix &rest names) e
+					(loop for name in names do
+					     (format s "~&import ~a.~a" prefix name)))
+				      (format s "~&import ~a" e))))))
 		(import (let ((args (cdr code)))
 			  ;; import {[name|pair]}*
 			  ;; pair := nickname name

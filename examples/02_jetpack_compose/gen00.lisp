@@ -8,6 +8,7 @@
   (let* ((code
 	  `(do0
 	    (package com.example.a02_jetpack_compose)
+	    (imports (androidx.ui.layout Column padding Spacer preferredHeight))
 	    (import
 	     android.os.Bundle
 	     androidx.appcompat.app.AppCompatActivity
@@ -15,8 +16,7 @@
 	     androidx.ui.core.setContent
 	     androidx.ui.core.Modifier
 	     androidx.ui.foundation.Text
-	     androidx.ui.layout.Column
-	     androidx.ui.layout.padding
+	     
 	     androidx.ui.unit.dp
 	     androidx.ui.tooling.preview.Preview
 					;com.example.a02_jetpack_compose.ui.AppTheme
@@ -59,6 +59,8 @@
 	      (defun NewsStory ()
 		(space (Column :modifier (Modifier.padding 16.dp))
 		       (progn
+			 (Text (string "title"))
+			 (Spacer (Modifier.preferredHeight 16.dp))
 			,@(loop for e in `("a day in shark fin cove"
 					   "davenport california"
 					   "dec 2018")
