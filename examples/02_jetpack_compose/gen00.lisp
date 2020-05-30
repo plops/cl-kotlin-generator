@@ -8,15 +8,16 @@
   (let* ((code
 	  `(do0
 	    (package com.example.a02_jetpack_compose)
-	    (imports (androidx.ui.layout Column padding Spacer preferredHeight))
+	    (imports (androidx.ui.layout Column padding Spacer preferredHeight)
+		     (androidx.ui.core setContent Modifier)
+		     (androidx.ui.material MaterialTheme Typography)
+		     (androidx.ui.material.MaterialTheme typography)
+		     (androidx.ui.text.style TextOverflow))
 	    (import
 	     android.os.Bundle
 	     androidx.appcompat.app.AppCompatActivity
 	     androidx.compose.Composable
-	     androidx.ui.core.setContent
-	     androidx.ui.core.Modifier
 	     androidx.ui.foundation.Text
-	     
 	     androidx.ui.unit.dp
 	     androidx.ui.tooling.preview.Preview
 					;com.example.a02_jetpack_compose.ui.AppTheme
@@ -57,15 +58,22 @@
 	     (space
 	      "@Composable"
 	      (defun NewsStory ()
-		(space (Column :modifier (Modifier.padding 16.dp))
-		       (progn
-			 (Text (string "title"))
-			 (Spacer (Modifier.preferredHeight 16.dp))
-			,@(loop for e in `("a day in shark fin cove"
-					   "davenport california"
-					   "dec 2018")
-			     collect
-			       `(Text (string ,e)))))))
+		(space MaterialTheme
+		 (progn
+			(space (Column :modifier (Modifier.padding 16.dp))
+			       (progn
+				 (Text (string "title atisrnt iasto aesnt arnstiea atansr enosrietan einsrt oaiesnt ars inoanesr tas astie na rienstodypbv kp vienkvtk ae nrtoanr arstioenasirn taoist oiasntinaie")
+				       ;:style MaterialTheme.typography.h6
+				       :maxLines 2
+				       :overflow TextOverflow.Ellipsis)
+				 (Spacer (Modifier.preferredHeight 16.dp))
+				 ,@(loop for e in `("a day in shark fin cove" 
+						    "davenport california" 
+						    "dec 2018")
+				      collect
+					`(Text (string ,e)
+					       ;:style typography.body2
+					       ))))))))
 	     (space
 	      "@Preview"
 	      "@Composable"
