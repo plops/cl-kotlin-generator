@@ -10,15 +10,18 @@ import androidx.ui.foundation.Text
 import androidx.ui.foundation.Canvas
 import androidx.ui.material.MaterialTheme
 import androidx.ui.material.TopAppBar
+import androidx.ui.material.Button
 import androidx.ui.geometry.Offset
 import androidx.ui.graphics.Paint
 import androidx.ui.graphics.Color
 import androidx.ui.graphics.Path
 import androidx.ui.graphics.PaintingStyle
 import androidx.ui.text.style.TextOverflow
+import androidx.compose.Composable
+import androidx.compose.state
+import androidx.compose.MutableState
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.Composable
 import androidx.ui.unit.dp
 import androidx.ui.tooling.preview.Preview
 class MainActivity : AppCompatActivity() {
@@ -38,11 +41,20 @@ class MainActivity : AppCompatActivity() {
 @Composable fun NewsStory(){
     MaterialTheme {
         Column(modifier = Modifier.padding(16.dp)) {
-            val _code_generation_time = "11:36:31 of Saturday, 2020-05-30 (GMT+1)"
-            val _code_git_hash = "bf1d89f098747ef52f13b5ca106a3b4db934a4c8"
+            val _code_generation_time = "11:45:51 of Saturday, 2020-05-30 (GMT+1)"
+            val _code_git_hash = "git:57c8705c9f86fc2b706ceee1b170ca521a2d1a4f"
             TopAppBar(title = {
                 Text(text = _code_generation_time)
 })
+            val counter_state: MutableState<Int> = state {
+                0
+}
+            Text(text = counter_state.value.toString())
+            Button(onClick = {
+                (counter_state.value)+=(5)
+}) {
+                Text(text = "Click to Add 5")
+}
             Text("title atisrnt iasto aesnt arnstiea atansr enosrietan einsrt oaiesnt ars inoanesr tas astie na rienstodypbv kp vienkvtk ae nrtoanr arstioenasirn taoist oiasntinaie", style = MaterialTheme.typography.h2, maxLines = 2, overflow = TextOverflow.Ellipsis)
             Spacer(Modifier.preferredHeight(16.dp))
             Text("a day in shark fin cove", style = MaterialTheme.typography.body2)

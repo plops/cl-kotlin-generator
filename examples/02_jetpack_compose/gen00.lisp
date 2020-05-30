@@ -16,14 +16,15 @@
 	    (imports (androidx.ui.layout Column padding Spacer preferredHeight fillMaxSize)
 		     (androidx.ui.core setContent Modifier)
 		     (androidx.ui.foundation Text Canvas) 
-		     (androidx.ui.material MaterialTheme TopAppBar)
+		     (androidx.ui.material MaterialTheme TopAppBar Button)
 		     (androidx.ui.geometry Offset)
 		     (androidx.ui.graphics Paint Color Path PaintingStyle)
-		     (androidx.ui.text.style TextOverflow))
+		     (androidx.ui.text.style TextOverflow)
+		     (androidx.compose Composable state MutableState))
 	    (import
 	     android.os.Bundle
 	     androidx.appcompat.app.AppCompatActivity
-	     androidx.compose.Composable
+	     
 	     
 	     androidx.ui.unit.dp
 	     androidx.ui.tooling.preview.Preview
@@ -84,14 +85,22 @@
 							    month
 							    date
 							    (- tz)))))
-				       (_code_git_hash (string ,(let ((str (with-output-to-string (s)
-								      (sb-ext:run-program "/usr/bin/git" (list "rev-parse" "HEAD") :output s))))
-							   (subseq str 0 (1- (length str))))))))
+				       (_code_git_hash (string ,(format nil "git:~a"
+									(let ((str (with-output-to-string (s)
+										     (sb-ext:run-program "/usr/bin/git" (list "rev-parse" "HEAD") :output s))))
+								   (subseq str 0 (1- (length str)))))))))
 				 
 				 (TopAppBar
 				  :title
 				  (progn
 				    (Text :text _code_generation_time)))
+				 (let (("counter_state: MutableState<Int>" (space state (progn 0))))
+				   (Text :text (counter_state.value.toString))
+				   (space (Button :onClick (progn
+							     (incf counter_state.value 5)
+							    ))
+					 (progn
+					   (Text :text (string "Click to Add 5")))))
 				 (Text (string "title atisrnt iasto aesnt arnstiea atansr enosrietan einsrt oaiesnt ars inoanesr tas astie na rienstodypbv kp vienkvtk ae nrtoanr arstioenasirn taoist oiasntinaie")
 					:style MaterialTheme.typography.h2
 				       :maxLines 2
