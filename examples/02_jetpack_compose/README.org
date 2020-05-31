@@ -16,6 +16,9 @@
 
 - coroutines https://proandroiddev.com/kotlin-coroutines-channels-csp-android-db441400965f
 
+- http requests https://developer.android.com/training/volley/simple
+
+- https://api.nasdaq.com/api/quote/ASML/info?assetclass=stocks
 
 * How to populate this directory 
 
@@ -28,3 +31,12 @@
   - Note that, in the Language dropdown menu, Kotlin is the only available option because Jetpack Compose works only with classes written in Kotlin.
   - In the Minimum API level dropdown menu, select API level 21 or higher.
   - Click Finish.
+
+* Permissions
+
+- https://developer.android.com/training/basics/network-ops/connecting
+- add to manifest (before <application ..>)
+#+begin_example
+<uses-permission android:name="android.permission.INTERNET" />
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+#+end_example

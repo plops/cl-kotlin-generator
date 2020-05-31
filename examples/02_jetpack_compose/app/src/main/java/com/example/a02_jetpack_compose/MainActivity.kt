@@ -21,38 +21,21 @@ import androidx.compose.Model
 import androidx.compose.Composable
 import androidx.compose.state
 import androidx.compose.MutableState
-import com.example.a02_jetpack_compose.basicpermissions.util.checkSelfPermissionCompat
-import com.example.a02_jetpack_compose.basicpermissions.util.requestPermissionsCompat
-import com.example.a02_jetpack_compose.basicpermissions.util.shouldShowRequestPermissionRationaleCompat
+import androidx.activity.result.contract.ActivityResultContracts
 import android.Manifest
-import androidx.core.app.ActivityCompat
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.ui.unit.dp
 import androidx.ui.tooling.preview.Preview
-const val PERMISSION_REQUEST_INTERNET = 0
-class MainActivity : AppCompatActivity(),ActivityCompat.onRequestPermissionsResultCallback {
-    val have_internet_permission_p: MutableState<Int> = state {
-        0
-}
-    override fun request_permission_INTERNET(){
-        if ( shouldShowRequestPermissionRationaleCompat(Manifest.permission.INTERNET) ) {
-            requestPermissionCompat(arrayOf(Manifest.permission.INTERNET), format(, PERMISSION_REQUEST_~a, e))
-} else {
-            requestPermissionCompat(arrayOf(Manifest.permission.INTERNET), format(, PERMISSION_REQUEST_~a, e))
-}
-}
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray){
-        if ( (requestCode)==(PERMISSION_REQUEST_INTERNET) ) {
-            if ( &&((grantResults.size)==(1), (grantResults[0])==(PackageManager.PERMISSION_GRANTED)) ) {
-                have_internet_permission_p.value=1
-} else {
-                have_internet_permission_p.value=0
-}
-}
-}
+class MainActivity : AppCompatActivity() {
     override fun onCreate(saved_instance_state: Bundle?){
         super.onCreate(saved_instance_state)
+        val queue = Volley.newRequestQueue(this)
+        val url = "https://api.nasdaq.com/api/quote/ASML/info?assetclass=stocks"
+        val stringRequest = StringRequest(Request.Method.GET, url, Response.Listener<String> {
+            response ->
+}, Response.ErrorListener {
+})
         setContent {
             NewsStory()
 }
@@ -72,8 +55,8 @@ class MainActivity : AppCompatActivity(),ActivityCompat.onRequestPermissionsResu
     val counter2 = Counter()
     MaterialTheme {
         Column(modifier = Modifier.padding(16.dp)) {
-            val _code_generation_time = "20:42:47 of Saturday, 2020-05-30 (GMT+1)"
-            val _code_git_hash = "git:1bc610cec623e7a9705834b103dc0720a09aea25"
+            val _code_generation_time = "07:01:35 of Sunday, 2020-05-31 (GMT+1)"
+            val _code_git_hash = "git:e6357ac4ad3d3b95a3947f3db6f0b6eac17eb61e"
             TopAppBar(title = {
                 Text(text = _code_generation_time)
 })
