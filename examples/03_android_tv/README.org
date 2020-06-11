@@ -1,1 +1,19 @@
 - android tv example with opengl
+- in android studio create empty activity for tv
+#+begin_example
+martin@labolg ~/stage/cl-kotlin-generator/examples/03_android_tv $ find .|grep kt
+./.idea/libraries/Gradle__androidx_core_core_ktx_1_3_0_aar.xml
+./app/src/main/java/com/example/a03_android_tv/PlaybackActivity.kt
+./app/src/main/java/com/example/a03_android_tv/ErrorFragment.kt
+./app/src/main/java/com/example/a03_android_tv/BrowseErrorActivity.kt
+./app/src/main/java/com/example/a03_android_tv/MainFragment.kt
+./app/src/main/java/com/example/a03_android_tv/PlaybackVideoFragment.kt
+./app/src/main/java/com/example/a03_android_tv/MovieList.kt
+./app/src/main/java/com/example/a03_android_tv/CardPresenter.kt
+./app/src/main/java/com/example/a03_android_tv/MainActivity.kt
+./app/src/main/java/com/example/a03_android_tv/VideoDetailsFragment.kt
+./app/src/main/java/com/example/a03_android_tv/DetailsDescriptionPresenter.kt
+./app/src/main/java/com/example/a03_android_tv/DetailsActivity.kt
+./app/src/main/java/com/example/a03_android_tv/Movie.kt
+
+#+end_example

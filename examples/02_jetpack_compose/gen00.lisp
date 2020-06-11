@@ -22,6 +22,8 @@
 		     (androidx.ui.text.style TextOverflow)
 		     (androidx.compose Model Composable state MutableState)
 		     (androidx.activity.result.contract ActivityResultContracts )
+		     (com.android.volley Request Response)
+		     #+volley (com.android.volley.toolbox Volley StringRequest)
 		     )
 	    (import
 	     android.Manifest
@@ -43,14 +45,14 @@
 	      
 	      
 	      
-	      
+	      (let (("responseState: MutableState<String>" (space state (progn (string ""))))))
 	      (space
 	       "override"
 	       (defun onCreate (saved_instance_state)
 		 (declare (type Bundle? saved_instance_state))
 		 (super.onCreate saved_instance_state)
-
-		 (let ((queue (Volley.newRequestQueue this))
+		 
+		 #+volley (let ((queue (Volley.newRequestQueue this))
 		       (url (string "https://api.nasdaq.com/api/quote/ASML/info?assetclass=stocks"))
 		       (stringRequest (StringRequest
 				       Request.Method.GET
@@ -58,6 +60,7 @@
 				       (space Response.Listener<String>
 					      (progn
 						"response ->"
+						(setf responseState.value response)
 						))
 				       (space Response.ErrorListener
 					      (progn

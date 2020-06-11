@@ -22,20 +22,19 @@ import androidx.compose.Composable
 import androidx.compose.state
 import androidx.compose.MutableState
 import androidx.activity.result.contract.ActivityResultContracts
+import com. android.volley.Request
+import com.android.volley.Response
 import android.Manifest
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.ui.unit.dp
 import androidx.ui.tooling.preview.Preview
 class MainActivity : AppCompatActivity() {
+    val responseState: MutableState<String> = state {
+        ""
+}
     override fun onCreate(saved_instance_state: Bundle?){
         super.onCreate(saved_instance_state)
-        val queue = Volley.newRequestQueue(this)
-        val url = "https://api.nasdaq.com/api/quote/ASML/info?assetclass=stocks"
-        val stringRequest = StringRequest(Request.Method.GET, url, Response.Listener<String> {
-            response ->
-}, Response.ErrorListener {
-})
         setContent {
             NewsStory()
 }
@@ -55,8 +54,8 @@ class MainActivity : AppCompatActivity() {
     val counter2 = Counter()
     MaterialTheme {
         Column(modifier = Modifier.padding(16.dp)) {
-            val _code_generation_time = "07:01:35 of Sunday, 2020-05-31 (GMT+1)"
-            val _code_git_hash = "git:e6357ac4ad3d3b95a3947f3db6f0b6eac17eb61e"
+            val _code_generation_time = "12:41:07 of Sunday, 2020-05-31 (GMT+1)"
+            val _code_git_hash = "git:ea6ed79ac7743962a7320f483d1a0ba09de00799"
             TopAppBar(title = {
                 Text(text = _code_generation_time)
 })

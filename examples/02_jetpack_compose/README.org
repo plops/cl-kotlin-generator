@@ -40,3 +40,12 @@
 <uses-permission android:name="android.permission.INTERNET" />
 <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 #+end_example
+
+* Dependencies
+- add volley to build.gradle
+  #+begin_example
+dependencies {
+    ...
+    implementation 'com.android.volley:volley:1.1.1'
+}
+  #+end_example
