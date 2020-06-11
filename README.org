@@ -80,7 +80,10 @@ This is the eigth in a series of code generators.
 |  08 | store key in secure container                                                                           |
 |  09 | write compressed data into file  (streaming)                                                            |
 |  10 | write compressed and encrypted stream to file                                                           |
-| _02 | try composable jetpack and keyword arguments                                                            |
+|-----+---------------------------------------------------------------------------------------------------------|
+| _02 | try composable jetpack and keyword arguments (documentation isn't good enough yet)                      |
+|-----+---------------------------------------------------------------------------------------------------------|
+| _03 | try android tv app with opengl (currently i have difficulty to get the boilerplate working)             |
 
 * How to run
 
