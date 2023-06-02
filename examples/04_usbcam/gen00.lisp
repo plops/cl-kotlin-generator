@@ -13,7 +13,7 @@
   (let* ((code
 	  `(do0
 	    (package com.example.a04_usbcam)
-	    
+	    (comments "This code is based on output of GPT-4 May 24 Version")
 	    (import
 	     android.content.Context
 	     android.graphics.Color
@@ -45,6 +45,37 @@
 	      (space
 	       private
 	       (defun connectToCamera ()
+		 (let ((usbManager (as (getSystemService
+					Context.USB_SERVICE)
+				       UsbManager))
+		       (deviceList (usbManager.deviceList))
+		       (device (deviceList.values.firstOrNull)))
+		   (declare (type  "HashMap<String,UsbDevice>" deviceList))
+		   (usbManager.requestPermission
+		    device
+		    permissionIntent)
+		   (let ((connection (usbManager.openDevice device))
+			 (iface (device.getInterface 0))
+			 (uvcCamera (UVCCamera)))
+		     (uvcCamera.open connection.fileDescriptor )
+		     (uvcCamera.setPreviewTexture textureView.surfaceTexture)
+		     (uvcCamera.startPreview))
+		   (let ((bitmap (textureView.bitmap))
+			 (histogram (IntArray 256)))
+		     (for (y "0 until bitmap.height")
+			  (for (x "0 until bitmap.width")
+			       (let ((pixel (bitmap.getPixel x y))
+				     (intensity (Color.red pixel)))
+				 (incf (aref histogram intensity)))))
+		     (let ((entries (histogram.mapIndexed
+				     (lambda (index value)
+				       (return (BarEntry (index.toFloat)
+							 (value.toFloat))))))
+			   (dataSet (BarDataSet entries (string "Pixel Intensity"))))
+		       (dateSet.setColor Color.RED)
+		       (let ((barData (BarData dataSet)))
+			 (setf barChart.data barData)
+			 (barChart.invalidate)))))
 		 )))
 	    
 	    
