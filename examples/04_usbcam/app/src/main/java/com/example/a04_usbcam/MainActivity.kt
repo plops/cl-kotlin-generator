@@ -1,5 +1,5 @@
 package com.example.a04_usbcam
-comments(This code is based on output of GPT-4 May 24 Version)
+// This code is based on output of GPT-4 May 24 Version
 import android.content.Context
 import android.graphics.Color
 import android.hardware.usb.UsbDevice
@@ -27,22 +27,5 @@ class MainActivity : AppCompatActivity() {
         uvcCamera.open(connection.fileDescriptor)
         uvcCamera.setPreviewTexture(textureView.surfaceTexture)
         uvcCamera.startPreview()
-        val bitmap = textureView.bitmap()
-        val histogram = IntArray(256)
-        for (y in 0 until bitmap.height) {
-            for (x in 0 until bitmap.width) {
-                val pixel = bitmap.getPixel(x, y)
-                val intensity = Color.red(pixel)
-                (histogram[intensity])++
-}
-}
-        val entries = histogram.mapIndexed(fun (index, value){
-            return BarEntry(index.toFloat(), value.toFloat())
-})
-        val dataSet = BarDataSet(entries, "Pixel Intensity")
-        dateSet.setColor(Color.RED)
-        val barData = BarData(dataSet)
-        barChart.data=barData
-        barChart.invalidate()
 }
 }

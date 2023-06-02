@@ -45,7 +45,7 @@ android {
         }
     }
 }
-
+/*
 dependencies {
 
     implementation 'androidx.core:core-ktx:1.8.0'
@@ -64,4 +64,30 @@ dependencies {
     androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
     debugImplementation 'androidx.compose.ui:ui-tooling'
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
+}*/
+dependencies {
+    // Kotlin standard library.
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.8.20"
+
+    // Core library to use Kotlin KTX (Kotlin Extensions) which provides concise, idiomatic
+    // Kotlin to Jetpack, Android platform, and other APIs.
+    implementation 'androidx.core:core-ktx:1.10.1'
+
+    // The androidx.appcompat library provides support for the ActionBar and other material
+    // design UI interactions to older versions of Android.
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+
+    // ConstraintLayout allows you to create large and complex layouts with a flat view hierarchy
+    // (no nested view groups).
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+
+    // Library for creating histograms.
+    // implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+    // The library required to handle USB connections.
+    implementation 'com.serenegiant:common:1.5.20'
+    implementation 'com.serenegiant:uvc-camera:1.5.20'
+
+    // Required for Android unit tests
+    testImplementation 'junit:junit:4.13.2'
 }

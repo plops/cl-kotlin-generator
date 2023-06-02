@@ -13,7 +13,7 @@
   (let* ((code
 	  `(do0
 	    (package com.example.a04_usbcam)
-	    (comments "This code is based on output of GPT-4 May 24 Version")
+	    "// This code is based on output of GPT-4 May 24 Version"
 	    (import
 	     android.content.Context
 	     android.graphics.Color
@@ -60,7 +60,7 @@
 		     (uvcCamera.open connection.fileDescriptor )
 		     (uvcCamera.setPreviewTexture textureView.surfaceTexture)
 		     (uvcCamera.startPreview))
-		   (let ((bitmap (textureView.bitmap))
+		   #+nil (let ((bitmap (textureView.bitmap))
 			 (histogram (IntArray 256)))
 		     (for (y "0 until bitmap.height")
 			  (for (x "0 until bitmap.width")
