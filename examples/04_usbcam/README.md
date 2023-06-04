@@ -23,5 +23,6 @@ cd Camera2Video
 
 - i try to open it in android studio in the hope that this downloads
   less
+- after the build the camera-samples directory has 95MB (instead of 58MB)
 - i tried the app on android 11 and 7 and it doesn't list the external
   camera on any of them
