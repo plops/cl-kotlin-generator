@@ -7,3 +7,21 @@
   https://stackoverflow.com/questions/57846505/accessing-a-usb-camera-using-android-camera2-api
   
   - android 11 doesn't seem to have reliable support
+
+- try the sample for enumeration:
+```
+cd ~/src
+git clone git@github.com:android/camera-samples.git
+# 58MB
+cd camera-samples
+cd Camera2Video
+./gradlew assembleRelease -x test
+
+# starts downloading lots of stuff
+
+```
+
+- i try to open it in android studio in the hope that this downloads
+  less
+- i tried the app on android 11 and 7 and it doesn't list the external
+  camera on any of them
