@@ -9,74 +9,55 @@
       "Sunday"))
 
 (let* ((main-activity "MainActivity")
-       (path-kotlin "/home/martin/stage/cl-kotlin-generator/examples/04_usbcam/app/src/main/java/com/example/a04_usbcam/MainActivity"))
+       (path-kotlin "/home/martin/stage/cl-kotlin-generator/examples/05_gl/app/src/main/java/com/example/a05_gl/MainActivity"))
   (let* ((code
 	  `(do0
-	    (package com.example.a04_usbcam)
-	    "// This code is based on output of GPT-4 May 24 Version"
+	    (package com.example.a05_gl)
+	    ;; https://developer.android.com/develop/ui/views/graphics/opengl/environment
 	    (import
+	     javax.microedition.khronos.egl.EGLConfig
+	     javax.microedition.khronos.opengles.GL10
+	     android.opengl.GLES20
 	     android.content.Context
-	     android.graphics.Color
-	     android.hardware.usb.UsbDevice
-	     android.hardware.usb.UsbManager
-	     android.os.Bundle
-	     androidx.appcompat.app.AppCompatActivity
-	     android.view.TextureView
-	     com.serenegiant.usb.UVCCamera
-	     ;; use Alt+Enter on red tokens in android studio to get proposals for the import
-	     )
+	     android.opengl.GLSurfaceView)
 
-	    
-
-	    (defclass MainActivity ((AppCompatActivity))
-	     
-	      
-	      "lateinit var textureView: TextureView"
-	      
+	    (defclass OpenGLES20Activity (Activity)
+	      "private lateinit var gLView: GLSurfaceView"
 	      (space
 	       "override"
 	       (defun onCreate (saved_instance_state)
 		 (declare (type Bundle? saved_instance_state))
 		 (super.onCreate saved_instance_state)
-		 (setContentView R.layout.activity_main)
-		 (setf textureView
-		       (findViewById R.id.textureView))
-		 (connectToCamera)))
+		 (setf gLView (MyGLSurfaceView this))
+		 (setContentView gLView))))
+
+	    (defclass  (MySurfaceView "context: Context") ((GLSurfaceView context))
+	      (space private val "render: MyGLRenderer")
 	      (space
-	       private
-	       (defun connectToCamera ()
-		 (let ((usbManager (as (getSystemService
-					Context.USB_SERVICE)
-				       UsbManager))
-		       (deviceList (usbManager.deviceList))
-		       (device (deviceList.values.firstOrNull)))
-		   (declare (type  "HashMap<String,UsbDevice>" deviceList))
-		   (usbManager.requestPermission
-		    device
-		    permissionIntent)
-		   (let ((connection (usbManager.openDevice device))
-			 (iface (device.getInterface 0))
-			 (uvcCamera (UVCCamera)))
-		     (uvcCamera.open connection.fileDescriptor )
-		     (uvcCamera.setPreviewTexture textureView.surfaceTexture)
-		     (uvcCamera.startPreview))
-		   #+nil (let ((bitmap (textureView.bitmap))
-			 (histogram (IntArray 256)))
-		     (for (y "0 until bitmap.height")
-			  (for (x "0 until bitmap.width")
-			       (let ((pixel (bitmap.getPixel x y))
-				     (intensity (Color.red pixel)))
-				 (incf (aref histogram intensity)))))
-		     (let ((entries (histogram.mapIndexed
-				     (lambda (index value)
-				       (return (BarEntry (index.toFloat)
-							 (value.toFloat))))))
-			   (dataSet (BarDataSet entries (string "Pixel Intensity"))))
-		       (dateSet.setColor Color.RED)
-		       (let ((barData (BarData dataSet)))
-			 (setf barChart.data barData)
-			 (barChart.invalidate)))))
-		 )))
+	       init
+	       (progn
+		 (setEGLContextClientVersion 2)
+		 (setf renderer (MyGLRenderer))
+		 (setf renderMode (GLSurfaceView.RENDERMODE_WHEN_DIRTY))
+		 (setRenderer renderer))))
+	    
+	    (defclass MyGLRenderer (GLSurfaceView.Renderer)
+	      (space "override"
+	       (defun onSurfaceCreated (unused config)
+		 (declare (type GL10 unused)
+			  (type EGLConfig config))
+		 (GLES20.glClearColor 0s0 0s0 0s0 1s0)))
+	      (space "override"
+	       (defun onSurfaceChanged (unused w h)
+		 (declare (type GL10 unused)
+			  (type Int w h))
+		 (GLES20.glViewport 0 0 w h)))
+	      (space "override"
+		     (defun onDrawFrame (unused )
+		       (declare (type GL10 unused))
+		       (GLES20.glClear GLES20.GL_COLOR_BUFFER_BIT))))
+	    
+	    
 	    
 	    
 
