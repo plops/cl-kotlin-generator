@@ -21,7 +21,7 @@
 	     android.content.Context
 	     android.opengl.GLSurfaceView)
 
-	    (defclass OpenGLES20Activity (Activity)
+	    (defclass OpenGLES20Activity ((Activity))
 	      "private lateinit var gLView: GLSurfaceView"
 	      (space
 	       "override"
@@ -30,17 +30,6 @@
 		 (super.onCreate saved_instance_state)
 		 (setf gLView (MyGLSurfaceView this))
 		 (setContentView gLView))))
-
-	    (defclass  (MySurfaceView "context: Context") ((GLSurfaceView context))
-	      (space private val "render: MyGLRenderer")
-	      (space
-	       init
-	       (progn
-		 (setEGLContextClientVersion 2)
-		 (setf renderer (MyGLRenderer))
-		 (setf renderMode (GLSurfaceView.RENDERMODE_WHEN_DIRTY))
-		 (setRenderer renderer))))
-	    
 	    (defclass MyGLRenderer (GLSurfaceView.Renderer)
 	      (space "override"
 	       (defun onSurfaceCreated (unused config)
@@ -56,12 +45,16 @@
 		     (defun onDrawFrame (unused )
 		       (declare (type GL10 unused))
 		       (GLES20.glClear GLES20.GL_COLOR_BUFFER_BIT))))
-	    
-	    
-	    
-	    
 
-	    
+	    (defclass  (MySurfaceView "context: Context") ((GLSurfaceView context))
+	      (space private val "render: MyGLRenderer")
+	      (space
+	       init
+	       (progn
+		 (setEGLContextClientVersion 2)
+		 (setf renderer (MyGLRenderer))
+		 (setf renderMode (GLSurfaceView.RENDERMODE_WHEN_DIRTY))
+		 (setRenderer renderer))))
 	    )))
     (ensure-directories-exist path-kotlin)
     ;(ensure-directories-exist path-layout)
