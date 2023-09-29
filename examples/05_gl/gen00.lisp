@@ -45,7 +45,7 @@
 	       (progn
 		 (setEGLContextClientVersion 2)
 		 (setf renderer (MyGLRenderer))
-		 (setf renderMode GLSurfaceView.RENDERMODE_WHEN_DIRTY)
+		; (setf renderMode RENDERMODE_WHEN_DIRTY)
 		 (setRenderer renderer))))
 	    (defclass OpenGLES20Activity ((Activity))
 	      "private lateinit var gLView: GLSurfaceView"
