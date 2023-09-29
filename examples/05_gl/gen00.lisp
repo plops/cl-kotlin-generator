@@ -19,23 +19,16 @@
 	     javax.microedition.khronos.opengles.GL10
 	     android.opengl.GLES20
 	     android.content.Context
-	     android.opengl.GLSurfaceView)
-
-	    (defclass OpenGLES20Activity ((Activity))
-	      "private lateinit var gLView: GLSurfaceView"
-	      (space
-	       "override"
-	       (defun onCreate (saved_instance_state)
-		 (declare (type Bundle? saved_instance_state))
-		 (super.onCreate saved_instance_state)
-		 (setf gLView (MyGLSurfaceView this))
-		 (setContentView gLView))))
+	     android.opengl.GLSurfaceView
+	     android.app.Activity
+	     android.os.Bundle
+	     )
 	    (defclass MyGLRenderer (GLSurfaceView.Renderer)
 	      (space "override"
 	       (defun onSurfaceCreated (unused config)
 		 (declare (type GL10 unused)
 			  (type EGLConfig config))
-		 (GLES20.glClearColor 0s0 0s0 0s0 1s0)))
+		 (GLES20.glClearColor "0f" "0f" "0f" "1f")))
 	      (space "override"
 	       (defun onSurfaceChanged (unused w h)
 		 (declare (type GL10 unused)
@@ -45,16 +38,28 @@
 		     (defun onDrawFrame (unused )
 		       (declare (type GL10 unused))
 		       (GLES20.glClear GLES20.GL_COLOR_BUFFER_BIT))))
-
-	    (defclass  (MySurfaceView "context: Context") ((GLSurfaceView context))
-	      (space private val "render: MyGLRenderer")
+	    (defclass  (MyGLSurfaceView "context: Context") ((GLSurfaceView context))
+	      (space private val "renderer: MyGLRenderer")
 	      (space
 	       init
 	       (progn
 		 (setEGLContextClientVersion 2)
 		 (setf renderer (MyGLRenderer))
-		 (setf renderMode (GLSurfaceView.RENDERMODE_WHEN_DIRTY))
+		 (setf renderMode GLSurfaceView.RENDERMODE_WHEN_DIRTY)
 		 (setRenderer renderer))))
+	    (defclass OpenGLES20Activity ((Activity))
+	      "private lateinit var gLView: GLSurfaceView"
+	      (space
+	       "override"
+	       (defun onCreate (savedInstanceState)
+		 (declare (type Bundle? savedInstanceState))
+		 (super.onCreate savedInstanceState)
+		 (setf gLView (MyGLSurfaceView this))
+		 (setContentView gLView))))
+	    
+
+
+	    
 	    )))
     (ensure-directories-exist path-kotlin)
     ;(ensure-directories-exist path-layout)
