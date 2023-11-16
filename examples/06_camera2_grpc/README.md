@@ -10,5 +10,5 @@
 # camera2 
 
 - this video is good for camera2 https://youtu.be/S-7H72UTiBU
-
+- start with an empty view
 
