@@ -7,6 +7,7 @@
 - wire seems to be installable for android: https://square.github.io/wire/#wire-kotlin
 - maybe wire is easier to install than grpc 
 
+- protobuf gradle plugin https://youtu.be/D-vuRmuSwUA?t=1592
 # camera2 
 
 - this video is good for camera2 https://youtu.be/S-7H72UTiBU
