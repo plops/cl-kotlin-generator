@@ -16,8 +16,8 @@ import android.view.TextureView
 
 class MainActivity : AppCompatActivity() {
     lateinit var handler: Handler
-    lateinit var handlerThread: HandlerThread
-    lateinit var cameraManager: CameraManager
+    private lateinit var handlerThread: HandlerThread
+    private lateinit var cameraManager: CameraManager
     lateinit var textureView: TextureView
     lateinit var cameraCaptureSession: CameraCaptureSession
     lateinit var cameraDevice: CameraDevice
@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        get_permissions()
+        getPermissions()
 
         textureView = findViewById(R.id.textureView)
         cameraManager = getSystemService(CAMERA_SERVICE) as CameraManager
@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         textureView.surfaceTextureListener =
             object: TextureView.SurfaceTextureListener{
                 override fun onSurfaceTextureAvailable(p0: SurfaceTexture, p1: Int, p2: Int) {
-                    open_camera()
+                    openCamera()
                 }
 
                 override fun onSurfaceTextureSizeChanged(p0: SurfaceTexture, p1: Int, p2: Int) {
@@ -54,12 +54,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     @SuppressLint("MissingPermission")
-    fun open_camera() {
+    fun openCamera() {
         cameraManager.openCamera(cameraManager.cameraIdList[0], object: CameraDevice.StateCallback(){
             override fun onOpened(p0: CameraDevice) {
                 cameraDevice = p0
                 capReq = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
-                var surface= Surface(textureView.surfaceTexture)
+                val surface= Surface(textureView.surfaceTexture)
                 capReq.addTarget(surface)
                 cameraDevice.createCaptureSession(listOf(surface),
                     object: CameraCaptureSession.StateCallback(){
@@ -90,11 +90,11 @@ class MainActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         grantResults.forEach {
             if(it != PackageManager.PERMISSION_GRANTED)
-                get_permissions()
+                getPermissions()
         }
     }
-    fun get_permissions(){
-        var permissionsLst = mutableListOf<String>()
+    private fun getPermissions(){
+        val permissionsLst = mutableListOf<String>()
         if(checkSelfPermission(android.Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
             permissionsLst.add(android.Manifest.permission.CAMERA)
         }
