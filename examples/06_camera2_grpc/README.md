@@ -21,20 +21,20 @@ Here is how you can modify your existing `build.gradle.kts` file:
 ```kotlin  
 // Top-level build file where you can add configuration options common to all sub-projects/modules.  
 plugins {  
-    id("com.android.application") version "8.1.3" apply false  
-    id("org.jetbrains.kotlin.android") version "1.9.0" apply false  
-    kotlin("jvm") version "1.8.0" apply false  
-    id("com.google.protobuf") version "0.9.4" apply false  
-    id("org.gradle.test-retry") version "1.5.6"  
-    id("io.github.gradle-nexus.publish-plugin") version "1.3.0"  
+    id("com.android.application") version "8.1.3" apply false
+    id("org.jetbrains.kotlin.android") version "1.9.0" apply false
+    kotlin("jvm") version "1.8.0" apply false
+    id("com.google.protobuf") version "0.9.4" apply false
+    id("org.gradle.test-retry") version "1.5.6"
+    id("io.github.gradle-nexus.publish-plugin") version "1.3.0"
 }  
    
-group = "io.grpc"  
-version = "1.4.1" // CURRENT_GRPC_KOTLIN_VERSION  
+group = "io.grpc"
+version = "1.4.1" // CURRENT_GRPC_KOTLIN_VERSION
    
-ext["grpcVersion"] = "1.57.2"  
-ext["protobufVersion"] = "3.24.1"  
-ext["coroutinesVersion"] = "1.7.3"  
+ext["grpcVersion"] = "1.57.2"
+ext["protobufVersion"] = "3.24.1"
+ext["coroutinesVersion"] = "1.7.3"
    
 subprojects {  
   
@@ -102,8 +102,13 @@ project.
 This script is a starting point, you might need to make further
 changes based on your specific needs and project structure.
 
+## android C++ grpc server example
+
+https://github.com/grpc/grpc/tree/master/examples/android/helloworld
+
 # camera2 
 
 - this video is good for camera2 https://youtu.be/S-7H72UTiBU
 - start with an empty view
+
 
