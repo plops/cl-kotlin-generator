@@ -114,6 +114,8 @@ compilation about duplicate files in META-INF/services, but that can
 be resolved with packagingOptions (ideally "merge", but "pickFirst"
 probably functions).
 ```
+https://github.com/saturnism/grpc-by-example-java/blob/master/simple-grpc-server/src/main/java/com/example/grpc/server/MyGrpcServer.java
+
 
 ## android C++ grpc server example
 
