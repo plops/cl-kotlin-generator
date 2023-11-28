@@ -14,6 +14,8 @@ import android.os.HandlerThread
 import android.view.Surface
 import android.view.TextureView
 import io.grpc.Server
+import io.grpc.ServerBuilder
+import io.grpc.StreamObserver
 
 
 // when activity starts, a grpc server is initialized using grpc-netty-shaded
@@ -35,7 +37,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         // start the grpc server
-        val server = Server()
+        val server = ServerBuilder.forPort(50051)
+            .addService(HelloServiceImpl())
+            .build()
         server.start()
 
         // getPermissions() is called to request permissions for camera and storage
