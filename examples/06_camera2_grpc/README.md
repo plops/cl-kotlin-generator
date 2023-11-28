@@ -116,10 +116,16 @@ probably functions).
 ```
 https://github.com/saturnism/grpc-by-example-java/blob/master/simple-grpc-server/src/main/java/com/example/grpc/server/MyGrpcServer.java
 
+https://www.baeldung.com/kotlin/grpc
 
+https://grpc.io/docs/platforms/android/kotlin/quickstart/
+gRPC Kotlin does not support running a server on an Android device. For this quick start, the Android client app will connect to a server running on your local (non-Android) computer.
+https://github.com/grpc/grpc-kotlin/blob/master/examples/android/build.gradle.kts
 ## android C++ grpc server example
 
 https://github.com/grpc/grpc/tree/master/examples/android/helloworld
+
+
 
 # camera2 
 
