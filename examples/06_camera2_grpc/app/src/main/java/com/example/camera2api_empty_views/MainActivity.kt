@@ -16,6 +16,10 @@ import android.view.TextureView
 import io.grpc.Server
 import io.grpc.ServerBuilder
 import io.grpc.StreamObserver
+import com.example.camera2api_empty_views.AndroidServiceGrpc
+import com.example.camera2api_empty_views.HelloResponse
+import com.example.camera2api_empty_views.HelloRequest
+
 
 
 // when activity starts, a grpc server is initialized using grpc-netty-shaded
@@ -32,15 +36,25 @@ class MainActivity : AppCompatActivity() {
     lateinit var captureRequest: CaptureRequest
     lateinit var capReq: CaptureRequest.Builder
 
+    public class AndroidServiceImpl : AndroidServiceGrpc.AndroidServiceImplBase() {
+        override suspend fun greeting(request: HelloRequest): HelloResponse {
+            return HelloResponse.newBuilder()
+                .setGreeting("Hello, ${request.name}")
+                .build();
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         // start the grpc server
         val server = ServerBuilder.forPort(50051)
-            .addService(HelloServiceImpl())
+            .addService(AndroidServiceImpl())
             .build()
         server.start()
+        // FIXME: how to stop the server?
+        // server.awaitTermination()
 
         // getPermissions() is called to request permissions for camera and storage
         getPermissions()
