@@ -102,6 +102,19 @@ project.
 This script is a starting point, you might need to make further
 changes based on your specific needs and project structure.
 
+## android netty grpc server
+
+https://stackoverflow.com/questions/65781232/grpc-server-for-android
+
+```
+[...] if you need a HTTP/2 gRPC server on Android and don't care about
+TLS and performance (e.g., for use in tests), then I'd expect
+grpc-netty to mostly "just work." You may experience an error during
+compilation about duplicate files in META-INF/services, but that can
+be resolved with packagingOptions (ideally "merge", but "pickFirst"
+probably functions).
+```
+
 ## android C++ grpc server example
 
 https://github.com/grpc/grpc/tree/master/examples/android/helloworld
