@@ -121,6 +121,13 @@ https://www.baeldung.com/kotlin/grpc
 https://grpc.io/docs/platforms/android/kotlin/quickstart/
 gRPC Kotlin does not support running a server on an Android device. For this quick start, the Android client app will connect to a server running on your local (non-Android) computer.
 https://github.com/grpc/grpc-kotlin/blob/master/examples/android/build.gradle.kts
+
+## android kotlin grpc client
+
+- also shows gradle configuration
+
+https://proandroiddev.com/connecting-android-apps-with-server-using-grpc-919719bd9a97
+
 ## android C++ grpc server example
 
 https://github.com/grpc/grpc/tree/master/examples/android/helloworld
