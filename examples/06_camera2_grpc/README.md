@@ -131,6 +131,45 @@ https://proandroiddev.com/connecting-android-apps-with-server-using-grpc-919719b
 - official doc for client:
 https://github.com/grpc/grpc-java/blob/v1.59.1/README.md
 
+
+For Android client, use grpc-okhttp instead of grpc-netty-shaded and grpc-protobuf-lite instead of grpc-protobuf:
+
+```
+implementation 'io.grpc:grpc-okhttp:1.59.1'
+implementation 'io.grpc:grpc-protobuf-lite:1.59.1'
+implementation 'io.grpc:grpc-stub:1.59.1'
+compileOnly 'org.apache.tomcat:annotations-api:6.0.53' // necessary for Java 9+
+```
+
+```
+For Android protobuf-based codegen integrated with the Gradle build system, also use protobuf-gradle-plugin but specify the 'lite' options:
+
+plugins {
+    id 'com.google.protobuf' version '0.9.4'
+}
+
+protobuf {
+  protoc {
+    artifact = "com.google.protobuf:protoc:3.22.3"
+  }
+  plugins {
+    grpc {
+      artifact = 'io.grpc:protoc-gen-grpc-java:1.59.1'
+    }
+  }
+  generateProtoTasks {
+    all().each { task ->
+      task.builtins {
+        java { option 'lite' }
+      }
+      task.plugins {
+        grpc { option 'lite' }
+      }
+    }
+  }
+}
+```
+
 ## android C++ grpc server example
 
 https://github.com/grpc/grpc/tree/master/examples/android/helloworld
