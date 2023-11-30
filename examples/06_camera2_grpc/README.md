@@ -129,6 +129,7 @@ https://github.com/grpc/grpc-kotlin/blob/master/examples/android/build.gradle.kt
 https://proandroiddev.com/connecting-android-apps-with-server-using-grpc-919719bd9a97
 
 - official doc for client:
+https://grpc.io/docs/platforms/android/java/basics/
 https://github.com/grpc/grpc-java/blob/v1.59.1/README.md
 
 
