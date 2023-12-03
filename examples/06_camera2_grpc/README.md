@@ -130,6 +130,8 @@ But replace ServerBuilder with OkHttpServerBuilder.
 ServerBuilder.forPort() API, so you could just use the ServerBuilder
 API. But we haven't done that as of yet.)
 
+Reference documentation: https://grpc.github.io/grpc-java/javadoc/io/grpc/okhttp/OkHttpServerBuilder.html
+
 #### grpc binder transport
 
 https://chromium.googlesource.com/external/github.com/grpc/grpc/+/HEAD/examples/android/binder/java/io/grpc/binder/cpp/exampleserver/native.cc
