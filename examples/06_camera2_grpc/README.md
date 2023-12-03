@@ -102,7 +102,7 @@ project.
 This script is a starting point, you might need to make further
 changes based on your specific needs and project structure.
 
-### android grpc server
+### android grpc server using okhttp
 
 https://github.com/grpc/grpc-java/issues/9676
 
@@ -113,6 +113,22 @@ recommend that if you need a server on Android.
 
 I'll also note for Android we have the Binder transport, but that's
 for device-local RPCs.
+
+https://github.com/grpc/grpc-java/blob/master/examples/src/main/java/io/grpc/examples/helloworld/HelloWorldServer.java
+
+```
+    int port = 50051;
+    server = Grpc.newServerBuilderForPort(port, InsecureServerCredentials.create())
+        .addService(new GreeterImpl())
+        .build()
+        .start();
+```
+
+But replace ServerBuilder with OkHttpServerBuilder.
+
+(At some point we'll hook up OkHttpServerBuilder into the
+ServerBuilder.forPort() API, so you could just use the ServerBuilder
+API. But we haven't done that as of yet.)
 
 ## android netty grpc server
 
