@@ -130,6 +130,27 @@ But replace ServerBuilder with OkHttpServerBuilder.
 ServerBuilder.forPort() API, so you could just use the ServerBuilder
 API. But we haven't done that as of yet.)
 
+#### grpc binder transport
+
+https://chromium.googlesource.com/external/github.com/grpc/grpc/+/HEAD/examples/android/binder/java/io/grpc/binder/cpp/exampleserver/native.cc
+
+```
+  static GreeterService service;
+  grpc::ServerBuilder server_builder;
+  server_builder.RegisterService(&service);
+  JavaVM* jvm;
+  {
+    jint result = env->GetJavaVM(&jvm);
+    assert(result == 0);
+  }
+  server_builder.AddListeningPort(
+      "binder:example.service",
+      grpc::experimental::BinderServerCredentials(
+          std::make_shared<
+              grpc::experimental::binder::SameSignatureSecurityPolicy>(
+              jvm, context)));
+```
+
 ## android netty grpc server
 
 https://stackoverflow.com/questions/65781232/grpc-server-for-android
