@@ -102,6 +102,18 @@ project.
 This script is a starting point, you might need to make further
 changes based on your specific needs and project structure.
 
+### android grpc server
+
+https://github.com/grpc/grpc-java/issues/9676
+
+
+Cronet is client-only.  Historically we have not  supported any HTTP/2
+server on Android. But since 1.49 we added OkHttpServerBuilder, so I'd
+recommend that if you need a server on Android.
+
+I'll also note for Android we have the Binder transport, but that's
+for device-local RPCs.
+
 ## android netty grpc server
 
 https://stackoverflow.com/questions/65781232/grpc-server-for-android
@@ -133,7 +145,8 @@ https://grpc.io/docs/platforms/android/java/basics/
 https://github.com/grpc/grpc-java/blob/v1.59.1/README.md
 
 
-For Android client, use grpc-okhttp instead of grpc-netty-shaded and grpc-protobuf-lite instead of grpc-protobuf:
+For Android client, use grpc-okhttp instead of grpc-netty-shaded and
+grpc-protobuf-lite instead of grpc-protobuf:
 
 ```
 implementation 'io.grpc:grpc-okhttp:1.59.1'
@@ -142,9 +155,11 @@ implementation 'io.grpc:grpc-stub:1.59.1'
 compileOnly 'org.apache.tomcat:annotations-api:6.0.53' // necessary for Java 9+
 ```
 
-```
-For Android protobuf-based codegen integrated with the Gradle build system, also use protobuf-gradle-plugin but specify the 'lite' options:
+For Android protobuf-based codegen integrated with the Gradle build
+system, also use protobuf-gradle-plugin but specify the 'lite'
+options:
 
+```
 plugins {
     id 'com.google.protobuf' version '0.9.4'
 }
