@@ -151,6 +151,10 @@ https://chromium.googlesource.com/external/github.com/grpc/grpc/+/HEAD/examples/
               jvm, context)));
 ```
 
+The gRFC L73 for a BinderChannel in gRPC has been posted:
+https://github.com/grpc/proposal/pull/191 . Mailing list discussion:
+https://groups.google.com/d/msg/grpc-io/RFmjrxdtwzE/dW5HdkbDBgAJ .
+
 ## android netty grpc server
 
 https://stackoverflow.com/questions/65781232/grpc-server-for-android
