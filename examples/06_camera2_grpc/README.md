@@ -6,6 +6,7 @@
   - i watched this video but it didn't help with my issue: https://youtu.be/88syHWoe6fc
 - wire seems to be installable for android: https://square.github.io/wire/#wire-kotlin
 - maybe wire is easier to install than grpc 
+- https://square.github.io/wire/wire_grpc/
 
 - protobuf gradle plugin https://youtu.be/D-vuRmuSwUA?t=1592
 
